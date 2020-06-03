@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import LoginContainer from './containers/LoginContainer';
 
 class App extends Component<{}, {}> {
   render() {
-    return <div> Hello world </div>;
+    return (
+      <div>
+        <div> Hello world </div>
+        <LoginContainer />
+      </div>
+    );
   }
 }
 
