@@ -6,7 +6,7 @@
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "start": "NODE_ENV=production ts-node server/server.ts",
-    "dev": "NODE_ENV=development webpack-dev-server --open & NODE_ENV=production ts-node server/server.ts --open",
+    "dev": "NODE_ENV=development webpack-dev-server --open & NODE_ENV=production ts-node server/server.ts",
     "test": "jest"
   },
   "repository": {
