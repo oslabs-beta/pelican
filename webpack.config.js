@@ -1,15 +1,15 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: path.resolve(__dirname, "./client/components/index.tsx"),
+  entry: path.resolve(__dirname, './client/components/index.tsx'),
   output: {
-    publicPath: "/build/",
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "build"),
+    publicPath: '/build/',
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'build'),
   },
   devServer: {
-    publicPath: "/build/",
+    publicPath: '/build/',
     proxy: {},
   },
   module: {
@@ -18,24 +18,24 @@ module.exports = {
         test: /\.ts(x?)$/,
         use: [
           {
-            loader: "ts-loader",
+            loader: 'ts-loader',
           },
         ],
         exclude: /node_modules/,
       },
       {
-        enforce: "pre",
+        enforce: 'pre',
         test: /\.js$/,
-        loader: "source-map-loader",
+        loader: 'source-map-loader',
       },
       {
         test: /\.s[ac]ss$/i,
         exclude: /node_modules/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: ['.tsx', '.ts', '.js'],
   },
 };
