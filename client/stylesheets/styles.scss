@@ -1,0 +1,38 @@
+body {
+  font-family: Arial;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+#login-container {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1.25fr;
+  grid-template-rows: 20vh 43vh 37vh;
+  grid-template-areas:
+    '. . .'
+    '. login .'
+    '. . .';
+}
+
+#login {
+  grid-area: login;
+  background-color: white;
+  border: 1px solid #a6a6a6;
+  border-radius: 8px;
+  box-shadow: 5px 10px 10px #bfbfbf;
+}
+
+#form {
+  padding: 0.5em 3em;
+}
+
+form div {
+  padding: 0;
+  margin: 0;
+}
+
+#app-name h1 {
+  padding: 0.5em;
+  margin: 0;
+}
