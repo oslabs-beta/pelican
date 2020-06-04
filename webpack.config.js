@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: path.resolve(__dirname, './client/components/index.tsx'),
+  entry: path.resolve(__dirname, './client/index.tsx'),
   output: {
     publicPath: '/build/',
     filename: 'bundle.js',
@@ -32,6 +32,13 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        loader: 'file-loader',
+        options: {
+          publicPath: 'assets',
+        },
       },
     ],
   },
