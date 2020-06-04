@@ -1,34 +1,45 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Login extends Component<{}, {}> {
-  render() {
-    return (
-      <div id="login">
-        <div id="app-name">
-          <h1> finch </h1>
-        </div>
+export default (() => {
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    console.log(evt);
+  };
 
-        <form id="form">
-          <div id="aws-logo">{/* <img src="../assets/aws-logo.png"> </img> */}</div>
-
-          <div>
-            <label htmlFor="username"> Username: </label>
-            <input id="inputUser" type="text" name="username" required />
-          </div>
-
-          <div>
-            <label htmlFor="password"> Password: </label>
-            <input id="inputPass" type="password" name="password" required />
-          </div>
-
-          <div>
-            <p> Forget your password? </p>
-            <input id="login-button" type="submit" value="Log in" />
-          </div>
-        </form>
+  return (
+    <div id="login">
+      <div id="app-name">
+        <h1> finch </h1>
       </div>
-    );
-  }
-}
 
-export default Login;
+      <form id="form" onSubmit={handleSubmit}>
+        <div id="aws-logo">
+          {/* <img src="../assets/aws-logo.png"> </img> */}
+        </div>
+        <div>
+          <label htmlFor="accessKey"> Access Key </label>
+          <input
+            id="inputAccessKey"
+            type="text"
+            name="accessKey"
+            required
+            placeholder="Enter access key..."
+          />
+        </div>
+        <div>
+          <label htmlFor="secret"> Secret Access Key </label>
+          <input
+            id="secret"
+            type="password"
+            name="secret"
+            placeholder="Enter secret access key..."
+            required
+          />
+        </div>
+        <div>
+          <input id="login-button" type="submit" value="Authenticate" />
+        </div>
+      </form>
+    </div>
+  );
+}) as React.FC<{}>;
