@@ -13,9 +13,7 @@ export default () => {
       </div>
 
       <form id="form" onSubmit={handleSubmit}>
-        <div id="aws-logo">
-          {/* <img src="../assets/aws-logo.png"> </img> */}
-        </div>
+        <div id="aws-logo">{/* <img src="../assets/aws-logo.png"> </img> */}</div>
         <div>
           <label htmlFor="accessKey"> Access Key </label>
           <input

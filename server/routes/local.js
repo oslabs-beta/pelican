@@ -15,28 +15,16 @@ localRouter.get('/nodes', NodeController.getNodes, (req, res, next) => {
   return res.status(200).json(res.locals.nodes);
 });
 
-localRouter.get(
-  '/deployments',
-  DeploymentController.getDeployments,
-  (req, res, next) => {
-    return res.status(200).json(res.locals.deployments);
-  }
-);
+localRouter.get('/deployments', DeploymentController.getDeployments, (req, res, next) => {
+  return res.status(200).json(res.locals.deployments);
+});
 
-localRouter.get(
-  '/services',
-  ServiceController.getServices,
-  (req, res, next) => {
-    return res.status(200).json(res.locals.services);
-  }
-);
+localRouter.get('/services', ServiceController.getServices, (req, res, next) => {
+  return res.status(200).json(res.locals.services);
+});
 
-localRouter.get(
-  '/clusters',
-  ClusterController.getClusters,
-  (req, res, next) => {
-    return res.status(200).json(res.locals.clusters);
-  }
-);
+localRouter.get('/clusters', ClusterController.getClusters, (req, res, next) => {
+  return res.status(200).json(res.locals.clusters);
+});
 
 module.exports = localRouter;
