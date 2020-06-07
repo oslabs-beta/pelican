@@ -12,4 +12,12 @@ localRouter.get('/nodes', NodeController.getNodes, (req, res, next) => {
   res.status(200).json(res);
 });
 
+localRouter.get(
+  '/clusters',
+  ClusterController.getClusters,
+  (req, res, next) => {
+    res.status(200).json(res);
+  }
+);
+
 module.exports = localRouter;
