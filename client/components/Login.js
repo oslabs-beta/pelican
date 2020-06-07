@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default (() => {
+export default () => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     console.log(evt);
@@ -42,4 +42,4 @@ export default (() => {
       </form>
     </div>
   );
-}) as React.FC<{}>;
+};

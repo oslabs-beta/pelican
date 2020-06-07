@@ -1,48 +1,42 @@
 const path = require('path');
 
 module.exports = {
-  mode: process.env.NODE_ENV,
-  entry: path.resolve(__dirname, './client/index.tsx'),
-  output: {
-    publicPath: '/build/',
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'build'),
-  },
   devServer: {
     publicPath: '/build/',
-    proxy: {},
+    historyApiFallback: true,
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+    port: 8080,
+    hot: true,
   },
+  entry: ['./client/index.js'],
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+    // publicPath: 'http://localhost:8080/build/',
+  },
+  mode: process.env.NODE_ENV,
+  plugins: [
+    // new MiniCssExtractPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
+  ],
   module: {
     rules: [
       {
-        test: /\.ts(x?)$/,
-        use: [
-          {
-            loader: 'ts-loader',
+        test: /\.jsx?/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
           },
-        ],
-        exclude: /node_modules/,
-      },
-      {
-        enforce: 'pre',
-        test: /\.js$/,
-        loader: 'source-map-loader',
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        loader: 'file-loader',
-        options: {
-          publicPath: 'assets',
         },
       },
+      {
+        test: /\.s?css$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
     ],
-  },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
   },
 };
