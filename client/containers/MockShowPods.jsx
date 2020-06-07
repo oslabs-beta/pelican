@@ -12,11 +12,15 @@ const mapStateToDispatch = (dispatch) => ({
 });
 
 class MockShowPods extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     const { getPods } = this.props;
-    fetch('/api/local/pods')
-      .then((res) => res.json())
-      .then((data) => getPods(data));
+    try {
+      const response = await fetch('/api/local/pods');
+      const data = await response.json();
+      getPods(data);
+    } catch (err) {
+      console.log('An error occured: ', err);
+    }
   }
 
   render() {
