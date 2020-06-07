@@ -4,9 +4,10 @@ const initialState = {
   pods: {},
   nodes: {},
   deployments: {},
+  services: {},
 };
 
-const awsClustersData = (state = initialState, action) => {
+const localK8sData = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_PODS:
       return {
@@ -16,16 +17,21 @@ const awsClustersData = (state = initialState, action) => {
     case types.GET_NODES:
       return {
         ...state,
-        pods: { ...action.payload },
+        nodes: { ...action.payload },
       };
     case types.GET_DEPLOYMENTS:
       return {
         ...state,
-        pods: { ...action.payload },
+        deployments: { ...action.payload },
+      };
+    case types.GET_SERVICES:
+      return {
+        ...state,
+        services: { ...action.payload },
       };
     default:
       return state;
   }
 };
 
-export default awsClustersData;
+export default localK8sData;
