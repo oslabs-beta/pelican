@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import Login from '../components/Login';
 import '../stylesheets/styles.scss';

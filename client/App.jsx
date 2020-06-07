@@ -1,10 +1,8 @@
+/* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import LoginContainer from './containers/LoginContainer';
 
-class App extends Component {
-  render() {
-    return <LoginContainer />;
-  }
+function App() {
+  return <LoginContainer />;
 }
-
 export default App;
