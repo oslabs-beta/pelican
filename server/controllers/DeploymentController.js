@@ -12,7 +12,7 @@ module.exports = {
       console.log(response);
       //   res.locals.deployments = response.body.items;
       //   console.log(res.locals.deployments);
-      //   next();
+      next();
     } catch (err) {
       next({
         log: `Encountered an error in DeploymentController.get: ${err}`,

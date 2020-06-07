@@ -1,8 +1,21 @@
 import * as types from '../constants/actionTypes';
 
-const CREATE_CREDENTIAL = (response) => ({
+export const CREATE_CREDENTIAL = (response) => ({
   type: types.CREATE_CREDENTIALS,
   payload: response,
 });
 
-export default CREATE_CREDENTIAL;
+export const GET_PODS = (response) => ({
+  type: types.GET_PODS,
+  payload: response,
+});
+
+export const GET_NODES = (response) => ({
+  type: types.GET_NODES,
+  payload: response,
+});
+
+export const GET_DEPLOYMENTS = (response) => ({
+  type: types.GET_DEPLOYMENTS,
+  payload: response,
+});
