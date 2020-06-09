@@ -3,11 +3,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/actions";
 
-const mapStateToProps = (state) => ({
-  pods: state.localData.pods,
+const mapStateToProps = ({ localData }) => ({
+  pods: localData.pods,
 });
 
-const mapStateToDispatch = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   getPods: (data) => dispatch(actions.getPods(data)),
 });
 
@@ -42,4 +42,4 @@ class MockShowPods extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapStateToDispatch)(MockShowPods);
+export default connect(mapStateToProps, mapDispatchToProps)(MockShowPods);
