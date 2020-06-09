@@ -1,25 +1,35 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import * as actions from "../actions/actions";
 //import * as actions from "../somewhere";
+import { Table } from "react-bootstrap";
 import Pod from "./PodsPresentational.jsx";
 
 const mapStateToProps = (state) => ({
-  stuff: state.things.stuff,
+  pods: state.localData.pods,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  thisFunc: () => dispatch(actions.thisfunc()),
-  otherFunc: (param) => dispatch(actions.otherFunc(param)),
-  funkyFunc: (paramz) => dispatch(actions.funkyFunc(paramz)),
+const mapStateToDispatch = (dispatch) => ({
+  getPods: (data) => dispatch(actions.getPods(data)),
 });
 
 class PodsContainer extends Component {
-  constructor(props) {
-    super(props);
+  async componentDidMount() {
+    const { getPods } = this.props;
+    try {
+      const response = await fetch("/api/local/pods");
+      console.log("response: ", response);
+      const data = await response.json();
+      //console.log(data[0]);
+      getPods(data);
+    } catch (err) {
+      console.log("An error occured: ", err);
+    }
   }
 
   render() {
+    const { pods } = this.props;
+    console.log("pods?: ", pods);
     return (
       <div className="PodsContainer">
         <h4 className="podsTitle">Pods</h4>
@@ -28,19 +38,24 @@ class PodsContainer extends Component {
             <tr>
               <th>Pod Name</th>
               <th>Namespace</th>
+              <th>Node</th>
               <th>Status</th>
               <th>Pod IP</th>
               <th>Created At</th>
             </tr>
           </thead>
-          {pods.map((pod) => {
-            <Pod
-              name={pod.name}
-              namespace={pod.namespace}
-              podIP={pod.podIP}
-              createdAt={pod.createdAt}
-              status={postMessage.status}
-            />;
+          {pods.map((pod, i) => {
+            return (
+              <Pod
+                name={pod.metadata.name}
+                namespace={pod.metadata.namespace}
+                nodeName={pod.spec.nodeName}
+                podIP={pod.status.podIP}
+                createdAt={pod.metadata.creationTimestamp}
+                status={pod.status.phase}
+                key={`pod${i}`}
+              />
+            );
           })}
         </Table>
       </div>
@@ -48,4 +63,4 @@ class PodsContainer extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PodsContainer);
+export default connect(mapStateToProps, mapStateToDispatch)(PodsContainer);

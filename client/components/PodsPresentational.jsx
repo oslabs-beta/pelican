@@ -1,14 +1,15 @@
 // display details and data about each Pod
 import React from "react";
 
-const Pod = ({ name, namespace, podIP, createdAt, status }) => {
+const Pod = ({ name, namespace, podIP, createdAt, nodeName, status }) => {
   if (status === "Running") {
     return (
-      <tbody key={`tbody${i}`}>
+      <tbody>
         <tr>
           <td>{name}</td>
           <td>{namespace}</td>
-          <td> icon goes here</td>
+          <td>{nodeName}</td>
+          <td> green icon goes here</td>
           <td>{podIP}</td>
           <td>{createdAt}</td>
         </tr>
@@ -18,7 +19,7 @@ const Pod = ({ name, namespace, podIP, createdAt, status }) => {
     // if not "Running", render red circle(maybe trigger alert?)
     //addAlert(p);???
     return (
-      <tbody key={`tbody${i}`}>
+      <tbody>
         <tr>
           <td>{name}</td>
           <td>{namespace}</td>
