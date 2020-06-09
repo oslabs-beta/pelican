@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 //import * as actions from "../somewhere";
-import Service from "./ServicesPresentational.jsx";
+import Service from './ServicesPresentational.jsx';
 
 const mapStateToProps = (state) => ({
   stuff: state.things.stuff,
@@ -20,8 +20,8 @@ class ServicesContainer extends Component {
 
   render() {
     return (
-      <div className="servicesContainer">
-        <h4 className="servicesHeader">Services</h4>
+      <div className='servicesContainer'>
+        <h4 className='servicesHeader'>Services</h4>
         <Table striped bordered hover>
           <thead>
             <tr>

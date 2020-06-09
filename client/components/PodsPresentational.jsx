@@ -1,8 +1,8 @@
 // display details and data about each Pod
-import React from "react";
+import React from 'react';
 
 const Pod = ({ name, namespace, podIP, createdAt, nodeName, status }) => {
-  if (status === "Running") {
+  if (status === 'Running') {
     return (
       <tbody>
         <tr>

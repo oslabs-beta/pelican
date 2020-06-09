@@ -1,5 +1,5 @@
 // display details and data about each Pod
-import React from "react";
+import React from 'react';
 
 const Service = ({ name, type, namespace, port, clusterIP }) => {
   return (
