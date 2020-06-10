@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions/actions';
-//import * as actions from "../somewhere";
 import { Table } from 'react-bootstrap';
+import * as actions from '../actions/actions';
+// import * as actions from "../somewhere";
 import Pod from './PodsPresentational.jsx';
 
 const mapStateToProps = (state) => ({
@@ -20,7 +20,7 @@ class PodsContainer extends Component {
       const response = await fetch('/api/local/pods');
       console.log('response: ', response);
       const data = await response.json();
-      //console.log(data[0]);
+      // console.log(data[0]);
       getPods(data);
     } catch (err) {
       console.log('An error occured getting pods: ', err);
@@ -31,8 +31,8 @@ class PodsContainer extends Component {
     const { pods } = this.props;
     console.log('pods?: ', pods);
     return (
-      <div className='PodsContainer'>
-        <h4 className='podsTitle'>Pods</h4>
+      <div className="PodsContainer">
+        <h4 className="podsTitle">Pods</h4>
         <Table striped bordered hover>
           <thead>
             <tr>

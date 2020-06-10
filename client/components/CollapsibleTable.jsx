@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
@@ -15,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import * as actions from '../actions/actions';
 import Row from './CollapsibleTableRow.jsx';
 
 const mapStateToProps = (state) => ({
@@ -43,20 +43,17 @@ class CollapsibleTable extends Component {
     console.log('PODPROPS:: ', this.props);
     const { pods } = this.props;
     return (
-      <div className='tableHolder'>
-        <TableContainer
-          component={Paper}
-          style={{ width: '60%', height: '80%' }}
-        >
-          <Table size='small' aria-label='collapsible table'>
+      <div className="tableHolder">
+        <TableContainer component={Paper} style={{ width: '60%', height: '80%' }}>
+          <Table size="small" aria-label="collapsible table">
             <TableHead>
               <TableRow>
                 <TableCell>Pods</TableCell>
-                <TableCell align='right'>Name</TableCell>
-                <TableCell align='right'>Namespace</TableCell>
-                <TableCell align='right'>Node</TableCell>
-                <TableCell align='right'>PodIP</TableCell>
-                <TableCell align='right'>Creation Timestamp</TableCell>
+                <TableCell align="right">Name</TableCell>
+                <TableCell align="right">Namespace</TableCell>
+                <TableCell align="right">Node</TableCell>
+                <TableCell align="right">PodIP</TableCell>
+                <TableCell align="right">Creation Timestamp</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
