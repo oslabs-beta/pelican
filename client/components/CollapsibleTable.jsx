@@ -43,21 +43,18 @@ class CollapsibleTable extends Component {
     console.log('PODPROPS:: ', this.props);
     const { pods } = this.props;
     return (
-      <div className='tableHolder'>
-        <TableContainer
-          component={Paper}
-          style={{ width: '60%', height: '80%' }}
-        >
-          <Table aria-label='collapsible table'>
+      <div className="tableHolder">
+        <TableContainer component={Paper} style={{ width: '60%', height: '80%' }}>
+          <Table aria-label="collapsible table">
             <TableHead>
               <TableRow>
                 <TableCell />
                 <TableCell>Pods</TableCell>
-                <TableCell align='right'>Name</TableCell>
-                <TableCell align='right'>Namespace</TableCell>
-                <TableCell align='right'>Node</TableCell>
-                <TableCell align='right'>PodIP</TableCell>
-                <TableCell align='right'>Creation Timestamp</TableCell>
+                <TableCell align="right">Name</TableCell>
+                <TableCell align="right">Namespace</TableCell>
+                <TableCell align="right">Node</TableCell>
+                <TableCell align="right">PodIP</TableCell>
+                <TableCell align="right">Creation Timestamp</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
