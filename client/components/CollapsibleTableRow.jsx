@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,7 +14,24 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
-const useRowStyles = makeStyles({
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+const useStyles = makeStyles({
   root: {
     '& > *': {
       borderBottom: 'unset',
@@ -25,12 +42,13 @@ const useRowStyles = makeStyles({
 function Row(props) {
   const { pod } = props;
   const [open, setOpen] = React.useState(false);
-  const classes = useRowStyles();
+  const classes = useStyles();
+  console.log('pod names:::', pod.metadata.name);
 
   return (
     <React.Fragment>
-      <TableRow className={classes.root}>
-        <TableCell>
+      <StyledTableRow className={classes.table}>
+        <StyledTableCell>
           <IconButton
             aria-label='expand row'
             size='small'
@@ -38,17 +56,24 @@ function Row(props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        </TableCell>
-        <TableCell component='th' scope='row'>
+        </StyledTableCell>
+        <StyledTableCell component='th' scope='row'>
           {pod.metadata.name}
-        </TableCell>
-        <TableCell align='right'>{pod.metadata.namespace}</TableCell>
-        <TableCell align='right'>{pod.spec.nodeName}</TableCell>
-        <TableCell align='right'>{pod.status.podIP}</TableCell>
-        <TableCell align='right'>{pod.metadata.creationTimestamp}</TableCell>
-      </TableRow>
+        </StyledTableCell>
+        <StyledTableCell align='right'>
+          {pod.metadata.namespace}
+        </StyledTableCell>
+        <StyledTableCell align='right'>{pod.spec.nodeName}</StyledTableCell>
+        <StyledTableCell align='right'>{pod.status.podIP}</StyledTableCell>
+        <StyledTableCell align='right'>
+          {pod.metadata.creationTimestamp}
+        </StyledTableCell>
+      </StyledTableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout='auto' unmountOnExit>
             <Box margin={1}>
               <Typography variant='h6' gutterBottom component='div'>
@@ -65,23 +90,24 @@ function Row(props) {
                 </TableHead>
                 <TableBody>
                   {['stuff', 'otherstuff'].map((row, i) => (
-                    <TableRow key={i}>
-                      <TableCell component='th' scope='row'>
+                    <StyledTableRow key={i}>
+                      <StyledTableCell component='th' scope='row'>
                         {row}
-                      </TableCell>
-                      <TableCell>{row}</TableCell>
-                      <TableCell align='right'>{row}</TableCell>
-                      <TableCell align='right'>
+                      </StyledTableCell>
+                      <StyledTableCell>{row}</StyledTableCell>
+                      <StyledTableCell align='right'>{row}</StyledTableCell>
+                      <StyledTableCell align='right'>
                         {Math.round(1 * 5 * 100) / 100}
-                      </TableCell>
-                    </TableRow>
+                      </StyledTableCell>
+                    </StyledTableRow>
                   ))}
                 </TableBody>
               </Table>
             </Box>
           </Collapse>
-        </TableCell>
+        </StyledTableCell>
       </TableRow>
+      <TableRow></TableRow>
     </React.Fragment>
   );
 }
