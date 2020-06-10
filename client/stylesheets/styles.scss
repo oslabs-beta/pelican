@@ -5,6 +5,10 @@ body {
   padding: 0;
 }
 
+#main {
+  display: flex;
+}
+
 #login-container {
   display: grid;
   grid-template-columns: 1.25fr 1fr 1.25fr;

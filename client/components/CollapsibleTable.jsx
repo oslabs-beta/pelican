@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
@@ -15,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import * as actions from '../actions/actions';
 import Row from './CollapsibleTableRow.jsx';
 
 const mapStateToProps = (state) => ({
@@ -52,11 +52,11 @@ class CollapsibleTable extends Component {
             <TableHead>
               <TableRow>
                 <TableCell>Pods</TableCell>
-                <TableCell align='left'>Name</TableCell>
-                <TableCell align='left'>Namespace</TableCell>
-                <TableCell align='left'>Node</TableCell>
-                <TableCell align='left'>PodIP</TableCell>
-                <TableCell align='left'>Creation Timestamp</TableCell>
+                <TableCell align='right'>Name</TableCell>
+                <TableCell align='right'>Namespace</TableCell>
+                <TableCell align='right'>Node</TableCell>
+                <TableCell align='right'>PodIP</TableCell>
+                <TableCell align='right'>Creation Timestamp</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
