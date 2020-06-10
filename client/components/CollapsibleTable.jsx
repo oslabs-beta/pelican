@@ -18,32 +18,36 @@ import * as actions from '../actions/actions';
 import Row from './CollapsibleTableRow.jsx';
 
 const mapStateToProps = (state) => ({
-  pods: state.localData.pods,
+  localData: state.localData,
+  display: state.localData.display,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getPods: (data) => dispatch(actions.getPods(data)),
+  getNodes: (data) => dispatch(actions.getNodes(data)),
+  getDeployments: (data) => dispatch(actions.getDeployments(data)),
+  getServices: (data) => dispatch(actions.getServices(data)),
+  getNamespaces: (data) => dispatch(actions.getNamespaces(data)),
 });
 
 class CollapsibleTable extends Component {
   async componentDidMount() {
-    const { getPods } = this.props;
+    const { display } = this.props;
     try {
-      const response = await fetch('/api/local/pods');
-      // console.log("response: ", response);
+      const response = await fetch(`/api/local/${display}`);
       const data = await response.json();
-      //console.log("response data:::  ", data);
-      getPods(data);
+      this.props[`get${display}`](data);
     } catch (err) {
       console.log('An error occured: ', err);
     }
   }
 
   render() {
-    console.log('PODPROPS:: ', this.props);
-    const { pods } = this.props;
+    const { Pods } = this.props;
+    const { display } = this.props;
     return (
       <div className="tableHolder">
+        <div> {display} </div>
         <TableContainer component={Paper} style={{ width: '60%', height: '80%' }}>
           <Table size="small" aria-label="collapsible table">
             <TableHead>
@@ -57,7 +61,7 @@ class CollapsibleTable extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {pods.map((pod, i) => (
+              {Pods.map((pod, i) => (
                 <Row key={`row${i}`} row={i} pod={pod} />
               ))}
             </TableBody>

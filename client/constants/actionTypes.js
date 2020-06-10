@@ -5,3 +5,5 @@ export const GET_PODS = 'GET_PODS';
 export const GET_NODES = 'GET_PODS';
 export const GET_DEPLOYMENTS = 'GET_PODS';
 export const GET_SERVICES = 'GET_SERVICES';
+export const GET_NAMESPACES = 'GET_NAMESPACES';
+export const UPDATE_DISPLAY = 'UPDATE_DISPLAY';

@@ -1,10 +1,12 @@
 import * as types from '../constants/actionTypes';
 
 const initialState = {
-  pods: [],
-  nodes: [],
-  deployments: [],
-  services: [],
+  Pods: [],
+  Nodes: [],
+  Deployments: [],
+  Services: [],
+  Namespaces: [],
+  display: 'pods',
 };
 
 const localK8sData = (state = initialState, action) => {
@@ -28,6 +30,16 @@ const localK8sData = (state = initialState, action) => {
       return {
         ...state,
         services: action.payload,
+      };
+    case types.GET_NAMESPACES:
+      return {
+        ...state,
+        namespaces: action.payload,
+      };
+    case types.UPDATE_DISPLAY:
+      return {
+        ...state,
+        display: action.payload,
       };
     default:
       return state;
