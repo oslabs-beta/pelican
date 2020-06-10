@@ -60,12 +60,10 @@ function Row(props) {
         <StyledTableCell component='th' scope='row'>
           {pod.metadata.name}
         </StyledTableCell>
-        <StyledTableCell align='right'>
-          {pod.metadata.namespace}
-        </StyledTableCell>
-        <StyledTableCell align='right'>{pod.spec.nodeName}</StyledTableCell>
-        <StyledTableCell align='right'>{pod.status.podIP}</StyledTableCell>
-        <StyledTableCell align='right'>
+        <StyledTableCell align='left'>{pod.metadata.namespace}</StyledTableCell>
+        <StyledTableCell align='left'>{pod.spec.nodeName}</StyledTableCell>
+        <StyledTableCell align='left'>{pod.status.podIP}</StyledTableCell>
+        <StyledTableCell align='left'>
           {pod.metadata.creationTimestamp}
         </StyledTableCell>
       </StyledTableRow>
