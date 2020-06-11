@@ -17,20 +17,20 @@ export default {
       'spec.nodeName',
       'status.podIP',
       'metadata.creationTimestamp',
-      function getCpu(containers) {
-        return containers
-          .map((container) =>
-            Number(
-              container.resources.requests.cpu.substring(
-                0,
-                container.resources.requests.cpu.length - 1
-              )
-            )
-          )
-          .reduce((curCpu, totalCpu) => {
-            return (totalCpu += curCpu);
-          });
-      },
+      // function getCpu(containers) {
+      //   return containers
+      //     .map((container) =>
+      //       Number(
+      //         container.resources.requests.cpu.substring(
+      //           0,
+      //           container.resources.requests.cpu.length - 1
+      //         )
+      //       )
+      //     )
+      //     .reduce((curCpu, totalCpu) => {
+      //       return (totalCpu += curCpu);
+      //     });
+      // },
     ],
   },
   nodes: {

@@ -5,7 +5,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import CollapsibleTable from './components/Tables/CollapsibleTable.jsx';
+import PodTable from './components/Tables/PodTable.jsx';
 import SideBar, { TopBar } from './components/Navbar.jsx';
 // import NodeConfig from './components/NodeConfig.jsx';
 import PodConfig from './components/configs/PodConfig.jsx';
@@ -20,7 +20,7 @@ function App() {
         <TopBar />
         <SideBar />
         <Switch>
-          <Route exact path='/' component={CollapsibleTable}></Route>
+          <Route exact path='/' component={PodTable}></Route>
           <Route path='/pods/:name' component={PodConfig}></Route>
           <Route path='*'>
             <Redirect to='/' />

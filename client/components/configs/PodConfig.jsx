@@ -17,7 +17,7 @@ function PodConfig(props) {
   //     formattedStr +=
   //   }
   // }
-  const str = 'hello world';
+  const str = 'hello \n\tworld';
 
   return (
     <div id='tempID'>
