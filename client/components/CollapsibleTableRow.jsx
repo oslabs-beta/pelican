@@ -56,7 +56,7 @@ function Row(props) {
       splitArray.shift();
     }
     cells.push(
-      <StyledTableCell align="left" key={column}>
+      <StyledTableCell align='left' key={column}>
         {result}
       </StyledTableCell>
     );
@@ -66,51 +66,47 @@ function Row(props) {
     <>
       <StyledTableRow className={classes.table}>
         <StyledTableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label='expand row'
+            size='small'
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
-<<<<<<< HEAD
         <StyledTableCell component='th' scope='row'>
-          {pod.metadata.name}
-        </StyledTableCell>
-        <StyledTableCell align='left'>{pod.metadata.namespace}</StyledTableCell>
-        <StyledTableCell align='left'>{pod.spec.nodeName}</StyledTableCell>
-        <StyledTableCell align='left'>{pod.status.podIP}</StyledTableCell>
-        <StyledTableCell align='left'>
-          {pod.metadata.creationTimestamp}
-=======
-        <StyledTableCell component="th" scope="row">
           {elem.metadata.name}
->>>>>>> 46eeab3eb07d7749c9769b74a6e0320f1788b862
         </StyledTableCell>
         {cells}
       </StyledTableRow>
       <TableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
+          <Collapse in={open} timeout='auto' unmountOnExit>
             <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
+              <Typography variant='h6' gutterBottom component='div'>
                 Logs:
               </Typography>
-              <Table size="small" aria-label="purchases">
+              <Table size='small' aria-label='purchases'>
                 <TableHead>
                   <TableRow>
                     <TableCell>logs1</TableCell>
                     <TableCell>logs2</TableCell>
-                    <TableCell align="right">logs3</TableCell>
-                    <TableCell align="right">more logs</TableCell>
+                    <TableCell align='right'>logs3</TableCell>
+                    <TableCell align='right'>more logs</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {['stuff', 'otherstuff'].map((row, i) => (
                     <StyledTableRow key={i}>
-                      <StyledTableCell component="th" scope="row">
+                      <StyledTableCell component='th' scope='row'>
                         {row}
                       </StyledTableCell>
                       <StyledTableCell>{row}</StyledTableCell>
-                      <StyledTableCell align="right">{row}</StyledTableCell>
-                      <StyledTableCell align="right">
+                      <StyledTableCell align='right'>{row}</StyledTableCell>
+                      <StyledTableCell align='right'>
                         {Math.round(1 * 5 * 100) / 100}
                       </StyledTableCell>
                     </StyledTableRow>
