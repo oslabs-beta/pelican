@@ -29,8 +29,3 @@ export const getNamespaces = (response) => ({
   type: types.GET_NAMESPACES,
   payload: response,
 });
-
-export const updateDisplay = (display) => ({
-  type: types.UPDATE_DISPLAY,
-  payload: display,
-});

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -13,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import tableTemplate from '../constants/tableInfoTemplate';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -40,9 +42,25 @@ const useStyles = makeStyles({
 });
 
 function Row(props) {
-  const { pod } = props;
+  const { elem } = props;
+  const { type } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
+
+  const cells = [];
+  for (const column of tableTemplate[type].columns) {
+    let result = { ...elem };
+    const splitArray = column.split('.');
+    while (splitArray.length) {
+      result = result[splitArray[0]];
+      splitArray.shift();
+    }
+    cells.push(
+      <StyledTableCell align="left" key={column}>
+        {result}
+      </StyledTableCell>
+    );
+  }
 
   return (
     <>
@@ -53,12 +71,9 @@ function Row(props) {
           </IconButton>
         </StyledTableCell>
         <StyledTableCell component="th" scope="row">
-          {pod.metadata.name}
+          {elem.metadata.name}
         </StyledTableCell>
-        <StyledTableCell align="right">{pod.metadata.namespace}</StyledTableCell>
-        <StyledTableCell align="right">{pod.spec.nodeName}</StyledTableCell>
-        <StyledTableCell align="right">{pod.status.podIP}</StyledTableCell>
-        <StyledTableCell align="right">{pod.metadata.creationTimestamp}</StyledTableCell>
+        {cells}
       </StyledTableRow>
       <TableRow>
         <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

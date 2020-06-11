@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
@@ -51,17 +52,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapDispatchToProps = (dispatch) => ({
-  updateDisplay: (display) => dispatch(actions.updateDisplay(display)),
+  getPods: (data) => dispatch(actions.getPods(data)),
+  getNodes: (data) => dispatch(actions.getNodes(data)),
+  getDeployments: (data) => dispatch(actions.getDeployments(data)),
+  getServices: (data) => dispatch(actions.getServices(data)),
+  getNamespaces: (data) => dispatch(actions.getNamespaces(data)),
 });
 
 function SideBar(props) {
   const { window } = props;
-  const { updateDisplay } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+  const changeDisplay = async (display) => {
+    const dispatchFunc = `get${display[0].toUpperCase().concat(display.slice(1))}`;
+    try {
+      const response = await fetch(`/api/local/${display}`);
+      const data = await response.json();
+      props[dispatchFunc](data);
+    } catch (err) {
+      console.log('An error occured: ', err);
+    }
   };
 
   const drawer = (
@@ -70,7 +84,7 @@ function SideBar(props) {
       <Divider />
       <List>
         {['Pods', 'Nodes', 'Deployments', 'Services', 'Namespaces'].map((text, index) => (
-          <ListItem button key={text} onClick={() => updateDisplay(text)}>
+          <ListItem button key={text} onClick={() => changeDisplay(text.toLowerCase())}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
