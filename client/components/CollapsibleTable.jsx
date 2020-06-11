@@ -33,7 +33,9 @@ const mapDispatchToProps = (dispatch) => ({
 class CollapsibleTable extends Component {
   async componentDidMount() {
     const { display } = this.props;
-    const dispatchFunc = `get${display[0].toUpperCase().concat(display.slice(1))}`;
+    const dispatchFunc = `get${display[0]
+      .toUpperCase()
+      .concat(display.slice(1))}`;
     try {
       const response = await fetch(`/api/local/${display}`);
       const data = await response.json();
@@ -50,22 +52,24 @@ class CollapsibleTable extends Component {
     const headers = [];
     for (const header of tableTemplate[display].headers) {
       headers.push(
-        <TableCell align="left" key={`${display}${header}`}>
+        <TableCell align='left' key={`${display}${header}`}>
           {header}
         </TableCell>
       );
     }
     return (
-      <div className="tableHolder">
+      <div className='tableHolder'>
         <TableContainer
           component={Paper}
           style={{ width: '100%', height: '100%' }}
-          id="tableContainer"
+          id='tableContainer'
         >
-          <Table size="small" aria-label="collapsible table">
+          <Table size='small' aria-label='collapsible table'>
             <TableHead>
               <TableRow>
-                <TableCell>{display[0].toUpperCase().concat(display.slice(1))}</TableCell>
+                <TableCell>
+                  {display[0].toUpperCase().concat(display.slice(1))}
+                </TableCell>
                 {headers}
               </TableRow>
             </TableHead>
