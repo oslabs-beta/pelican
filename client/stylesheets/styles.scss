@@ -9,6 +9,11 @@ body {
   display: grid;
 }
 
+#tempID {
+  position: relative;
+  left: 200px;
+}
+
 #login-container {
   display: grid;
   grid-template-columns: 1.25fr 1fr 1.25fr;
@@ -41,9 +46,9 @@ form div {
   margin: 0;
 }
 
-.tableHolder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 5px;
-}
+// .tableHolder {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-top: 5px;
+// }

@@ -15,6 +15,8 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import tableTemplate from '../constants/tableInfoTemplate';
+import { Link } from 'react-router-dom';
+import EditButton from './CoolButton.jsx';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -44,6 +46,7 @@ const useStyles = makeStyles({
 function Row(props) {
   const { elem } = props;
   const { type } = props;
+  const { index } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -78,6 +81,11 @@ function Row(props) {
           {elem.metadata.name}
         </StyledTableCell>
         {cells}
+        <StyledTableCell>
+          <Link to={`/${type}/${elem.metadata.name}`}>
+            <EditButton />
+          </Link>
+        </StyledTableCell>
       </StyledTableRow>
       <TableRow>
         <StyledTableCell

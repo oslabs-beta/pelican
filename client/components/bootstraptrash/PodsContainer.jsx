@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import * as actions from '../../actions/actions';
-// import * as actions from "../somewhere";
 import Pod from './PodsPresentational.jsx';
 
 const mapStateToProps = (state) => ({

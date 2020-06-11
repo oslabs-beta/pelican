@@ -17,9 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import * as actions from '../actions/actions';
+import * as actions from '../../actions/actions';
 import Row from './CollapsibleTableRow.jsx';
-import tableTemplate from '../constants/tableInfoTemplate';
+import tableTemplate from '../../constants/tableInfoTemplate';
 
 const mapStateToProps = (state) => ({
   localData: state.localData,
@@ -63,7 +63,7 @@ class CollapsibleTable extends Component {
         style={{
           width: `calc(100% - 200px)`,
           marginLeft: '200px',
-          marginTop: '0px',
+          marginTop: '1em',
         }}
         id='tableContainer'
       >
@@ -78,7 +78,7 @@ class CollapsibleTable extends Component {
           </TableHead>
           <TableBody>
             {tableData.map((elem, i) => (
-              <Row key={`row${i}`} row={i} elem={elem} type={display} />
+              <Row key={`row${i}`} index={i} elem={elem} type={display} />
             ))}
           </TableBody>
         </Table>
