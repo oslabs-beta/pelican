@@ -1,15 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
+import CollapsibleTable from '../components/CollapsibleTable.jsx';
+import SideBar, { TopBar } from '../components/Navbar.jsx';
 
-const mapStateToProps = (state) => ({
-  accessKeyId: state.awsAuth.accessKey,
-  secretAccessKey: state.awsAuth.secretAccessKey,
-});
-
-const mapDispatchToProps = (dispatch) => {};
+// const mapStateToProps = (state) => ({
+//   accessKeyId: state.awsAuth.accessKey,
+//   secretAccessKey: state.awsAuth.secretAccessKey,
+// });
 
 function MainContainer() {
-  return <div> Hello World </div>;
+  return (
+    <div id="main">
+      <TopBar />
+      <SideBar />
+      <CollapsibleTable />
+    </div>
+  );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+export default MainContainer;
+// export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

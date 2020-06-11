@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -13,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import tableTemplate from '../constants/tableInfoTemplate';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -40,23 +42,35 @@ const useStyles = makeStyles({
 });
 
 function Row(props) {
-  const { pod } = props;
+  const { elem } = props;
+  const { type } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
-  console.log('pod names:::', pod.metadata.name);
+
+  const cells = [];
+  for (const column of tableTemplate[type].columns) {
+    let result = { ...elem };
+    const splitArray = column.split('.');
+    while (splitArray.length) {
+      result = result[splitArray[0]];
+      splitArray.shift();
+    }
+    cells.push(
+      <StyledTableCell align="left" key={column}>
+        {result}
+      </StyledTableCell>
+    );
+  }
 
   return (
-    <React.Fragment>
+    <>
       <StyledTableRow className={classes.table}>
         <StyledTableCell>
-          <IconButton
-            aria-label='expand row'
-            size='small'
-            onClick={() => setOpen(!open)}
-          >
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
+<<<<<<< HEAD
         <StyledTableCell component='th' scope='row'>
           {pod.metadata.name}
         </StyledTableCell>
@@ -65,36 +79,38 @@ function Row(props) {
         <StyledTableCell align='left'>{pod.status.podIP}</StyledTableCell>
         <StyledTableCell align='left'>
           {pod.metadata.creationTimestamp}
+=======
+        <StyledTableCell component="th" scope="row">
+          {elem.metadata.name}
+>>>>>>> 46eeab3eb07d7749c9769b74a6e0320f1788b862
         </StyledTableCell>
+        {cells}
       </StyledTableRow>
       <TableRow>
-        <StyledTableCell
-          style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={6}
-        >
-          <Collapse in={open} timeout='auto' unmountOnExit>
+        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant='h6' gutterBottom component='div'>
+              <Typography variant="h6" gutterBottom component="div">
                 Logs:
               </Typography>
-              <Table size='small' aria-label='purchases'>
+              <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
                     <TableCell>logs1</TableCell>
                     <TableCell>logs2</TableCell>
-                    <TableCell align='right'>logs3</TableCell>
-                    <TableCell align='right'>more logs</TableCell>
+                    <TableCell align="right">logs3</TableCell>
+                    <TableCell align="right">more logs</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {['stuff', 'otherstuff'].map((row, i) => (
                     <StyledTableRow key={i}>
-                      <StyledTableCell component='th' scope='row'>
+                      <StyledTableCell component="th" scope="row">
                         {row}
                       </StyledTableCell>
                       <StyledTableCell>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>
+                      <StyledTableCell align="right">{row}</StyledTableCell>
+                      <StyledTableCell align="right">
                         {Math.round(1 * 5 * 100) / 100}
                       </StyledTableCell>
                     </StyledTableRow>
@@ -105,8 +121,8 @@ function Row(props) {
           </Collapse>
         </StyledTableCell>
       </TableRow>
-      <TableRow></TableRow>
-    </React.Fragment>
+      <TableRow />
+    </>
   );
 }
 

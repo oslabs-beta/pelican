@@ -1,3 +1,6 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-restricted-syntax */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,9 +19,11 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import * as actions from '../actions/actions';
 import Row from './CollapsibleTableRow.jsx';
+import tableTemplate from '../constants/tableInfoTemplate';
 
 const mapStateToProps = (state) => ({
-  pods: state.localData.pods,
+  localData: state.localData,
+  display: state.localData.display,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -27,22 +32,31 @@ const mapDispatchToProps = (dispatch) => ({
 
 class CollapsibleTable extends Component {
   async componentDidMount() {
-    const { getPods } = this.props;
+    const { display } = this.props;
+    const dispatchFunc = `get${display[0].toUpperCase().concat(display.slice(1))}`;
     try {
-      const response = await fetch('/api/local/pods');
-      // console.log("response: ", response);
+      const response = await fetch(`/api/local/${display}`);
       const data = await response.json();
-      //console.log("response data:::  ", data);
-      getPods(data);
+      this.props[dispatchFunc](data);
     } catch (err) {
       console.log('An error occured: ', err);
     }
   }
 
   render() {
-    console.log('PODPROPS:: ', this.props);
-    const { pods } = this.props;
+    const { display } = this.props;
+    const tableData = [...this.props.localData[display]];
+
+    const headers = [];
+    for (const header of tableTemplate[display].headers) {
+      headers.push(
+        <TableCell align="left" key={`${display}${header}`}>
+          {header}
+        </TableCell>
+      );
+    }
     return (
+<<<<<<< HEAD
       //<div className='tableHolder'>
       <TableContainer component={Paper} style={{ width: '60%', height: '80%' }}>
         <Table size='small' aria-label='collapsible table'>
@@ -64,7 +78,31 @@ class CollapsibleTable extends Component {
         </Table>
       </TableContainer>
       //</div>
+=======
+      <div className="tableHolder">
+        <TableContainer
+          component={Paper}
+          style={{ width: '100%', height: '100%' }}
+          id="tableContainer"
+        >
+          <Table size="small" aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                <TableCell>{display[0].toUpperCase().concat(display.slice(1))}</TableCell>
+                {headers}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tableData.map((elem, i) => (
+                <Row key={`row${i}`} row={i} elem={elem} type={display} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+>>>>>>> 46eeab3eb07d7749c9769b74a6e0320f1788b862
     );
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(CollapsibleTable);
