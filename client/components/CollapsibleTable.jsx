@@ -33,7 +33,9 @@ const mapDispatchToProps = (dispatch) => ({
 class CollapsibleTable extends Component {
   async componentDidMount() {
     const { display } = this.props;
-    const dispatchFunc = `get${display[0].toUpperCase().concat(display.slice(1))}`;
+    const dispatchFunc = `get${display[0]
+      .toUpperCase()
+      .concat(display.slice(1))}`;
     try {
       const response = await fetch(`/api/local/${display}`);
       const data = await response.json();
@@ -50,45 +52,24 @@ class CollapsibleTable extends Component {
     const headers = [];
     for (const header of tableTemplate[display].headers) {
       headers.push(
-        <TableCell align="left" key={`${display}${header}`}>
+        <TableCell align='left' key={`${display}${header}`}>
           {header}
         </TableCell>
       );
     }
     return (
-<<<<<<< HEAD
-      //<div className='tableHolder'>
-      <TableContainer component={Paper} style={{ width: '60%', height: '80%' }}>
-        <Table size='small' aria-label='collapsible table'>
-          <TableHead>
-            <TableRow>
-              <TableCell>Pods</TableCell>
-              <TableCell align='right'>Name</TableCell>
-              <TableCell align='right'>Namespace</TableCell>
-              <TableCell align='right'>Node</TableCell>
-              <TableCell align='right'>PodIP</TableCell>
-              <TableCell align='right'>Creation Timestamp</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {pods.map((pod, i) => (
-              <Row key={`row${i}`} row={i} pod={pod} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      //</div>
-=======
-      <div className="tableHolder">
+      <div className='tableHolder'>
         <TableContainer
           component={Paper}
           style={{ width: '100%', height: '100%' }}
-          id="tableContainer"
+          id='tableContainer'
         >
-          <Table size="small" aria-label="collapsible table">
+          <Table size='small' aria-label='collapsible table'>
             <TableHead>
               <TableRow>
-                <TableCell>{display[0].toUpperCase().concat(display.slice(1))}</TableCell>
+                <TableCell>
+                  {display[0].toUpperCase().concat(display.slice(1))}
+                </TableCell>
                 {headers}
               </TableRow>
             </TableHead>
@@ -100,7 +81,6 @@ class CollapsibleTable extends Component {
           </Table>
         </TableContainer>
       </div>
->>>>>>> 46eeab3eb07d7749c9769b74a6e0320f1788b862
     );
   }
 }
