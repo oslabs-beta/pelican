@@ -58,11 +58,56 @@ function Row(props) {
       result = result[splitArray[0]];
       splitArray.shift();
     }
-    cells.push(
-      <StyledTableCell align='left' key={column}>
-        {result}
-      </StyledTableCell>
-    );
+    if (column === 'spec.containers') {
+      const result1 = getCpu(result);
+      const result2 = getMemory(result);
+      cells.push(
+        <StyledTableCell align='left' key={column}>
+          {result1}
+        </StyledTableCell>
+      );
+      cells.push(
+        <StyledTableCell align='left' key={'memory'}>
+          {result2}
+        </StyledTableCell>
+      );
+    } else {
+      cells.push(
+        <StyledTableCell align='left' key={column}>
+          {result}
+        </StyledTableCell>
+      );
+    }
+  }
+
+  function getCpu(containers) {
+    return containers
+      .map((container) =>
+        Number(
+          container.resources.requests.cpu.substring(
+            0,
+            container.resources.requests.cpu.length - 1
+          )
+        )
+      )
+      .reduce((curCpu, totalCpu) => {
+        return (totalCpu += curCpu);
+      });
+  }
+  function getMemory(containers) {
+    console.log(containers[0].resources.requests.memory);
+    return containers
+      .map((container) =>
+        Number(
+          container.resources.requests.memory.substring(
+            0,
+            container.resources.requests.memory.length - 2
+          )
+        )
+      )
+      .reduce((curMem, totalMem) => {
+        return (totalMem += curMem);
+      });
   }
 
   return (

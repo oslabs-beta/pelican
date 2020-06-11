@@ -12,25 +12,12 @@ export default {
       '       Edit',
     ],
     columns: [
-      'metadata.name',
       'status.phase',
       'spec.nodeName',
       'status.podIP',
       'metadata.creationTimestamp',
-      // function getCpu(containers) {
-      //   return containers
-      //     .map((container) =>
-      //       Number(
-      //         container.resources.requests.cpu.substring(
-      //           0,
-      //           container.resources.requests.cpu.length - 1
-      //         )
-      //       )
-      //     )
-      //     .reduce((curCpu, totalCpu) => {
-      //       return (totalCpu += curCpu);
-      //     });
-      // },
+      'spec.containers',
+      'metadata.namespace',
     ],
   },
   nodes: {

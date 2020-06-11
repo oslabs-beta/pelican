@@ -19,6 +19,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import BlurCircularSharpIcon from '@material-ui/icons/BlurCircularSharp';
+import PieChartRoundedIcon from '@material-ui/icons/PieChartRounded';
+import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 import * as actions from '../actions/actions';
 
 const drawerWidth = 200;
@@ -86,10 +89,10 @@ function SideBar(props) {
 
   function icons(index) {
     if (index === 0) return <RadioButtonCheckedIcon />;
-    if (index === 1) return <InboxIcon />;
-    if (index === 2) return <InboxIcon />;
+    if (index === 1) return <BlurCircularSharpIcon />;
+    if (index === 2) return <PieChartRoundedIcon />;
     if (index === 3) return <AccountTreeIcon />;
-    if (index === 4) return <InboxIcon />;
+    if (index === 4) return <PeopleAltRoundedIcon />;
   }
 
   const drawer = (

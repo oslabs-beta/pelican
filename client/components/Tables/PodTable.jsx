@@ -18,7 +18,7 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import * as actions from '../../actions/actions';
-import Row from './CollapsibleTableRow.jsx';
+import Row from './PodTableRow.jsx';
 import tableTemplate from '../../constants/tableInfoTemplate';
 
 const mapStateToProps = (state) => ({
@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
   getPods: (data) => dispatch(actions.getPods(data)),
 });
 
-class CollapsibleTable extends Component {
+class PodTable extends Component {
   async componentDidMount() {
     const { display } = this.props;
     const dispatchFunc = `get${display[0]
@@ -87,4 +87,4 @@ class CollapsibleTable extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollapsibleTable);
+export default connect(mapStateToProps, mapDispatchToProps)(PodTable);
