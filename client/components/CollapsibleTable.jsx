@@ -58,29 +58,31 @@ class CollapsibleTable extends Component {
       );
     }
     return (
-      <div className='tableHolder'>
-        <TableContainer
-          component={Paper}
-          style={{ width: '100%', height: '100%' }}
-          id='tableContainer'
-        >
-          <Table size='small' aria-label='collapsible table'>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  {display[0].toUpperCase().concat(display.slice(1))}
-                </TableCell>
-                {headers}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tableData.map((elem, i) => (
-                <Row key={`row${i}`} row={i} elem={elem} type={display} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+      <TableContainer
+        component={Paper}
+        style={{
+          width: `calc(100% - 200px)`,
+          marginLeft: '200px',
+          marginTop: '0px',
+        }}
+        id='tableContainer'
+      >
+        <Table size='small' aria-label='collapsible table'>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                {display[0].toUpperCase().concat(display.slice(1))}
+              </TableCell>
+              {headers}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableData.map((elem, i) => (
+              <Row key={`row${i}`} row={i} elem={elem} type={display} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     );
   }
 }

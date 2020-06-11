@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
-import * as actions from '../actions/actions';
+import * as actions from '../../actions/actions';
 // import * as actions from "../somewhere";
 import Pod from './PodsPresentational.jsx';
 
@@ -31,8 +31,8 @@ class PodsContainer extends Component {
     const { pods } = this.props;
     console.log('pods?: ', pods);
     return (
-      <div className="PodsContainer">
-        <h4 className="podsTitle">Pods</h4>
+      <div className='PodsContainer'>
+        <h4 className='podsTitle'>Pods</h4>
         <Table striped bordered hover>
           <thead>
             <tr>

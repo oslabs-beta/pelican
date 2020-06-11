@@ -30,8 +30,10 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      width: '100%',
+
+      position: 'relative',
+      zIndex: theme.zIndex.drawer + 1,
     },
   },
   menuButton: {
@@ -82,7 +84,7 @@ function SideBar(props) {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar} style={{}} />
       <Divider />
       <List>
         {['Pods', 'Nodes', 'Deployments', 'Services', 'Namespaces'].map(
