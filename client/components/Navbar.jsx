@@ -1,4 +1,6 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -15,13 +17,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import * as actions from '../actions/actions';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
@@ -51,13 +51,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function SideBar(props) {
+const mapDispatchToProps = (dispatch) => ({
+  getPods: (data) => dispatch(actions.getPods(data)),
+  getNodes: (data) => dispatch(actions.getNodes(data)),
+  getDeployments: (data) => dispatch(actions.getDeployments(data)),
+  getServices: (data) => dispatch(actions.getServices(data)),
+  getNamespaces: (data) => dispatch(actions.getNamespaces(data)),
+});
+
+function SideBar(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+  const changeDisplay = async (display) => {
+    const dispatchFunc = `get${display[0].toUpperCase().concat(display.slice(1))}`;
+    try {
+      const response = await fetch(`/api/local/${display}`);
+      const data = await response.json();
+      props[dispatchFunc](data);
+    } catch (err) {
+      console.log('An error occured: ', err);
+    }
   };
 
   const drawer = (
@@ -66,7 +84,7 @@ export function SideBar(props) {
       <Divider />
       <List>
         {['Pods', 'Nodes', 'Deployments', 'Services', 'Namespaces'].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button key={text} onClick={() => changeDisplay(text.toLowerCase())}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
@@ -112,6 +130,8 @@ export function SideBar(props) {
     </nav>
   );
 }
+
+export default connect(null, mapDispatchToProps)(SideBar);
 
 export function TopBar() {
   const classes = useStyles();

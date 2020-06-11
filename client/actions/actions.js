@@ -1,4 +1,4 @@
-import * as types from "../constants/actionTypes";
+import * as types from '../constants/actionTypes';
 
 export const createCredentials = (response) => ({
   type: types.CREATE_CREDENTIALS,
@@ -10,7 +10,7 @@ export const getPods = (response) => ({
   payload: response,
 });
 
-export const getNode = (response) => ({
+export const getNodes = (response) => ({
   type: types.GET_NODES,
   payload: response,
 });
@@ -22,5 +22,10 @@ export const getDeployments = (response) => ({
 
 export const getServices = (response) => ({
   type: types.GET_SERVICES,
+  payload: response,
+});
+
+export const getNamespaces = (response) => ({
+  type: types.GET_NAMESPACES,
   payload: response,
 });
