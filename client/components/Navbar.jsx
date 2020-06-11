@@ -68,7 +68,9 @@ function SideBar(props) {
     setMobileOpen(!mobileOpen);
   };
   const changeDisplay = async (display) => {
-    const dispatchFunc = `get${display[0].toUpperCase().concat(display.slice(1))}`;
+    const dispatchFunc = `get${display[0]
+      .toUpperCase()
+      .concat(display.slice(1))}`;
     try {
       const response = await fetch(`/api/local/${display}`);
       const data = await response.json();
@@ -83,10 +85,13 @@ function SideBar(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-<<<<<<< HEAD
         {['Pods', 'Nodes', 'Deployments', 'Services', 'Namespaces'].map(
           (text, index) => (
-            <ListItem button key={text}>
+            <ListItem
+              button
+              key={text}
+              onClick={() => changeDisplay(text.toLowerCase())}
+            >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
@@ -94,14 +99,6 @@ function SideBar(props) {
             </ListItem>
           )
         )}
-=======
-        {['Pods', 'Nodes', 'Deployments', 'Services', 'Namespaces'].map((text, index) => (
-          <ListItem button key={text} onClick={() => changeDisplay(text.toLowerCase())}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
->>>>>>> 46eeab3eb07d7749c9769b74a6e0320f1788b862
       </List>
       <Divider />
     </div>
