@@ -20,6 +20,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import * as actions from '../../actions/actions';
 import Row from './NodeRow.jsx';
 import tableTemplate from '../../constants/tableInfoTemplate';
+import { trackPromise } from 'react-promise-tracker';
 
 const mapStateToProps = ({ clusterData }) => ({
   nodes: clusterData.nodes,
@@ -33,9 +34,14 @@ class NodeTable extends Component {
   async componentDidMount() {
     const { getNodes } = this.props;
     try {
-      const response = await fetch('/api/nodes');
-      const nodes = await response.json();
-      getNodes(nodes);
+      await trackPromise(
+        fetch('/api/nodes')
+          .then((results) => results.json())
+          .then((nodes) => getNodes(nodes))
+      );
+      // const response = await fetch('/api/nodes');
+      // const nodes = await response.json();
+      // getNodes(nodes);
     } catch (err) {
       console.log('An error occured: ', err);
     }
@@ -45,7 +51,7 @@ class NodeTable extends Component {
     const { nodes } = this.props;
     const headers = tableTemplate.nodes.headers.map((header, i) => {
       return (
-        <TableCell align="left" key={`nodeHeader${i}`}>
+        <TableCell align='left' key={`nodeHeader${i}`}>
           {header}
         </TableCell>
       );
@@ -59,7 +65,7 @@ class NodeTable extends Component {
           marginTop: '1em',
         }}
       >
-        <Table size="small" aria-label="collapsible table">
+        <Table size='small' aria-label='collapsible table'>
           <TableHead>
             <TableRow>
               <TableCell>Nodes</TableCell>
