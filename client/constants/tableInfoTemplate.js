@@ -1,7 +1,25 @@
 export default {
   pods: {
-    headers: ['Name', 'Namespaces', 'Node', 'PodIP', 'Creation Timestamp'],
-    columns: ['metadata.namespace', 'spec.nodeName', 'status.podIP', 'metadata.creationTimestamp'],
+    headers: [
+      'Name',
+      'Status',
+      'Node',
+      'Pod IP',
+      'Creation Timestamp',
+      'Requested CPU',
+      'Requested Memory',
+      'Namespace',
+      '       Edit',
+    ],
+    columns: [
+      'status.phase',
+      'spec.nodeName',
+      'status.podIP',
+      'metadata.creationTimestamp',
+      'Cpu',
+      'Memory',
+      'metadata.namespace',
+    ],
   },
   nodes: {
     headers: [
@@ -12,6 +30,7 @@ export default {
       'Allocatable CPU',
       'Capacity CPU',
       'Creation Timestamp',
+      '  Edit',
     ],
     columns: [
       'status.addresses.0.address',
@@ -30,6 +49,7 @@ export default {
       'Available Replicas',
       'Updated Replicas',
       'Strategy Type',
+      '  Edit',
     ],
     columns: [
       'metadata.namespace',
@@ -40,7 +60,15 @@ export default {
     ],
   },
   services: {
-    headers: ['Name', 'Namespace', 'Cluster IP', 'Port', 'Target Port', 'Creation Timestamp'],
+    headers: [
+      'Name',
+      'Namespace',
+      'Cluster IP',
+      'Port',
+      'Target Port',
+      'Creation Timestamp',
+      '  Edit',
+    ],
     columns: [
       'metadata.namespace',
       'spec.clusterIP',

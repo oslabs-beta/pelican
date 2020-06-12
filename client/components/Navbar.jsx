@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -17,6 +17,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import BlurCircularSharpIcon from '@material-ui/icons/BlurCircularSharp';
+import PieChartRoundedIcon from '@material-ui/icons/PieChartRounded';
+import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 import * as actions from '../actions/actions';
 
 const drawerWidth = 200;
@@ -30,8 +35,10 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      width: '100%',
+
+      position: 'relative',
+      zIndex: theme.zIndex.drawer + 1,
     },
   },
   menuButton: {
@@ -51,14 +58,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapDispatchToProps = (dispatch) => ({
-  getPods: (data) => dispatch(actions.getPods(data)),
-  getNodes: (data) => dispatch(actions.getNodes(data)),
-  getDeployments: (data) => dispatch(actions.getDeployments(data)),
-  getServices: (data) => dispatch(actions.getServices(data)),
-  getNamespaces: (data) => dispatch(actions.getNamespaces(data)),
-});
-
 function SideBar(props) {
   const { window } = props;
   const classes = useStyles();
@@ -67,38 +66,32 @@ function SideBar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const changeDisplay = async (display) => {
-    const dispatchFunc = `get${display[0]
-      .toUpperCase()
-      .concat(display.slice(1))}`;
-    try {
-      const response = await fetch(`/api/local/${display}`);
-      const data = await response.json();
-      props[dispatchFunc](data);
-    } catch (err) {
-      console.log('An error occured: ', err);
-    }
-  };
+
+  function icons(index) {
+    if (index === 0) return <RadioButtonCheckedIcon color='primary' />;
+    if (index === 1) return <BlurCircularSharpIcon color='primary' />;
+    if (index === 2) return <PieChartRoundedIcon color='primary' />;
+    if (index === 3) return <AccountTreeIcon color='primary' />;
+    if (index === 4) return <PeopleAltRoundedIcon color='primary' />;
+  }
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar} style={{}} />
       <Divider />
       <List>
-        {['Pods', 'Nodes', 'Deployments', 'Services', 'Namespaces'].map(
-          (text, index) => (
-            <ListItem
-              button
-              key={text}
-              onClick={() => changeDisplay(text.toLowerCase())}
-            >
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
+        {['Pods', 'Nodes', 'Deployments', 'Services'].map((text, index) => (
+          <Link
+            style={{ textDecoration: 'none' }}
+            to={`/${text.toLowerCase()}`}
+            key={text}
+          >
+            <ListItem>
+              <ListItemIcon>{icons(index)}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
-          )
-        )}
+          </Link>
+        ))}
       </List>
       <Divider />
     </div>
@@ -142,7 +135,7 @@ function SideBar(props) {
   );
 }
 
-export default connect(null, mapDispatchToProps)(SideBar);
+export default SideBar;
 
 export function TopBar() {
   const classes = useStyles();
@@ -169,7 +162,6 @@ export function TopBar() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Toolbar />
     </div>
   );
 }

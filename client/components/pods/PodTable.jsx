@@ -1,0 +1,82 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-restricted-syntax */
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import * as actions from '../../actions/actions';
+import Row from './PodRow.jsx';
+import tableTemplate from '../../constants/tableInfoTemplate';
+
+const mapStateToProps = ({ clusterData }) => ({
+  pods: clusterData.pods,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getPods: (pods) => dispatch(actions.getPods(pods)),
+});
+
+class PodTable extends Component {
+  async componentDidMount() {
+    const { getPods } = this.props;
+    try {
+      const response = await fetch('/api/local/pods');
+      const pods = await response.json();
+      getPods(pods);
+    } catch (err) {
+      console.log('An error occured: ', err);
+    }
+  }
+
+  render() {
+    const { pods } = this.props;
+    console.log(tableTemplate.pods.headers);
+    const headers = tableTemplate.pods.headers.map((header, i) => {
+      return (
+        <TableCell align='left' key={`podHeader${i}`}>
+          {header}
+        </TableCell>
+      );
+    });
+    return (
+      <TableContainer
+        component={Paper}
+        style={{
+          width: `calc(100% - 200px)`,
+          marginLeft: '200px',
+          marginTop: '0',
+        }}
+      >
+        <Table size='small' aria-label='collapsible table'>
+          <TableHead>
+            <TableRow>
+              <TableCell>Pods</TableCell>
+              {headers}
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {pods.map((pod, i) => (
+              <Row key={`podRow${i}`} pod={pod} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PodTable);

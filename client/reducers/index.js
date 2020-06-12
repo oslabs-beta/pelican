@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import awsAuthReducer from './awsAuthReducer';
-import localK8sData from './localK8sData';
+import clusterData from './clusterData';
 
 const reducers = combineReducers({
   awsAuth: awsAuthReducer,
-  localData: localK8sData,
+  clusterData: clusterData,
 });
 
 export default reducers;

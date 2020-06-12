@@ -9,9 +9,9 @@ body {
   display: grid;
 }
 
-#tableContainer {
+#tempID {
   position: relative;
-  top: 5em;
+  left: 200px;
 }
 
 #login-container {
@@ -46,9 +46,9 @@ form div {
   margin: 0;
 }
 
-.tableHolder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 5px;
-}
+// .tableHolder {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-top: 5px;
+// }
