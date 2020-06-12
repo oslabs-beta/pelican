@@ -4,7 +4,7 @@ module.exports = {
   getClusters: async (req, res, next) => {
     try {
       const response = await kubernetes.apis.get();
-      console.log(response.body);
+      // console.log(response.body);
       res.locals.deployments = response.body.items;
       next();
     } catch (err) {

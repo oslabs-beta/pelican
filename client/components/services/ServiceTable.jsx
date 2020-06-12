@@ -33,7 +33,7 @@ class ServiceTable extends Component {
   async componentDidMount() {
     const { getServices } = this.props;
     try {
-      const response = await fetch('/api/local/services');
+      const response = await fetch('/api/services');
       const services = await response.json();
       getServices(services);
     } catch (err) {

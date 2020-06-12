@@ -33,7 +33,7 @@ class DeploymentTable extends Component {
   async componentDidMount() {
     const { getDeployments } = this.props;
     try {
-      const response = await fetch('/api/local/deployments');
+      const response = await fetch('/api/deployments');
       const deployments = await response.json();
       getDeployments(deployments);
     } catch (err) {

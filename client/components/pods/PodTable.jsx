@@ -33,7 +33,7 @@ class PodTable extends Component {
   async componentDidMount() {
     const { getPods } = this.props;
     try {
-      const response = await fetch('/api/local/pods');
+      const response = await fetch('/api/pods');
       const pods = await response.json();
       getPods(pods);
     } catch (err) {

@@ -15,7 +15,7 @@ class MockShowPods extends Component {
   async componentDidMount() {
     const { getPods } = this.props;
     try {
-      const response = await fetch('/api/local/pods');
+      const response = await fetch('/api/pods');
       console.log('response: ', response);
       const data = await response.json();
       //console.log(data[0]);
