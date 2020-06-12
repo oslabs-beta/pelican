@@ -18,45 +18,38 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import * as actions from '../../actions/actions';
-import Row from './CollapsibleTableRow.jsx';
+import Row from './ServiceRow.jsx';
 import tableTemplate from '../../constants/tableInfoTemplate';
 
-const mapStateToProps = (state) => ({
-  localData: state.localData,
-  display: state.localData.display,
+const mapStateToProps = ({ clusterData }) => ({
+  services: clusterData.services,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getPods: (data) => dispatch(actions.getPods(data)),
+  getServices: (services) => dispatch(actions.getServices(services)),
 });
 
-class CollapsibleTable extends Component {
+class ServiceTable extends Component {
   async componentDidMount() {
-    const { display } = this.props;
-    const dispatchFunc = `get${display[0]
-      .toUpperCase()
-      .concat(display.slice(1))}`;
+    const { getServices } = this.props;
     try {
-      const response = await fetch(`/api/local/${display}`);
-      const data = await response.json();
-      this.props[dispatchFunc](data);
+      const response = await fetch('/api/local/services');
+      const services = await response.json();
+      getServices(services);
     } catch (err) {
       console.log('An error occured: ', err);
     }
   }
 
   render() {
-    const { display } = this.props;
-    const tableData = [...this.props.localData[display]];
-
-    const headers = [];
-    for (const header of tableTemplate[display].headers) {
-      headers.push(
-        <TableCell align='left' key={`${display}${header}`}>
+    const { services } = this.props;
+    const headers = tableTemplate.services.headers.map((header, i) => {
+      return (
+        <TableCell align='left' key={`serviceHeader${i}`}>
           {header}
         </TableCell>
       );
-    }
+    });
     return (
       <TableContainer
         component={Paper}
@@ -65,20 +58,18 @@ class CollapsibleTable extends Component {
           marginLeft: '200px',
           marginTop: '1em',
         }}
-        id='tableContainer'
       >
         <Table size='small' aria-label='collapsible table'>
           <TableHead>
             <TableRow>
-              <TableCell>
-                {display[0].toUpperCase().concat(display.slice(1))}
-              </TableCell>
+              <TableCell>Services</TableCell>
               {headers}
             </TableRow>
           </TableHead>
+
           <TableBody>
-            {tableData.map((elem, i) => (
-              <Row key={`row${i}`} index={i} elem={elem} type={display} />
+            {services.map((service, i) => (
+              <Row key={`serviceRow${i}`} service={service} />
             ))}
           </TableBody>
         </Table>
@@ -87,4 +78,4 @@ class CollapsibleTable extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollapsibleTable);
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceTable);

@@ -16,7 +16,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import tableTemplate from '../../constants/tableInfoTemplate';
 import { Link } from 'react-router-dom';
-import EditButton from './CoolButton.jsx';
+import EditButton from '../CoolButton.jsx';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -44,44 +44,40 @@ const useStyles = makeStyles({
 });
 
 function Row(props) {
-  const { elem } = props;
-  const { type } = props;
-  const { index } = props;
+  const { pod } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
-  const cells = [];
-  for (const column of tableTemplate[type].columns) {
-    let result = { ...elem };
+  const cells = tableTemplate.pods.columns.map((column, i) => {
+    if (column === 'Cpu') {
+      return (
+        <StyledTableCell align='left' key={`podColumn${i}`}>
+          {getCpu(pod)}
+        </StyledTableCell>
+      );
+    }
+    if (column === 'Memory') {
+      return (
+        <StyledTableCell align='left' key={`podColumn${i}`}>
+          {getMemory(pod)}
+        </StyledTableCell>
+      );
+    }
+    let property = { ...pod };
     const splitArray = column.split('.');
     while (splitArray.length) {
-      result = result[splitArray[0]];
+      property = property[splitArray[0]];
       splitArray.shift();
     }
-    if (column === 'spec.containers') {
-      const result1 = getCpu(result);
-      const result2 = getMemory(result);
-      cells.push(
-        <StyledTableCell align='left' key={column}>
-          {result1}
-        </StyledTableCell>
-      );
-      cells.push(
-        <StyledTableCell align='left' key={'memory'}>
-          {result2}
-        </StyledTableCell>
-      );
-    } else {
-      cells.push(
-        <StyledTableCell align='left' key={column}>
-          {result}
-        </StyledTableCell>
-      );
-    }
-  }
+    return (
+      <StyledTableCell align='left' key={`podcolumn${i}`}>
+        {property}
+      </StyledTableCell>
+    );
+  });
 
-  function getCpu(containers) {
-    return containers
+  function getCpu(pod) {
+    return pod.spec.containers
       .map((container) =>
         Number(
           container.resources.requests.cpu.substring(
@@ -94,9 +90,9 @@ function Row(props) {
         return (totalCpu += curCpu);
       });
   }
-  function getMemory(containers) {
-    console.log(containers[0].resources.requests.memory);
-    return containers
+
+  function getMemory(pod) {
+    return pod.spec.containers
       .map((container) =>
         Number(
           container.resources.requests.memory.substring(
@@ -123,11 +119,11 @@ function Row(props) {
           </IconButton>
         </StyledTableCell>
         <StyledTableCell component='th' scope='row'>
-          {elem.metadata.name}
+          {pod.metadata.name}
         </StyledTableCell>
         {cells}
         <StyledTableCell>
-          <Link to={`/${type}/${elem.metadata.name}`}>
+          <Link to={`/pods/${pod.metadata.name}`}>
             <EditButton />
           </Link>
         </StyledTableCell>

@@ -5,12 +5,15 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import PodTable from './components/Tables/PodTable.jsx';
 import SideBar, { TopBar } from './components/Navbar.jsx';
-// import NodeConfig from './components/NodeConfig.jsx';
-import PodConfig from './components/configs/PodConfig.jsx';
-// import DeploymentConfig from './components/DeploymentConfig.jsx';
-// import ServiceConfig from './components/ServiceConfig.jsx';
+import PodTable from './components/pods/PodTable.jsx';
+import NodeTable from './components/nodes/NodeTable.jsx';
+import ServiceTable from './components/services/ServiceTable.jsx';
+import DeploymentTable from './components/deployments/DeploymentTable.jsx';
+import PodConfig from './components/pods/PodConfig.jsx';
+import NodeConfig from './components/nodes/NodeConfig.jsx';
+import ServiceConfig from './components/services/ServiceConfig.jsx';
+import DeploymentConfig from './components/deployments/DeploymentConfig.jsx';
 import './stylesheets/styles.scss';
 
 function App() {
@@ -21,9 +24,16 @@ function App() {
         <SideBar />
         <Switch>
           <Route exact path='/' component={PodTable}></Route>
+          <Route exact path='/pods' component={PodTable}></Route>
+          <Route exact path='/nodes' component={NodeTable}></Route>
+          <Route exact path='/deployments' component={DeploymentTable}></Route>
+          <Route exact path='/services' component={ServiceTable}></Route>
           <Route path='/pods/:name' component={PodConfig}></Route>
+          <Route path='/nodes/:name' component={NodeConfig}></Route>
+          <Route path='/deployments/:name' component={DeploymentConfig}></Route>
+          <Route path='/services/:name' component={ServiceConfig}></Route>
           <Route path='*'>
-            <Redirect to='/' />
+            <Redirect to='/pods' />
           </Route>
         </Switch>
       </div>
@@ -31,33 +41,4 @@ function App() {
   );
 }
 
-/*
-function App() {
-  return (
-    <Router>
-      <div id='main'>
-        <TopBar />
-        <SideBar />
-        <Switch>
-          <Route exact path='/' component={PodsTable}> </Route>
-          <Route exact path='/pods' component={PodsTable}> </Route>
-          <Route exact path='/nodes' component={NodesTable}> </Route>
-          <Route exact path='/deployments' component={DeploymentsTable}> </Route>
-          <Route exact path='/services' component={ServicesTable}> </Route>
-
-          <Route path='/pods/:name' component={PodConfig}
-          <Route path='/nodes/:name' component={NodeConfig}
-          <Route path='/deployments/:name' component={DeploymentConfig}
-          <Route path='/services/:name' component={ServiceConfig}
-        </Switch>
-      </div>
-    </Router>
-  );
-}
-*/
-
-// <PodsTable />
-// <DeploymentsTable />
-// <NodesTable />
-// <Services />
 export default App;

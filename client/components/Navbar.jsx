@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -58,14 +58,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapDispatchToProps = (dispatch) => ({
-  getPods: (data) => dispatch(actions.getPods(data)),
-  getNodes: (data) => dispatch(actions.getNodes(data)),
-  getDeployments: (data) => dispatch(actions.getDeployments(data)),
-  getServices: (data) => dispatch(actions.getServices(data)),
-  getNamespaces: (data) => dispatch(actions.getNamespaces(data)),
-});
-
 function SideBar(props) {
   const { window } = props;
   const classes = useStyles();
@@ -74,25 +66,13 @@ function SideBar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const changeDisplay = async (display) => {
-    const dispatchFunc = `get${display[0]
-      .toUpperCase()
-      .concat(display.slice(1))}`;
-    try {
-      const response = await fetch(`/api/local/${display}`);
-      const data = await response.json();
-      props[dispatchFunc](data);
-    } catch (err) {
-      console.log('An error occured: ', err);
-    }
-  };
 
   function icons(index) {
-    if (index === 0) return <RadioButtonCheckedIcon />;
-    if (index === 1) return <BlurCircularSharpIcon />;
-    if (index === 2) return <PieChartRoundedIcon />;
-    if (index === 3) return <AccountTreeIcon />;
-    if (index === 4) return <PeopleAltRoundedIcon />;
+    if (index === 0) return <RadioButtonCheckedIcon color='primary' />;
+    if (index === 1) return <BlurCircularSharpIcon color='primary' />;
+    if (index === 2) return <PieChartRoundedIcon color='primary' />;
+    if (index === 3) return <AccountTreeIcon color='primary' />;
+    if (index === 4) return <PeopleAltRoundedIcon color='primary' />;
   }
 
   const drawer = (
@@ -100,18 +80,18 @@ function SideBar(props) {
       <div className={classes.toolbar} style={{}} />
       <Divider />
       <List>
-        {['Pods', 'Nodes', 'Deployments', 'Services', 'Namespaces'].map(
-          (text, index) => (
-            <ListItem
-              button
-              key={text}
-              onClick={() => changeDisplay(text.toLowerCase())}
-            >
+        {['Pods', 'Nodes', 'Deployments', 'Services'].map((text, index) => (
+          <Link
+            style={{ textDecoration: 'none' }}
+            to={`/${text.toLowerCase()}`}
+            key={text}
+          >
+            <ListItem>
               <ListItemIcon>{icons(index)}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
-          )
-        )}
+          </Link>
+        ))}
       </List>
       <Divider />
     </div>
@@ -155,7 +135,7 @@ function SideBar(props) {
   );
 }
 
-export default connect(null, mapDispatchToProps)(SideBar);
+export default SideBar;
 
 export function TopBar() {
   const classes = useStyles();

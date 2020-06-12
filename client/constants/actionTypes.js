@@ -6,4 +6,3 @@ export const GET_NODES = 'GET_NODES';
 export const GET_DEPLOYMENTS = 'GET_DEPLOYMENTS';
 export const GET_SERVICES = 'GET_SERVICES';
 export const GET_NAMESPACES = 'GET_NAMESPACES';
-export const UPDATE_DISPLAY = 'UPDATE_DISPLAY';

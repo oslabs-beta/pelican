@@ -18,67 +18,59 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import * as actions from '../../actions/actions';
-import Row from './CollapsibleTableRow.jsx';
+import Row from './PodRow.jsx';
 import tableTemplate from '../../constants/tableInfoTemplate';
 
-const mapStateToProps = (state) => ({
-  localData: state.localData,
-  display: state.localData.display,
+const mapStateToProps = ({ clusterData }) => ({
+  pods: clusterData.pods,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getPods: (data) => dispatch(actions.getPods(data)),
+  getPods: (pods) => dispatch(actions.getPods(pods)),
 });
 
-class CollapsibleTable extends Component {
+class PodTable extends Component {
   async componentDidMount() {
-    const { display } = this.props;
-    const dispatchFunc = `get${display[0]
-      .toUpperCase()
-      .concat(display.slice(1))}`;
+    const { getPods } = this.props;
     try {
-      const response = await fetch(`/api/local/${display}`);
-      const data = await response.json();
-      this.props[dispatchFunc](data);
+      const response = await fetch('/api/local/pods');
+      const pods = await response.json();
+      getPods(pods);
     } catch (err) {
       console.log('An error occured: ', err);
     }
   }
 
   render() {
-    const { display } = this.props;
-    const tableData = [...this.props.localData[display]];
-
-    const headers = [];
-    for (const header of tableTemplate[display].headers) {
-      headers.push(
-        <TableCell align='left' key={`${display}${header}`}>
+    const { pods } = this.props;
+    console.log(tableTemplate.pods.headers);
+    const headers = tableTemplate.pods.headers.map((header, i) => {
+      return (
+        <TableCell align='left' key={`podHeader${i}`}>
           {header}
         </TableCell>
       );
-    }
+    });
     return (
       <TableContainer
         component={Paper}
         style={{
           width: `calc(100% - 200px)`,
           marginLeft: '200px',
-          marginTop: '1em',
+          marginTop: '0',
         }}
-        id='tableContainer'
       >
         <Table size='small' aria-label='collapsible table'>
           <TableHead>
             <TableRow>
-              <TableCell>
-                {display[0].toUpperCase().concat(display.slice(1))}
-              </TableCell>
+              <TableCell>Pods</TableCell>
               {headers}
             </TableRow>
           </TableHead>
+
           <TableBody>
-            {tableData.map((elem, i) => (
-              <Row key={`row${i}`} index={i} elem={elem} type={display} />
+            {pods.map((pod, i) => (
+              <Row key={`podRow${i}`} pod={pod} />
             ))}
           </TableBody>
         </Table>
@@ -87,4 +79,4 @@ class CollapsibleTable extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollapsibleTable);
+export default connect(mapStateToProps, mapDispatchToProps)(PodTable);

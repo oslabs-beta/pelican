@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const mapStateToProps = (state) => ({
-  pods: state.localData.pods,
+const mapStateToProps = ({ clusterData }) => ({
+  pods: clusterData.pods,
 });
 
 function PodConfig(props) {
