@@ -9,9 +9,17 @@ body {
   display: grid;
 }
 
-#tempID {
-  position: relative;
-  left: 200px;
+#yamlContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#displayYaml {
+  white-space: pre-wrap;
+}
+
+#editYaml {
+  white-space: pre-wrap;
 }
 
 #login-container {

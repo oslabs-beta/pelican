@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -19,7 +20,7 @@ function NodeConfig(props) {
   // }
 
   return (
-    <div id='tempID'>
+    <div id="tempID">
       <h1> Node Config! </h1>
       <div> This is the pod name: {name}</div>
       <h2> Node YAML: </h2>

@@ -43,10 +43,9 @@ class PodTable extends Component {
 
   render() {
     const { pods } = this.props;
-    console.log(tableTemplate.pods.headers);
     const headers = tableTemplate.pods.headers.map((header, i) => {
       return (
-        <TableCell align='left' key={`podHeader${i}`}>
+        <TableCell align="left" key={`podHeader${i}`}>
           {header}
         </TableCell>
       );
@@ -60,7 +59,7 @@ class PodTable extends Component {
           marginTop: '0',
         }}
       >
-        <Table size='small' aria-label='collapsible table'>
+        <Table size="small" aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell>Pods</TableCell>
