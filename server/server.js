@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const apiRouter = require('./routes/local');
+const apiRouter = require('./routes/apiRouter');
 const { Client } = require('kubernetes-client');
 
 const app = express();
