@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const localRouter = require('./routes/local');
+const apiRouter = require('./routes/local');
 const { Client } = require('kubernetes-client');
 
 const app = express();
@@ -21,7 +21,7 @@ app.use(
     res.locals.client = new Client({ version: '1.13' });
     next();
   },
-  localRouter
+  apiRouter
 );
 
 if (process.env.NODE_ENV === 'production') {
