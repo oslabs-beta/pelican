@@ -135,28 +135,67 @@ function Row(props) {
         >
           <Collapse in={open} timeout='auto' unmountOnExit>
             <Box margin={1}>
-              <Typography variant='h6' gutterBottom component='div'>
-                Logs:
+              <Typography variant='subtitle1' gutterBottom component='div'>
+                Status History:
               </Typography>
-              <Table size='small' aria-label='purchases'>
+              <Table size='small' aria-label='logs'>
                 <TableHead>
                   <TableRow>
-                    <TableCell>logs1</TableCell>
-                    <TableCell>logs2</TableCell>
-                    <TableCell align='right'>logs3</TableCell>
-                    <TableCell align='right'>more logs</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Status</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }} align='left'>
+                      Transitioned At
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {['stuff', 'otherstuff'].map((row, i) => (
-                    <StyledTableRow key={i}>
+                  {pod.status.conditions.map((condition, i) => (
+                    <StyledTableRow key={`podCondition${i}`}>
                       <StyledTableCell component='th' scope='row'>
-                        {row}
+                        {condition.type}
                       </StyledTableCell>
-                      <StyledTableCell>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>
-                        {Math.round(1 * 5 * 100) / 100}
+                      <StyledTableCell>
+                        {condition.lastTransitionTime}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <Typography variant='subtitle1' gutterBottom component='div'>
+                Container Statuses:
+              </Typography>
+              <Table size='small' aria-label='logs'>
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: 'bold' }}>Name</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }} align='left'>
+                      Image
+                    </TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }} align='left'>
+                      State
+                    </TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }} align='left'>
+                      Ready
+                    </TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }} align='left'>
+                      Restart Count
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {pod.status.containerStatuses.map((container, i) => (
+                    <StyledTableRow key={`podContainerStatus${i}`}>
+                      <StyledTableCell component='th' scope='row'>
+                        {container.name}
+                      </StyledTableCell>
+                      <StyledTableCell>{container.image}</StyledTableCell>
+                      <StyledTableCell>
+                        {Object.keys(container.state)[0]}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        {container.ready.toString()}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        {container.restartCount}
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
