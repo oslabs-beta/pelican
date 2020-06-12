@@ -1,5 +1,5 @@
 const express = require('express');
-const NoceController = require('../../controllers/NodeController');
+const NodeController = require('../../controllers/NodeController');
 const nodeRouter = express.Router();
 
 nodeRouter.get('/', NodeController.getNodes, (req, res, next) => {
