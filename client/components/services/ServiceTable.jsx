@@ -33,7 +33,7 @@ class ServiceTable extends Component {
   async componentDidMount() {
     const { getServices } = this.props;
     try {
-      const response = await fetch('/api/local/services');
+      const response = await fetch('/api/services');
       const services = await response.json();
       getServices(services);
     } catch (err) {
@@ -45,7 +45,7 @@ class ServiceTable extends Component {
     const { services } = this.props;
     const headers = tableTemplate.services.headers.map((header, i) => {
       return (
-        <TableCell align='left' key={`serviceHeader${i}`}>
+        <TableCell align="left" key={`serviceHeader${i}`}>
           {header}
         </TableCell>
       );
@@ -59,7 +59,7 @@ class ServiceTable extends Component {
           marginTop: '1em',
         }}
       >
-        <Table size='small' aria-label='collapsible table'>
+        <Table size="small" aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell>Services</TableCell>

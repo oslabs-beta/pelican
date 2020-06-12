@@ -34,7 +34,7 @@ class DeploymentTable extends Component {
   async componentDidMount() {
     const { getDeployments } = this.props;
     try {
-      const response = await fetch('/api/local/deployments');
+      const response = await fetch('/api/deployments');
       const deployments = await response.json();
       getDeployments(deployments);
     } catch (err) {
@@ -46,7 +46,7 @@ class DeploymentTable extends Component {
     const { deployments } = this.props;
     const headers = tableTemplate.deployments.headers.map((header, i) => {
       return (
-        <TableCell align='left' key={`deploymentHeader${i}`}>
+        <TableCell align="left" key={`deploymentHeader${i}`}>
           {header}
         </TableCell>
       );
@@ -60,7 +60,7 @@ class DeploymentTable extends Component {
           marginTop: '1em',
         }}
       >
-        <Table size='small' aria-label='collapsible table'>
+        <Table size="small" aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell>Deployments</TableCell>

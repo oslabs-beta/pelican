@@ -33,7 +33,7 @@ class PodTable extends Component {
   async componentDidMount() {
     const { getPods } = this.props;
     try {
-      const response = await fetch('/api/local/pods');
+      const response = await fetch('/api/pods');
       const pods = await response.json();
       getPods(pods);
     } catch (err) {
@@ -46,7 +46,7 @@ class PodTable extends Component {
     console.log(tableTemplate.pods.headers);
     const headers = tableTemplate.pods.headers.map((header, i) => {
       return (
-        <TableCell align='left' key={`podHeader${i}`}>
+        <TableCell align="left" key={`podHeader${i}`}>
           {header}
         </TableCell>
       );
@@ -60,7 +60,7 @@ class PodTable extends Component {
           marginTop: '0',
         }}
       >
-        <Table size='small' aria-label='collapsible table'>
+        <Table size="small" aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell>Pods</TableCell>
