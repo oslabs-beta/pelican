@@ -1,10 +1,12 @@
-const kubernetes = require('../../k8s-client/config');
-
 module.exports = {
   getDeployments: async (req, res, next) => {
     try {
-      const response = await kubernetes.apis.apps.v1.namespaces('default').deployments().get();
-      res.locals.deployments = response.body.items;
+      res.locals.deployments = (
+        await res.locals.client.apis.apps.v1
+          .namespaces('default')
+          .deployments()
+          .get()
+      ).body.items;
       next();
     } catch (err) {
       next({

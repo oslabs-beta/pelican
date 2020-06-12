@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
-const localRouter = require('./routes/local');
+const apiRouter = require('./routes/apiRouter');
+const { Client } = require('kubernetes-client');
 
 const app = express();
 const PORT = 3000;
@@ -10,9 +11,18 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.resolve(__dirname, '../client/assets')));
 
-app.get('/', (req, res) => res.status(200).sendFile(path.resolve(__dirname, '../index.html')));
+app.get('/', (req, res) =>
+  res.status(200).sendFile(path.resolve(__dirname, '../index.html'))
+);
 
-app.use('/api/local', localRouter);
+app.use(
+  '/api',
+  (req, res, next) => {
+    res.locals.client = new Client({ version: '1.13' });
+    next();
+  },
+  apiRouter
+);
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/build', express.static(path.resolve(__dirname, '../build')));

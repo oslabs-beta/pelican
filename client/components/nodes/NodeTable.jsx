@@ -33,7 +33,7 @@ class NodeTable extends Component {
   async componentDidMount() {
     const { getNodes } = this.props;
     try {
-      const response = await fetch('/api/local/nodes');
+      const response = await fetch('/api/nodes');
       const nodes = await response.json();
       getNodes(nodes);
     } catch (err) {
