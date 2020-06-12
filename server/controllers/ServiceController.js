@@ -1,10 +1,8 @@
-const kubernetes = require('../../k8s-client/config');
-
 module.exports = {
   getServices: async (req, res, next) => {
     try {
       res.locals.services = (
-        await kubernetes.api.v1
+        await res.locals.client.api.v1
           .namespaces('default')
           .services() //maybe no need
           .get()

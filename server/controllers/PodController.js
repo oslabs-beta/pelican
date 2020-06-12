@@ -1,5 +1,3 @@
-const kubernetes = require('../../k8s-client/config');
-
 module.exports = {
   getPods: async (req, res, next) => {
     try {
