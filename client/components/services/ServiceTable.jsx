@@ -45,7 +45,7 @@ class ServiceTable extends Component {
     const { services } = this.props;
     const headers = tableTemplate.services.headers.map((header, i) => {
       return (
-        <TableCell align='left' key={`serviceHeader${i}`}>
+        <TableCell align="left" key={`serviceHeader${i}`}>
           {header}
         </TableCell>
       );
@@ -56,10 +56,10 @@ class ServiceTable extends Component {
         style={{
           width: `calc(100% - 200px)`,
           marginLeft: '200px',
-          marginTop: '1em',
+          marginTop: '0',
         }}
       >
-        <Table size='small' aria-label='collapsible table'>
+        <Table size="small" aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell>Services</TableCell>
