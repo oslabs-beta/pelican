@@ -43,7 +43,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Row(props) {
+function NodeRow(props) {
   const { node } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
@@ -56,25 +56,25 @@ function Row(props) {
       splitArray.shift();
     }
     return (
-      <StyledTableCell align='left' key={`nodeColumn${i}`}>
+      <StyledTableCell align="left" key={`nodeColumn${i}`}>
         {property}
       </StyledTableCell>
     );
   });
-
+  console.log(cells);
   return (
     <>
       <StyledTableRow className={classes.table}>
         <StyledTableCell>
           <IconButton
-            aria-label='expand row'
-            size='small'
+            aria-label="expand row"
+            size="small"
             onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
-        <StyledTableCell component='th' scope='row'>
+        <StyledTableCell component="th" scope="row">
           {node.metadata.name}
         </StyledTableCell>
         {cells}
@@ -89,29 +89,29 @@ function Row(props) {
           style={{ paddingBottom: 0, paddingTop: 0 }}
           colSpan={6}
         >
-          <Collapse in={open} timeout='auto' unmountOnExit>
+          <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant='h6' gutterBottom component='div'>
+              <Typography variant="h6" gutterBottom component="div">
                 Logs:
               </Typography>
-              <Table size='small' aria-label='purchases'>
+              <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
                     <TableCell>logs1</TableCell>
                     <TableCell>logs2</TableCell>
-                    <TableCell align='right'>logs3</TableCell>
-                    <TableCell align='right'>more logs</TableCell>
+                    <TableCell align="right">logs3</TableCell>
+                    <TableCell align="right">more logs</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {['stuff', 'otherstuff'].map((row, i) => (
                     <StyledTableRow key={i}>
-                      <StyledTableCell component='th' scope='row'>
+                      <StyledTableCell component="th" scope="row">
                         {row}
                       </StyledTableCell>
                       <StyledTableCell>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>
+                      <StyledTableCell align="right">{row}</StyledTableCell>
+                      <StyledTableCell align="right">
                         {Math.round(1 * 5 * 100) / 100}
                       </StyledTableCell>
                     </StyledTableRow>
@@ -127,4 +127,4 @@ function Row(props) {
   );
 }
 
-export default Row;
+export default NodeRow;
