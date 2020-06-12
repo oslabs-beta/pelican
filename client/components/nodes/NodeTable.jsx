@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 class NodeTable extends Component {
   async componentDidMount() {
-    const { getServices } = this.props;
+    const { getNodes } = this.props;
     try {
       const response = await fetch('/api/local/nodes');
       const nodes = await response.json();
@@ -45,7 +45,7 @@ class NodeTable extends Component {
     const { nodes } = this.props;
     const headers = tableTemplate.nodes.headers.map((header, i) => {
       return (
-        <TableCell align='left' key={`nodeHeader${i}`}>
+        <TableCell align="left" key={`nodeHeader${i}`}>
           {header}
         </TableCell>
       );
@@ -59,7 +59,7 @@ class NodeTable extends Component {
           marginTop: '1em',
         }}
       >
-        <Table size='small' aria-label='collapsible table'>
+        <Table size="small" aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell>Nodes</TableCell>
