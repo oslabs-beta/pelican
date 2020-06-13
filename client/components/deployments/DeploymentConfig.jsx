@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import syntaxHighlight from '../../utils/yamlSyntaxHighlighting';
 
 const mapStateToProps = ({ clusterData }) => ({
   deployments: clusterData.deployments,
@@ -12,10 +13,19 @@ function DeploymentConfig(props) {
   const { deployments } = props;
 
   const deployment = deployments.filter((deployment) => deployment.metadata.name === name)[0];
-  const deploymentYaml = JSON.stringify(deployment, null, 4);
+  const currentYaml = JSON.stringify(deployment, null, 4);
   const editDeployment = { ...deployment };
   delete editDeployment.status;
   const editYaml = JSON.stringify(editDeployment, null, 4);
+
+  const handleSubmit = (modifiedYaml) => {
+    const newYaml = JSON.stringify(JSON.parse(modifiedYaml));
+    console.log('newYaml: ', newYaml);
+  };
+
+  useEffect(() => {
+    document.querySelector('#currentYaml').innerHTML = syntaxHighlight(currentYaml);
+  });
 
   return (
     <div
@@ -25,13 +35,35 @@ function DeploymentConfig(props) {
         marginTop: '0',
       }}
     >
-      <h1> Deployment Configuration Yaml </h1>
-      <div>
-        <b>This is the deployment name: </b> {name}
+      <div id="configHeader">
+        <h1>Deployment Configuration Yaml </h1>
+        <div id="configBtns">
+          <button
+            type="submit"
+            id="submitBtn"
+            onClick={() => handleSubmit(document.querySelector('#editYaml').value)}
+          >
+            Submit
+          </button>
+          <Link to="/deployments" style={{ textDecoration: 'none' }}>
+            <button type="button" id="backBtn">
+              Go Back
+            </button>
+          </Link>
+        </div>
       </div>
+
+      <h2>Deployment name: {name}</h2>
+
       <div id="yamlContainer">
-        <div id="editYaml"> {editYaml} </div>
-        <div id="displayYaml">{deploymentYaml}</div>
+        <form>
+          <h2>{`Modify ${name} configuration here:`}</h2>
+          <textarea id="editYaml" defaultValue={editYaml} />
+        </form>
+        <div>
+          <h2> Current Configuration: </h2>
+          <div id="currentYaml" />
+        </div>
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ function NodeConfig(props) {
     >
       <h1> Node Configuration Yaml </h1>
       <div>
-        <b>This is the node name: </b> {name}
+        <b> Node name: </b> {name}
       </div>
       <div id="yamlContainer">
         <div id="editYaml"> {editYaml} </div>

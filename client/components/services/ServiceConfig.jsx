@@ -27,7 +27,7 @@ function ServiceConfig(props) {
     >
       <h1> Service Configuration Yaml </h1>
       <div>
-        <b>This is the service name: </b> {name}
+        <b> Service name: </b> {name}
       </div>
       <div id="yamlContainer">
         <div id="editYaml"> {editYaml} </div>

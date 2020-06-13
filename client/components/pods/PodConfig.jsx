@@ -27,7 +27,7 @@ function PodConfig(props) {
     >
       <h1> Pod Configuration Yaml </h1>
       <div>
-        <b>This is the pod name: </b> {name}
+        <b> Pod name: </b> {name}
       </div>
       <div id="yamlContainer">
         <div id="editYaml"> {editYaml} </div>
