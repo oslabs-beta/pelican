@@ -14,6 +14,7 @@ function YamlConfiguration(props) {
   const { name } = useParams();
   const { clusterData } = props;
   const { context } = props;
+
   const objList = clusterData[context];
 
   const obj = objList.filter((obj) => obj.metadata.name === name)[0];
@@ -25,6 +26,12 @@ function YamlConfiguration(props) {
   const handleSubmit = (modifiedYaml) => {
     const newYaml = JSON.stringify(JSON.parse(modifiedYaml));
     console.log('newYaml: ', newYaml);
+  };
+  const handleClick = (e) => {
+    e.target.style.height = 'inherit';
+    e.target.style.height = `${e.target.scrollHeight}px`;
+    // In case you have a limitation
+    // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
   };
 
   useEffect(() => {
@@ -68,7 +75,7 @@ function YamlConfiguration(props) {
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
-          <textarea id="editYaml" defaultValue={editYaml} />
+          <textarea id="editYaml" defaultValue={editYaml} onClick={() => handleClick} />
         </form>
         <div>
           <h2> Current Configuration: </h2>

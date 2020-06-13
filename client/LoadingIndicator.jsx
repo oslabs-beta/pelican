@@ -15,18 +15,29 @@ const LoadingIndicator = (props) => {
       <Loader
         type="BallTriangle"
         color="#00BFFF"
-        height="800"
-        width="800"
-        style={{ marginLeft: '300px' }}
+        height={'700'}
+        width={'700'}
+        style={{ marginLeft: '200px' }}
       />
     ) : (
-      <Loader
-        type="Bars"
-        color="#00BFFF"
-        height="300"
-        width="300"
-        style={{ marginLeft: '300px' }}
-      />
+      <div id="loading">
+        {' '}
+        <Loader
+          type="Bars"
+          color="#00BFFF"
+          height={'100'}
+          width={'100'}
+          style={{ marginLeft: '200px' }}
+        />
+        <h1 style={{ color: '#00BFFF', marginLeft: '200px' }}>Checking for updates</h1>
+        <Loader
+          type="Bars"
+          color="#00BFFF"
+          height={'100'}
+          width={'100'}
+          style={{ marginLeft: '200px' }}
+        />
+      </div>
     ))
   );
 };
