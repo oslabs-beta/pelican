@@ -13,18 +13,18 @@ const LoadingIndicator = (props) => {
     promiseInProgress &&
     (props.firstLoad ? (
       <Loader
-        type='BallTriangle'
-        color='#00BFFF'
-        height={'800'}
-        width={'800'}
+        type="BallTriangle"
+        color="#00BFFF"
+        height="800"
+        width="800"
         style={{ marginLeft: '300px' }}
       />
     ) : (
       <Loader
-        type='Bars'
-        color='#00BFFF'
-        height={'300'}
-        width={'300'}
+        type="Bars"
+        color="#00BFFF"
+        height="300"
+        width="300"
         style={{ marginLeft: '300px' }}
       />
     ))
