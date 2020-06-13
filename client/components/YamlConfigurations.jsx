@@ -1,22 +1,26 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import syntaxHighlight from '../../utils/yamlSyntaxHighlighting';
+import syntaxHighlight from '../utils/yamlSyntaxHighlighting';
 
 const mapStateToProps = ({ clusterData }) => ({
-  deployments: clusterData.deployments,
+  clusterData,
+  context: clusterData.context,
 });
 
-function DeploymentConfig(props) {
+function YamlConfiguration(props) {
   const { name } = useParams();
-  const { deployments } = props;
+  const { clusterData } = props;
+  const { context } = props;
+  const objList = clusterData[context];
 
-  const deployment = deployments.filter((deployment) => deployment.metadata.name === name)[0];
-  const currentYaml = JSON.stringify(deployment, null, 4);
-  const editDeployment = { ...deployment };
-  delete editDeployment.status;
-  const editYaml = JSON.stringify(editDeployment, null, 4);
+  const obj = objList.filter((obj) => obj.metadata.name === name)[0];
+  const currentYaml = JSON.stringify(obj, null, 4);
+  const editObj = { ...obj };
+  delete editObj.status;
+  const editYaml = JSON.stringify(editObj, null, 4);
 
   const handleSubmit = (modifiedYaml) => {
     const newYaml = JSON.stringify(JSON.parse(modifiedYaml));
@@ -36,7 +40,11 @@ function DeploymentConfig(props) {
       }}
     >
       <div id="configHeader">
-        <h1>Deployment Configuration Yaml </h1>
+        <h1>
+          {`${context[0]
+            .toUpperCase()
+            .concat(context.slice(1, context.length - 1))} Configuration Yaml`}
+        </h1>
         <div id="configBtns">
           <button
             type="submit"
@@ -45,7 +53,7 @@ function DeploymentConfig(props) {
           >
             Submit
           </button>
-          <Link to="/deployments" style={{ textDecoration: 'none' }}>
+          <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
             <button type="button" id="backBtn">
               Go Back
             </button>
@@ -53,11 +61,13 @@ function DeploymentConfig(props) {
         </div>
       </div>
 
-      <h2>Deployment name: {name}</h2>
+      <h2>
+        {`${context[0].toUpperCase().concat(context.slice(1, context.length - 1))} name: ${name}`}
+      </h2>
 
       <div id="yamlContainer">
         <form>
-          <h2>{`Modify ${name} configuration here:`}</h2>
+          <h2> Modify Yaml Configuration Here: </h2>
           <textarea id="editYaml" defaultValue={editYaml} />
         </form>
         <div>
@@ -69,4 +79,4 @@ function DeploymentConfig(props) {
   );
 }
 
-export default connect(mapStateToProps)(DeploymentConfig);
+export default connect(mapStateToProps)(YamlConfiguration);
