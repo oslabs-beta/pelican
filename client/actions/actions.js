@@ -29,3 +29,7 @@ export const getNamespaces = (response) => ({
   type: types.GET_NAMESPACES,
   payload: response,
 });
+
+export const firstLoad = () => ({
+  type: types.FIRST_LOAD,
+});

@@ -15,6 +15,7 @@ import NodeConfig from './components/nodes/NodeConfig.jsx';
 import ServiceConfig from './components/services/ServiceConfig.jsx';
 import DeploymentConfig from './components/deployments/DeploymentConfig.jsx';
 import './stylesheets/styles.scss';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 function App() {
   return (
