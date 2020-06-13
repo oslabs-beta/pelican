@@ -12,20 +12,27 @@ function NodeConfig(props) {
   const { nodes } = props;
 
   const node = nodes.filter((node) => node.metadata.name === name)[0];
-  // function formatYaml(obj, tab = 0) {
-  //   let formattedStr = '';
-  //   for (let key in obj){
-  //     formattedStr +=
-  //   }
-  // }
+  const nodeYaml = JSON.stringify(node, null, 4);
+  const editNode = { ...node };
+  delete editNode.status;
+  const editYaml = JSON.stringify(editNode, null, 4);
 
   return (
-    <div id="tempID">
-      <h1> Node Config! </h1>
-      <div> This is the pod name: {name}</div>
-      <h2> Node YAML: </h2>
-      {/* <div> {str} </div> */}
-      <div>{JSON.stringify(node)}</div>
+    <div
+      style={{
+        width: `calc(100% - 200px)`,
+        marginLeft: '200px',
+        marginTop: '0',
+      }}
+    >
+      <h1> Node Configuration Yaml </h1>
+      <div>
+        <b>This is the node name: </b> {name}
+      </div>
+      <div id="yamlContainer">
+        <div id="editYaml"> {editYaml} </div>
+        <div id="displayYaml">{nodeYaml}</div>
+      </div>
     </div>
   );
 }

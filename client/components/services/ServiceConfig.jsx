@@ -12,20 +12,27 @@ function ServiceConfig(props) {
   const { services } = props;
 
   const service = services.filter((service) => service.metadata.name === name)[0];
-  // function formatYaml(obj, tab = 0) {
-  //   let formattedStr = '';
-  //   for (let key in obj){
-  //     formattedStr +=
-  //   }
-  // }
+  const serviceYaml = JSON.stringify(service, null, 4);
+  const editService = { ...service };
+  delete editService.status;
+  const editYaml = JSON.stringify(editService, null, 4);
 
   return (
-    <div id="tempID">
-      <h1> Service Config! </h1>
-      <div> This is the service name: {name}</div>
-      <h2> Service YAML: </h2>
-      {/* <div> {str} </div> */}
-      <div>{JSON.stringify(service)}</div>
+    <div
+      style={{
+        width: `calc(100% - 200px)`,
+        marginLeft: '200px',
+        marginTop: '0',
+      }}
+    >
+      <h1> Service Configuration Yaml </h1>
+      <div>
+        <b>This is the service name: </b> {name}
+      </div>
+      <div id="yamlContainer">
+        <div id="editYaml"> {editYaml} </div>
+        <div id="displayYaml">{serviceYaml}</div>
+      </div>
     </div>
   );
 }

@@ -12,20 +12,27 @@ function DeploymentConfig(props) {
   const { deployments } = props;
 
   const deployment = deployments.filter((deployment) => deployment.metadata.name === name)[0];
-  // function formatYaml(obj, tab = 0) {
-  //   let formattedStr = '';
-  //   for (let key in obj){
-  //     formattedStr +=
-  //   }
-  // }
+  const deploymentYaml = JSON.stringify(deployment, null, 4);
+  const editDeployment = { ...deployment };
+  delete editDeployment.status;
+  const editYaml = JSON.stringify(editDeployment, null, 4);
 
   return (
-    <div id="tempID">
-      <h1> Deployment Config! </h1>
-      <div> This is the deployment name: {name}</div>
-      <h2> Deployment YAML: </h2>
-      {/* <div> {str} </div> */}
-      <div>{JSON.stringify(deployment)}</div>
+    <div
+      style={{
+        width: `calc(100% - 200px)`,
+        marginLeft: '200px',
+        marginTop: '0',
+      }}
+    >
+      <h1> Deployment Configuration Yaml </h1>
+      <div>
+        <b>This is the deployment name: </b> {name}
+      </div>
+      <div id="yamlContainer">
+        <div id="editYaml"> {editYaml} </div>
+        <div id="displayYaml">{deploymentYaml}</div>
+      </div>
     </div>
   );
 }
