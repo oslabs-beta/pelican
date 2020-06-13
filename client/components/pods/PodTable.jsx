@@ -20,22 +20,30 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import * as actions from '../../actions/actions';
 import Row from './PodRow.jsx';
 import tableTemplate from '../../constants/tableInfoTemplate';
+import { trackPromise } from 'react-promise-tracker';
 
-const mapStateToProps = ({ clusterData }) => ({
+const mapStateToProps = ({ clusterData, appState }) => ({
   pods: clusterData.pods,
+  firstLoad: appState.firstLoad,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getPods: (pods) => dispatch(actions.getPods(pods)),
+  firstLoad: () => dispatch(actions.firstLoad()),
 });
 
 class PodTable extends Component {
   async componentDidMount() {
-    const { getPods } = this.props;
+    const { getPods, firstLoad } = this.props;
     try {
-      const response = await fetch('/api/pods');
-      const pods = await response.json();
-      getPods(pods);
+      await trackPromise(
+        fetch('/api/pods')
+          .then((results) => results.json())
+          .then((pods) => getPods(pods))
+      );
+      firstLoad();
+      // const pods = await response.json()).then(
+      // getPods(pods));
     } catch (err) {
       console.log('An error occured: ', err);
     }
@@ -45,7 +53,7 @@ class PodTable extends Component {
     const { pods } = this.props;
     const headers = tableTemplate.pods.headers.map((header, i) => {
       return (
-        <TableCell align="left" key={`podHeader${i}`}>
+        <TableCell align='left' key={`podHeader${i}`}>
           {header}
         </TableCell>
       );
@@ -59,7 +67,7 @@ class PodTable extends Component {
           marginTop: '0',
         }}
       >
-        <Table size="small" aria-label="collapsible table">
+        <Table size='small' aria-label='collapsible table'>
           <TableHead>
             <TableRow>
               <TableCell>Pods</TableCell>
