@@ -117,6 +117,14 @@ form div {
   margin: 0;
 }
 
+#loading {
+  display: flex;
+}
+#loading > {
+  margin: 5px 5px 5px 5px;
+  padding: 5px 5px 5px 5px;
+}
+
 // .tableHolder {
 //   display: flex;
 //   justify-content: center;
