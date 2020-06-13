@@ -68,11 +68,11 @@ function SideBar(props) {
   };
 
   function icons(index) {
-    if (index === 0) return <RadioButtonCheckedIcon color='primary' />;
-    if (index === 1) return <BlurCircularSharpIcon color='primary' />;
-    if (index === 2) return <PieChartRoundedIcon color='primary' />;
-    if (index === 3) return <AccountTreeIcon color='primary' />;
-    if (index === 4) return <PeopleAltRoundedIcon color='primary' />;
+    if (index === 0) return <RadioButtonCheckedIcon color="primary" />;
+    if (index === 1) return <BlurCircularSharpIcon color="primary" />;
+    if (index === 2) return <PieChartRoundedIcon color="primary" />;
+    if (index === 3) return <AccountTreeIcon color="primary" />;
+    if (index === 4) return <PeopleAltRoundedIcon color="primary" />;
   }
 
   const drawer = (
@@ -81,11 +81,7 @@ function SideBar(props) {
       <Divider />
       <List>
         {['Pods', 'Nodes', 'Deployments', 'Services'].map((text, index) => (
-          <Link
-            style={{ textDecoration: 'none' }}
-            to={`/${text.toLowerCase()}`}
-            key={text}
-          >
+          <Link style={{ textDecoration: 'none' }} to={`/${text.toLowerCase()}`} key={text}>
             <ListItem>
               <ListItemIcon>{icons(index)}</ListItemIcon>
               <ListItemText primary={text} />
@@ -97,16 +93,15 @@ function SideBar(props) {
     </div>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <nav className={classes.drawer} aria-label='selectable tables'>
+    <nav className={classes.drawer} aria-label="selectable tables">
       {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-      <Hidden smUp implementation='css'>
+      <Hidden smUp implementation="css">
         <Drawer
           container={container}
-          variant='temporary'
+          variant="temporary"
           anchor={theme.direction === 'rtl' ? 'right' : 'left'}
           open={mobileOpen}
           onClose={handleDrawerToggle}
@@ -120,12 +115,12 @@ function SideBar(props) {
           {drawer}
         </Drawer>
       </Hidden>
-      <Hidden xsDown implementation='css'>
+      <Hidden xsDown implementation="css">
         <Drawer
           classes={{
             paper: classes.drawerPaper,
           }}
-          variant='permanent'
+          variant="permanent"
           open
         >
           {drawer}
@@ -146,18 +141,18 @@ export function TopBar() {
   return (
     <div>
       <CssBaseline />
-      <AppBar position='fixed' className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
-            color='inherit'
-            aria-label='open drawer'
-            edge='start'
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap>
+          <Typography variant="h6" noWrap>
             Pelican
           </Typography>
         </Toolbar>

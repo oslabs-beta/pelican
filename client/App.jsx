@@ -1,10 +1,6 @@
+/* eslint-disable import/extensions */
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import SideBar, { TopBar } from './components/Navbar.jsx';
 import PodTable from './components/pods/PodTable.jsx';
 import NodeTable from './components/nodes/NodeTable.jsx';
@@ -15,26 +11,26 @@ import NodeConfig from './components/nodes/NodeConfig.jsx';
 import ServiceConfig from './components/services/ServiceConfig.jsx';
 import DeploymentConfig from './components/deployments/DeploymentConfig.jsx';
 import './stylesheets/styles.scss';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 function App() {
   return (
     <Router>
-      <div id='main'>
+      <div id="main">
         <TopBar />
         <SideBar />
         <Switch>
-          <Route exact path='/' component={PodTable}></Route>
-          <Route exact path='/pods' component={PodTable}></Route>
-          <Route exact path='/nodes' component={NodeTable}></Route>
-          <Route exact path='/deployments' component={DeploymentTable}></Route>
-          <Route exact path='/services' component={ServiceTable}></Route>
-          <Route path='/pods/:name' component={PodConfig}></Route>
-          <Route path='/nodes/:name' component={NodeConfig}></Route>
-          <Route path='/deployments/:name' component={DeploymentConfig}></Route>
-          <Route path='/services/:name' component={ServiceConfig}></Route>
-          <Route path='*'>
-            <Redirect to='/pods' />
+          <Route exact path="/" component={PodTable} />
+          <Route exact path="/pods" component={PodTable} />
+          <Route exact path="/nodes" component={NodeTable} />
+          <Route exact path="/deployments" component={DeploymentTable} />
+          <Route exact path="/services" component={ServiceTable} />
+          <Route path="/pods/:name" component={PodConfig} />
+          <Route path="/nodes/:name" component={NodeConfig} />
+          <Route path="/deployments/:name" component={DeploymentConfig} />
+          <Route path="/services/:name" component={ServiceConfig} />
+          <Route path="*">
+            <Redirect to="/pods" />
           </Route>
         </Switch>
       </div>

@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -11,21 +12,27 @@ function PodConfig(props) {
   const { pods } = props;
 
   const pod = pods.filter((pod) => pod.metadata.name === name)[0];
-  // function formatYaml(obj, tab = 0) {
-  //   let formattedStr = '';
-  //   for (let key in obj){
-  //     formattedStr +=
-  //   }
-  // }
-  const str = 'hello \nworld';
+  const podYaml = JSON.stringify(pod, null, 4);
+  const editPod = { ...pod };
+  delete editPod.status;
+  const editYaml = JSON.stringify(editPod, null, 4);
 
   return (
-    <div id='tempID'>
-      <h1> Pod Config! </h1>
-      <div> This is the pod name: {name}</div>
-      <h2> Pod YAML: </h2>
-      {/* <div> {str} </div> */}
-      <div>{JSON.stringify(pod)}</div>
+    <div
+      style={{
+        width: `calc(100% - 200px)`,
+        marginLeft: '200px',
+        marginTop: '0',
+      }}
+    >
+      <h1> Pod Configuration Yaml </h1>
+      <div>
+        <b> Pod name: </b> {name}
+      </div>
+      <div id="yamlContainer">
+        <div id="editYaml"> {editYaml} </div>
+        <div id="displayYaml">{podYaml}</div>
+      </div>
     </div>
   );
 }

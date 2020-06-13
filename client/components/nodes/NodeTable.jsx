@@ -62,7 +62,7 @@ class NodeTable extends Component {
         style={{
           width: `calc(100% - 200px)`,
           marginLeft: '200px',
-          marginTop: '1em',
+          marginTop: '0',
         }}
       >
         <Table size='small' aria-label='collapsible table'>

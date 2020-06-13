@@ -27,8 +27,7 @@ const mapStateToProps = ({ clusterData }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getDeployments: (deployments) =>
-    dispatch(actions.getDeployments(deployments)),
+  getDeployments: (deployments) => dispatch(actions.getDeployments(deployments)),
 });
 
 class DeploymentTable extends Component {
@@ -52,7 +51,7 @@ class DeploymentTable extends Component {
     const { deployments } = this.props;
     const headers = tableTemplate.deployments.headers.map((header, i) => {
       return (
-        <TableCell align='left' key={`deploymentHeader${i}`}>
+        <TableCell align="left" key={`deploymentHeader${i}`}>
           {header}
         </TableCell>
       );
@@ -63,10 +62,10 @@ class DeploymentTable extends Component {
         style={{
           width: `calc(100% - 200px)`,
           marginLeft: '200px',
-          marginTop: '1em',
+          marginTop: '0',
         }}
       >
-        <Table size='small' aria-label='collapsible table'>
+        <Table size="small" aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell>Deployments</TableCell>
