@@ -17,7 +17,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import tableTemplate from '../../constants/tableInfoTemplate';
 import { Link } from 'react-router-dom';
-import EditButton from '../CoolButton.jsx';
+import EditButton from '../Buttons/CoolButton.jsx';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {

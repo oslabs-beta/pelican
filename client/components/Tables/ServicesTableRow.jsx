@@ -16,9 +16,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import tableTemplate from '../../constants/tableInfoTemplate';
 import { Link } from 'react-router-dom';
-import EditButton from '../Buttons/CoolButton.jsx';
-import AddButton from '../Buttons/AddButton.jsx';
-import SubtractButton from '../Buttons/SubtractButton.jsx';
+import EditButton from './CoolButton.jsx';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -45,59 +43,68 @@ const useStyles = makeStyles({
   },
 });
 
-const handleAdd = (deployment) => {
-  const newReplicas = deployment.spec.replicas + 1;
-  fetch(`/api/deployments/patch?name=${deployment.metadata.name}`, {
-    method: 'PATCH',
-    body: { spec: { replicas: deployment.spec.replicas } },
-  })
-    .then(() => deployment.spec.replicas++)
-    .catch((err) => {
-      if (err.status === 400) {
-        console.log('name not supplied');
-      }
-    });
-};
-
-const handleSubtract = (deployment) => {
-  if (deployment.spec.replicas === 0) {
-    return;
-  }
-  deployment.spec.replicas = deployment.spec.replicas - 1;
-  fetch('/api/deployments/patch', {
-    method: 'PATCH',
-    body: { spec: deployment.spec.replicas },
-  });
-};
-
 function Row(props) {
-  const { deployment } = props;
+  const { pod } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
-  const cells = tableTemplate.deployments.columns.map((column, i) => {
-    let property = { ...deployment };
+  const cells = tableTemplate.pods.columns.map((column) => {
+    if (column === 'Cpu') {
+      return (
+        <StyledTableCell align='left' key={column}>
+          {getCpu(pod)}
+        </StyledTableCell>
+      );
+    }
+    if (column === 'Memory') {
+      return (
+        <StyledTableCell align='left' key={column}>
+          {getMemory(pod)}
+        </StyledTableCell>
+      );
+    }
+    let property = { ...pod };
     const splitArray = column.split('.');
     while (splitArray.length) {
       property = property[splitArray[0]];
       splitArray.shift();
     }
-    if (column === 'spec.replicas') {
-      return (
-        <StyledTableCell align='left' key={`deploymentColumn${i}`}>
-          <SubtractButton onClick={() => handleSubtract(deployment)} />
-          {property}
-          <AddButton onClick={() => handleAdd(deployment)} />
-        </StyledTableCell>
-      );
-    } else {
-      return (
-        <StyledTableCell align='left' key={`deploymentColumn${i}`}>
-          {property}
-        </StyledTableCell>
-      );
-    }
+    return (
+      <StyledTableCell align='left' key={column}>
+        {property}
+      </StyledTableCell>
+    );
   });
+
+  function getCpu(pod) {
+    return pod.spec.containers
+      .map((container) =>
+        Number(
+          container.resources.requests.cpu.substring(
+            0,
+            container.resources.requests.cpu.length - 1
+          )
+        )
+      )
+      .reduce((curCpu, totalCpu) => {
+        return (totalCpu += curCpu);
+      });
+  }
+
+  function getMemory(pod) {
+    return pod.spec.containers
+      .map((container) =>
+        Number(
+          container.resources.requests.memory.substring(
+            0,
+            container.resources.requests.memory.length - 2
+          )
+        )
+      )
+      .reduce((curMem, totalMem) => {
+        return (totalMem += curMem);
+      });
+  }
 
   return (
     <>
@@ -112,11 +119,11 @@ function Row(props) {
           </IconButton>
         </StyledTableCell>
         <StyledTableCell component='th' scope='row'>
-          {deployment.metadata.name}
+          {pod.metadata.name}
         </StyledTableCell>
         {cells}
         <StyledTableCell>
-          <Link to={`/deployments/${deployment.metadata.name}`}>
+          <Link to={`/pods/${pod.metadata.name}`}>
             <EditButton />
           </Link>
         </StyledTableCell>
