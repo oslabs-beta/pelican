@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import syntaxHighlight from '../utils/yamlSyntaxHighlighting';
+import syntaxHighlight from '../utils/yamlSyntaxHighlight';
 
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
@@ -23,10 +23,16 @@ function YamlConfiguration(props) {
   delete editObj.status;
   const editYaml = JSON.stringify(editObj, null, 4);
 
-  const handleSubmit = (modifiedYaml) => {
-    const newYaml = JSON.stringify(JSON.parse(modifiedYaml));
-    console.log('newYaml: ', newYaml);
+  const handleSubmit = async (modifiedYaml) => {
+    const result = await fetch('/api/deployments/rollingUpdate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(JSON.parse(modifiedYaml)),
+    });
   };
+
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -35,9 +41,7 @@ function YamlConfiguration(props) {
   };
 
   useEffect(() => {
-    document.querySelector('#currentYaml').innerHTML = syntaxHighlight(
-      currentYaml
-    );
+    document.querySelector('#currentYaml').innerHTML = syntaxHighlight(currentYaml);
   });
 
   return (
@@ -48,24 +52,22 @@ function YamlConfiguration(props) {
         marginTop: '0',
       }}
     >
-      <div id='configHeader'>
+      <div id="configHeader">
         <h1>
           {`${context[0]
             .toUpperCase()
             .concat(context.slice(1, context.length - 1))} Configuration Yaml`}
         </h1>
-        <div id='configBtns'>
+        <div id="configBtns">
           <button
-            type='submit'
-            id='submitBtn'
-            onClick={() =>
-              handleSubmit(document.querySelector('#editYaml').value)
-            }
+            type="submit"
+            id="submitBtn"
+            onClick={() => handleSubmit(document.querySelector('#editYaml').value)}
           >
             Submit
           </button>
           <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
-            <button type='button' id='backBtn'>
+            <button type="button" id="backBtn">
               Go Back
             </button>
           </Link>
@@ -73,11 +75,10 @@ function YamlConfiguration(props) {
       </div>
 
       <h2>
-        {`${context[0]
-          .toUpperCase()
-          .concat(context.slice(1, context.length - 1))} name: ${name}`}
+        {`${context[0].toUpperCase().concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
 
+<<<<<<< HEAD
       <div id='yamlContainer' onClick={() => handleClick}>
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
@@ -85,10 +86,16 @@ function YamlConfiguration(props) {
             id='editYaml'
             defaultValue={editYaml}
           />
+=======
+      <div id="yamlContainer">
+        <form>
+          <h2> Modify Yaml Configuration Here: </h2>
+          <textarea id="editYaml" defaultValue={editYaml} onClick={() => handleClick} />
+>>>>>>> 9db88575efffd5a3b78fcdbc8f59f3f520e0746e
         </form>
         <div>
           <h2> Current Configuration: </h2>
-          <div id='currentYaml' />
+          <div id="currentYaml" />
         </div>
       </div>
     </div>

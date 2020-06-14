@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-restricted-syntax */
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -56,7 +57,7 @@ function NodeRow(props) {
       splitArray.shift();
     }
     return (
-      <StyledTableCell align='left' key={`nodeColumn${i}`}>
+      <StyledTableCell align="left" key={`nodeColumn${i}`}>
         {property}
       </StyledTableCell>
     );
@@ -65,15 +66,11 @@ function NodeRow(props) {
     <>
       <StyledTableRow className={classes.table}>
         <StyledTableCell>
-          <IconButton
-            aria-label='expand row'
-            size='small'
-            onClick={() => setOpen(!open)}
-          >
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
-        <StyledTableCell component='th' scope='row'>
+        <StyledTableCell component="th" scope="row">
           {node.metadata.name}
         </StyledTableCell>
         {cells}
@@ -84,33 +81,30 @@ function NodeRow(props) {
         </StyledTableCell>
       </StyledTableRow>
       <TableRow>
-        <StyledTableCell
-          style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={6}
-        >
-          <Collapse in={open} timeout='auto' unmountOnExit>
+        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant='h6' gutterBottom component='div'>
+              <Typography variant="h6" gutterBottom component="div">
                 Logs:
               </Typography>
-              <Table size='small' aria-label='purchases'>
+              <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
                     <TableCell>logs1</TableCell>
                     <TableCell>logs2</TableCell>
-                    <TableCell align='right'>logs3</TableCell>
-                    <TableCell align='right'>more logs</TableCell>
+                    <TableCell align="right">logs3</TableCell>
+                    <TableCell align="right">more logs</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {['stuff', 'otherstuff'].map((row, i) => (
                     <StyledTableRow key={i}>
-                      <StyledTableCell component='th' scope='row'>
+                      <StyledTableCell component="th" scope="row">
                         {row}
                       </StyledTableCell>
                       <StyledTableCell>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>
+                      <StyledTableCell align="right">{row}</StyledTableCell>
+                      <StyledTableCell align="right">
                         {Math.round(1 * 5 * 100) / 100}
                       </StyledTableCell>
                     </StyledTableRow>
