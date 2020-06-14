@@ -11,11 +11,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SubtractButton() {
+export default function SubtractButton({ onClick }) {
   const classes = useStyles();
 
   return (
-    <Button variant="text" color="primary" style={{ marginLeft: '-20px' }}>
+    <Button variant="text" color="primary" style={{ marginLeft: '-20px' }} onClick={onClick}>
       <RemoveCircleOutlineRoundedIcon />
     </Button>
   );
