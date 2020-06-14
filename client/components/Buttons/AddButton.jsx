@@ -16,7 +16,7 @@ export default function AddButton() {
   const classes = useStyles();
 
   return (
-    <Button variant='text' color='primary'>
+    <Button variant="text" color="primary">
       <AddCircleOutlineRoundedIcon />
     </Button>
   );

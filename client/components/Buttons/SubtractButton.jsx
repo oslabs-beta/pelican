@@ -15,7 +15,7 @@ export default function SubtractButton() {
   const classes = useStyles();
 
   return (
-    <Button variant='text' color='primary' style={{ marginLeft: '-20px' }}>
+    <Button variant="text" color="primary" style={{ marginLeft: '-20px' }}>
       <RemoveCircleOutlineRoundedIcon />
     </Button>
   );
