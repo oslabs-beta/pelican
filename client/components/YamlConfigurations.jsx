@@ -78,13 +78,12 @@ function YamlConfiguration(props) {
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
 
-      <div id='yamlContainer'>
+      <div id='yamlContainer' onClick={() => handleClick}>
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
           <textarea
             id='editYaml'
             defaultValue={editYaml}
-            onClick={() => handleClick}
           />
         </form>
         <div>
