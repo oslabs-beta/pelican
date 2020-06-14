@@ -17,12 +17,14 @@ module.exports = {
     }
   },
   scaleDeployment: async (req, res, next) => {
+    console.log('name: ', req.query.name);
     if (!req.query.name) {
       return res.sendStatus(400);
     }
     try {
       if (req.body.spec.replicas < 0)
         throw new Error('Cannot set a negative replica');
+      console.log(req.body);
       await res.locals.client.apis.apps.v1
         .namespaces('default')
         .deployments(req.query.name)

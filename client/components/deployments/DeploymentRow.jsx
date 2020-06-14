@@ -46,27 +46,33 @@ const useStyles = makeStyles({
 });
 
 const handleAdd = (deployment) => {
-  const newReplicas = deployment.spec.replicas + 1;
-  fetch(`/api/deployments/patch?name=${deployment.metadata.name}`, {
-    method: 'PATCH',
-    body: { spec: { replicas: deployment.spec.replicas } },
-  })
-    .then(() => deployment.spec.replicas++)
-    .catch((err) => {
-      if (err.status === 400) {
-        console.log('name not supplied');
-      }
-    });
+  console.log('deployment: ', deployment);
+  deployment.spec.replicas = deployment.spec.replicas + 1;
+  fetch(`/api/deployments/?name=${deployment.metadata.name}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      spec: { replicas: deployment.spec.replicas },
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 const handleSubtract = (deployment) => {
+  console.log('deployment: ', deployment);
   if (deployment.spec.replicas === 0) {
     return;
   }
   deployment.spec.replicas = deployment.spec.replicas - 1;
-  fetch('/api/deployments/patch', {
-    method: 'PATCH',
-    body: { spec: deployment.spec.replicas },
+  fetch(`/api/deployments/?name=${deployment.metadata.name}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      spec: { replicas: deployment.spec.replicas },
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
 
@@ -84,15 +90,19 @@ function Row(props) {
     }
     if (column === 'spec.replicas') {
       return (
-        <StyledTableCell align='left' key={`deploymentColumn${i}`}>
-          <SubtractButton onClick={() => handleSubtract(deployment)} />
+        <StyledTableCell align="left" key={`deploymentColumn${i}`}>
+          <SubtractButton
+            onClick={() => {
+              handleSubtract(deployment);
+            }}
+          />
           {property}
           <AddButton onClick={() => handleAdd(deployment)} />
         </StyledTableCell>
       );
     } else {
       return (
-        <StyledTableCell align='left' key={`deploymentColumn${i}`}>
+        <StyledTableCell align="left" key={`deploymentColumn${i}`}>
           {property}
         </StyledTableCell>
       );
@@ -104,14 +114,14 @@ function Row(props) {
       <StyledTableRow className={classes.table}>
         <StyledTableCell>
           <IconButton
-            aria-label='expand row'
-            size='small'
+            aria-label="expand row"
+            size="small"
             onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
-        <StyledTableCell component='th' scope='row'>
+        <StyledTableCell component="th" scope="row">
           {deployment.metadata.name}
         </StyledTableCell>
         {cells}
@@ -126,29 +136,29 @@ function Row(props) {
           style={{ paddingBottom: 0, paddingTop: 0 }}
           colSpan={6}
         >
-          <Collapse in={open} timeout='auto' unmountOnExit>
+          <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant='h6' gutterBottom component='div'>
+              <Typography variant="h6" gutterBottom component="div">
                 Logs:
               </Typography>
-              <Table size='small' aria-label='purchases'>
+              <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
                     <TableCell>logs1</TableCell>
                     <TableCell>logs2</TableCell>
-                    <TableCell align='right'>logs3</TableCell>
-                    <TableCell align='right'>more logs</TableCell>
+                    <TableCell align="right">logs3</TableCell>
+                    <TableCell align="right">more logs</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {['stuff', 'otherstuff'].map((row, i) => (
                     <StyledTableRow key={i}>
-                      <StyledTableCell component='th' scope='row'>
+                      <StyledTableCell component="th" scope="row">
                         {row}
                       </StyledTableCell>
                       <StyledTableCell>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>
+                      <StyledTableCell align="right">{row}</StyledTableCell>
+                      <StyledTableCell align="right">
                         {Math.round(1 * 5 * 100) / 100}
                       </StyledTableCell>
                     </StyledTableRow>
