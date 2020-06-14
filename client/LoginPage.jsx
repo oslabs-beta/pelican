@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,7 +11,13 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
+import awsRegions from './constants/awsRegions';
 
 function Copyright() {
   return (
@@ -59,6 +65,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
   const classes = useStyles();
+  const [region, changeRegion] = useState({ region: '' });
+
+  const regionOptions = awsRegions.map((region) => (
+    <option value={region.code}>
+      {region.name} - {region.code}
+    </option>
+  ));
+
+  const handleRegionChange = (event) => {
+    changeRegion({
+      ...region,
+      region: event.target.value,
+    });
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -80,7 +100,7 @@ export default function SignInSide() {
               required
               fullWidth
               id="access key"
-              label="Enter Access Key..."
+              label="Enter Access Key"
               name="access key"
               autoFocus
             />
@@ -90,15 +110,24 @@ export default function SignInSide() {
               required
               fullWidth
               name="Enter secret access key"
-              label="Enter Secret Access Key..."
+              label="Enter Secret Access Key"
               type="secret access"
               id="secret access"
               autoComplete="current-password"
             />
+
+            <FormControl variant="outlined" fullWidth required margin="normal" id="aws-region">
+              <InputLabel htmlFor="outlined-age-native-simple">AWS Region</InputLabel>
+              <Select native value={region.name} label="AWS Region" onChange={handleRegionChange}>
+                {regionOptions}
+              </Select>
+            </FormControl>
+
             {/* <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
               label='Remember me'
             /> */}
+
             <Button
               type="submit"
               fullWidth

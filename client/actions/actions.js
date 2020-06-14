@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes';
 
-export const createCredentials = (response) => ({
-  type: types.CREATE_CREDENTIALS,
+export const setCredentials = (response) => ({
+  type: types.SET_CREDENTIALS,
   payload: response,
 });
 
