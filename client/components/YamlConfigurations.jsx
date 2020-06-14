@@ -15,6 +15,8 @@ function YamlConfiguration(props) {
   const { clusterData } = props;
   const { context } = props;
 
+  console.log('name: ', name);
+  console.log('clusterData: ', clusterData);
   const objList = clusterData[context];
 
   const obj = objList.filter((obj) => obj.metadata.name === name)[0];
