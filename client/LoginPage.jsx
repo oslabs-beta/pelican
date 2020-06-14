@@ -17,7 +17,7 @@ function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
       {'Copyright © '}
-      <Link color='inherit' href='https://material-ui.com/'>
+      <Link color='inherit' href='https://github.com/oslabs-beta/pelican'>
         Pelican
       </Link>{' '}
       {new Date().getFullYear()}
@@ -71,19 +71,19 @@ export default function SignInSide() {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component='h1' variant='h5'>
-            Sign in
-          </Typography>
+          {/* <Typography component='h1' variant='h3'>
+            Pelican
+          </Typography> */}
+          <img src='./assets/pelicanLogo.png' />
           <form className={classes.form} noValidate>
             <TextField
               variant='outlined'
               margin='normal'
               required
               fullWidth
-              id='email'
-              label='Email Address'
-              name='email'
-              autoComplete='email'
+              id='access key'
+              label='Enter Access Key...'
+              name='access key'
               autoFocus
             />
             <TextField
@@ -91,16 +91,16 @@ export default function SignInSide() {
               margin='normal'
               required
               fullWidth
-              name='password'
-              label='Password'
-              type='password'
-              id='password'
+              name='Enter secret access key'
+              label='Enter Secret Access Key...'
+              type='secret access'
+              id='secret access'
               autoComplete='current-password'
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
               label='Remember me'
-            />
+            /> */}
             <Button
               type='submit'
               fullWidth
@@ -112,13 +112,21 @@ export default function SignInSide() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href='#' variant='body2'>
-                  Forgot password?
+                <Link
+                  href='https://cloud.google.com/kubernetes-engine'
+                  variant='body2'
+                  style={{ textDecoration: 'none' }}
+                >
+                  Supports Google GKE
                 </Link>
               </Grid>
               <Grid item>
-                <Link href='#' variant='body2'>
-                  {"Don't have an account? Sign Up"}
+                <Link
+                  href='https://aws.amazon.com/eks/'
+                  variant='body2'
+                  style={{ textDecoration: 'none' }}
+                >
+                  {'Supports Amazon EKS'}
                 </Link>
               </Grid>
             </Grid>
