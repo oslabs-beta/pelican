@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import syntaxHighlight from '../utils/yamlSyntaxHighlighting';
+import syntaxHighlight from '../utils/yamlSyntaxHighlight';
 
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
@@ -15,8 +15,6 @@ function YamlConfiguration(props) {
   const { clusterData } = props;
   const { context } = props;
 
-  console.log('name: ', name);
-  console.log('clusterData: ', clusterData);
   const objList = clusterData[context];
 
   const obj = objList.filter((obj) => obj.metadata.name === name)[0];
@@ -29,6 +27,7 @@ function YamlConfiguration(props) {
     const newYaml = JSON.stringify(JSON.parse(modifiedYaml));
     console.log('newYaml: ', newYaml);
   };
+
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
