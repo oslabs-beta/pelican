@@ -41,7 +41,9 @@ function YamlConfiguration(props) {
   };
 
   useEffect(() => {
-    document.querySelector('#currentYaml').innerHTML = syntaxHighlight(currentYaml);
+    document.querySelector('#currentYaml').innerHTML = syntaxHighlight(
+      currentYaml
+    );
   });
 
   return (
@@ -52,22 +54,24 @@ function YamlConfiguration(props) {
         marginTop: '0',
       }}
     >
-      <div id="configHeader">
+      <div id='configHeader'>
         <h1>
           {`${context[0]
             .toUpperCase()
             .concat(context.slice(1, context.length - 1))} Configuration Yaml`}
         </h1>
-        <div id="configBtns">
+        <div id='configBtns'>
           <button
-            type="submit"
-            id="submitBtn"
-            onClick={() => handleSubmit(document.querySelector('#editYaml').value)}
+            type='submit'
+            id='submitBtn'
+            onClick={() =>
+              handleSubmit(document.querySelector('#editYaml').value)
+            }
           >
             Submit
           </button>
           <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
-            <button type="button" id="backBtn">
+            <button type='button' id='backBtn'>
               Go Back
             </button>
           </Link>
@@ -75,17 +79,23 @@ function YamlConfiguration(props) {
       </div>
 
       <h2>
-        {`${context[0].toUpperCase().concat(context.slice(1, context.length - 1))} name: ${name}`}
+        {`${context[0]
+          .toUpperCase()
+          .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
 
-      <div id="yamlContainer">
+      <div id='yamlContainer'>
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
-          <textarea id="editYaml" defaultValue={editYaml} onClick={() => handleClick} />
+          <textarea
+            id='editYaml'
+            defaultValue={editYaml}
+            onClick={() => handleClick}
+          />
         </form>
         <div>
           <h2> Current Configuration: </h2>
-          <div id="currentYaml" />
+          <div id='currentYaml' />
         </div>
       </div>
     </div>
