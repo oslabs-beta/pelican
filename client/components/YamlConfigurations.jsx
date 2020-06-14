@@ -23,9 +23,14 @@ function YamlConfiguration(props) {
   delete editObj.status;
   const editYaml = JSON.stringify(editObj, null, 4);
 
-  const handleSubmit = (modifiedYaml) => {
-    const newYaml = JSON.stringify(JSON.parse(modifiedYaml));
-    console.log('newYaml: ', newYaml);
+  const handleSubmit = async (modifiedYaml) => {
+    const result = await fetch('/api/deployments/rollingUpdate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(JSON.parse(modifiedYaml)),
+    });
   };
 
   const handleClick = (e) => {
