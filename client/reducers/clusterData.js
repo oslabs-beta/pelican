@@ -6,6 +6,7 @@ const initialState = {
   deployments: [],
   services: [],
   context: 'pods',
+  isDataAvailable: false,
 };
 
 const clusterData = (state = initialState, action) => {
@@ -15,24 +16,28 @@ const clusterData = (state = initialState, action) => {
         ...state,
         pods: action.payload,
         context: 'pods',
+        isDataAvailable: true,
       };
     case types.GET_NODES:
       return {
         ...state,
         nodes: action.payload,
         context: 'nodes',
+        isDataAvailable: true,
       };
     case types.GET_DEPLOYMENTS:
       return {
         ...state,
         deployments: action.payload,
         context: 'deployments',
+        isDataAvailable: true,
       };
     case types.GET_SERVICES:
       return {
         ...state,
         services: action.payload,
         context: 'services',
+        isDataAvailable: true,
       };
     default:
       return state;

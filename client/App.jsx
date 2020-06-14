@@ -6,11 +6,8 @@ import PodTable from './components/pods/PodTable.jsx';
 import NodeTable from './components/nodes/NodeTable.jsx';
 import ServiceTable from './components/services/ServiceTable.jsx';
 import DeploymentTable from './components/deployments/DeploymentTable.jsx';
-// import PodConfig from './components/pods/PodConfig.jsx';
-// import NodeConfig from './components/nodes/NodeConfig.jsx';
-// import ServiceConfig from './components/services/ServiceConfig.jsx';
-// import DeploymentConfig from './components/deployments/DeploymentConfig.jsx';
 import YamlConfiguration from './components/YamlConfigurations.jsx';
+import RefreshRoute from './RefreshRoute.jsx';
 import './stylesheets/styles.scss';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
@@ -26,10 +23,14 @@ function App() {
           <Route exact path="/nodes" component={NodeTable} />
           <Route exact path="/deployments" component={DeploymentTable} />
           <Route exact path="/services" component={ServiceTable} />
-          <Route path="/pods/:name" component={YamlConfiguration} />
-          <Route path="/nodes/:name" component={YamlConfiguration} />
-          <Route path="/deployments/:name" component={YamlConfiguration} />
-          <Route path="/services/:name" component={YamlConfiguration} />
+          <RefreshRoute path="/pods/:name" component={YamlConfiguration} root="pods" />
+          <RefreshRoute path="/nodes/:name" component={YamlConfiguration} root="nodes" />
+          <RefreshRoute
+            path="/deployments/:name"
+            component={YamlConfiguration}
+            root="deployments"
+          />
+          <RefreshRoute path="/services/:name" component={YamlConfiguration} root="services" />
           <Route path="*">
             <Redirect to="/pods" />
           </Route>
