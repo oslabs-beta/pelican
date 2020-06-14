@@ -29,7 +29,7 @@ function YamlConfiguration(props) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: modifiedYaml,
+      body: JSON.parse(JSON.stringify(modifiedYaml)),
     });
   };
 
