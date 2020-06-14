@@ -23,10 +23,16 @@ function YamlConfiguration(props) {
   delete editObj.status;
   const editYaml = JSON.stringify(editObj, null, 4);
 
-  const handleSubmit = (modifiedYaml) => {
-    const newYaml = JSON.stringify(JSON.parse(modifiedYaml));
-    console.log('newYaml: ', newYaml);
+  const handleSubmit = async (modifiedYaml) => {
+    const result = await fetch('/api/deployments/rollingUpdate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(JSON.parse(modifiedYaml)),
+    });
   };
+
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -48,16 +54,16 @@ function YamlConfiguration(props) {
         marginTop: '0',
       }}
     >
-      <div id='configHeader'>
+      <div id="configHeader">
         <h1>
           {`${context[0]
             .toUpperCase()
             .concat(context.slice(1, context.length - 1))} Configuration Yaml`}
         </h1>
-        <div id='configBtns'>
+        <div id="configBtns">
           <button
-            type='submit'
-            id='submitBtn'
+            type="submit"
+            id="submitBtn"
             onClick={() =>
               handleSubmit(document.querySelector('#editYaml').value)
             }
@@ -65,7 +71,7 @@ function YamlConfiguration(props) {
             Submit
           </button>
           <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
-            <button type='button' id='backBtn'>
+            <button type="button" id="backBtn">
               Go Back
             </button>
           </Link>
@@ -78,18 +84,18 @@ function YamlConfiguration(props) {
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
 
-      <div id='yamlContainer'>
+      <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
           <textarea
-            id='editYaml'
+            id="editYaml"
             defaultValue={editYaml}
             onClick={() => handleClick}
           />
         </form>
         <div>
           <h2> Current Configuration: </h2>
-          <div id='currentYaml' />
+          <div id="currentYaml" />
         </div>
       </div>
     </div>
