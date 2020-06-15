@@ -39,9 +39,6 @@ class ServiceTable extends Component {
           .then((results) => results.json())
           .then((services) => getServices(services))
       );
-      //   const response = await fetch('/api/services');
-      //   const services = await response.json();
-      //   getServices(services);
     } catch (err) {
       console.log('An error occured: ', err);
     }
@@ -49,7 +46,6 @@ class ServiceTable extends Component {
 
   render() {
     const { services } = this.props;
-    console.log('services: ', services);
     const headers = tableTemplate.services.headers.map((header, i) => {
       return (
         <TableCell align="left" key={`serviceHeader${i}`}>
