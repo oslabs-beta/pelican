@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random?nautical,pelican)',
+    backgroundImage: 'url(https://source.unsplash.com/random?nautical)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light'
@@ -160,11 +160,11 @@ export default function SignInSide() {
             <Grid container>
               <Grid item xs>
                 <Link
-                  href="https://cloud.google.com/kubernetes-engine"
+                  href="#"
                   variant="body2"
                   style={{ textDecoration: 'none' }}
                 >
-                  Supports Google GKE
+                  Supports Local Clusters
                 </Link>
               </Grid>
               <Grid item>
