@@ -37,10 +37,12 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: 'url(https://source.unsplash.com/random?nautical)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+      theme.palette.type === 'light'
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
@@ -121,9 +123,22 @@ export default function SignInSide() {
               autoComplete="current-password"
             />
 
-            <FormControl variant="outlined" fullWidth required margin="normal" id="aws-region">
-              <InputLabel htmlFor="outlined-age-native-simple">AWS Region</InputLabel>
-              <Select native value={region.name} label="AWS Region" onChange={handleRegionChange}>
+            <FormControl
+              variant="outlined"
+              fullWidth
+              required
+              margin="normal"
+              id="aws-region"
+            >
+              <InputLabel htmlFor="outlined-age-native-simple">
+                AWS Region
+              </InputLabel>
+              <Select
+                native
+                value={region.name}
+                label="AWS Region"
+                onChange={handleRegionChange}
+              >
                 {regionOptions}
               </Select>
             </FormControl>
@@ -145,11 +160,11 @@ export default function SignInSide() {
             <Grid container>
               <Grid item xs>
                 <Link
-                  href="https://cloud.google.com/kubernetes-engine"
+                  href="#"
                   variant="body2"
                   style={{ textDecoration: 'none' }}
                 >
-                  Supports Google GKE
+                  Supports Local Clusters
                 </Link>
               </Grid>
               <Grid item>
