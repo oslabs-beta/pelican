@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import syntaxHighlight from '../utils/yamlSyntaxHighlight';
+import DeploymentButton from './Buttons/DeploymentModal.jsx';
 
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
@@ -83,7 +84,7 @@ function YamlConfiguration(props) {
           .toUpperCase()
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
-
+      <DeploymentButton />
       <div id='yamlContainer'>
         <form>
           <h2> Modify Yaml Configuration Here: </h2>

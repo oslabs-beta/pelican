@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: 'url(https://source.unsplash.com/random?nautical,pelican)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light'
@@ -74,7 +74,7 @@ export default function SignInSide() {
           {/* <Typography component='h1' variant='h3'>
             Pelican
           </Typography> */}
-          <img src='./assets/pelicanLogo.png' />
+          <img src='./client/assets/pelicanLogo' />
           <form className={classes.form} noValidate>
             <TextField
               variant='outlined'

@@ -9,9 +9,9 @@ import pelicanLogo from './assets/pelicanLogo.png';
 
 ReactDOM.render(
   <Provider store={store}>
-    <LoginPage />
+    {/* <LoginPage /> */}
 
-    {/* <App /> */}
+    <App />
     <LoadingIndicator />
   </Provider>,
   document.querySelector('#root')
