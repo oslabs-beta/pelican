@@ -7,3 +7,4 @@ export const GET_DEPLOYMENTS = 'GET_DEPLOYMENTS';
 export const GET_SERVICES = 'GET_SERVICES';
 export const GET_NAMESPACES = 'GET_NAMESPACES';
 export const FIRST_LOAD = 'FIRST_LOAD';
+export const SET_DEPLOYMENT = 'SET_DEPLOYMENT';

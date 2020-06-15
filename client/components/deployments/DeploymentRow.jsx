@@ -45,33 +45,35 @@ const useStyles = makeStyles({
   },
 });
 
-const handleAdd = (deployment) => {
-  const newReplicas = deployment.spec.replicas + 1;
-  fetch(`/api/deployments/patch?name=${deployment.metadata.name}`, {
-    method: 'PATCH',
-    body: { spec: { replicas: deployment.spec.replicas } },
-  })
-    .then(() => deployment.spec.replicas++)
-    .catch((err) => {
-      if (err.status === 400) {
-        console.log('name not supplied');
-      }
-    });
-};
-
-const handleSubtract = (deployment) => {
-  if (deployment.spec.replicas === 0) {
-    return;
+const handleScale = (deployment, index, setDeployment, direction) => {
+  let newNum = 0;
+  if (direction === 'up') {
+    newNum = deployment.spec.replicas + 1;
+  } else {
+    if (deployment.spec.replicas === 0) {
+      return;
+    }
+    newNum = deployment.spec.replicas - 1;
   }
-  deployment.spec.replicas = deployment.spec.replicas - 1;
-  fetch('/api/deployments/patch', {
-    method: 'PATCH',
-    body: { spec: deployment.spec.replicas },
-  });
+  fetch(`/api/deployments/?name=${deployment.metadata.name}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      spec: { replicas: newNum },
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((result) => {
+      return result.json();
+    })
+    .then((deployment) => {
+      setDeployment({ deployment, index });
+    })
+    .catch((err) => console.log(err));
 };
 
-function Row(props) {
-  const { deployment } = props;
+function Row({ deployment, setDeployment, index }) {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -85,9 +87,15 @@ function Row(props) {
     if (column === 'spec.replicas') {
       return (
         <StyledTableCell align="left" key={`deploymentColumn${i}`}>
-          <SubtractButton onClick={() => handleSubtract(deployment)} />
+          <SubtractButton
+            onClick={() => {
+              handleScale(deployment, index, setDeployment, 'down');
+            }}
+          />
           {property}
-          <AddButton onClick={() => handleAdd(deployment)} />
+          <AddButton
+            onClick={() => handleScale(deployment, index, setDeployment, 'up')}
+          />
         </StyledTableCell>
       );
     } else {
@@ -103,7 +111,11 @@ function Row(props) {
     <>
       <StyledTableRow className={classes.table}>
         <StyledTableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
@@ -118,7 +130,10 @@ function Row(props) {
         </StyledTableCell>
       </StyledTableRow>
       <TableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">

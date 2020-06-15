@@ -8,8 +8,9 @@ import LoginPage from './LoginPage.jsx';
 
 ReactDOM.render(
   <Provider store={store}>
-    <LoginPage />
-    {/* <App /> */}
+    {/* <LoginPage /> */}
+
+    <App />
     <LoadingIndicator />
   </Provider>,
   document.querySelector('#root')

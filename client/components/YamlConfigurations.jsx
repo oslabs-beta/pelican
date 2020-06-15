@@ -41,7 +41,9 @@ function YamlConfiguration(props) {
   };
 
   useEffect(() => {
-    document.querySelector('#currentYaml').innerHTML = syntaxHighlight(currentYaml);
+    document.querySelector('#currentYaml').innerHTML = syntaxHighlight(
+      currentYaml
+    );
   });
 
   return (
@@ -62,7 +64,9 @@ function YamlConfiguration(props) {
           <button
             type="submit"
             id="submitBtn"
-            onClick={() => handleSubmit(document.querySelector('#editYaml').value)}
+            onClick={() =>
+              handleSubmit(document.querySelector('#editYaml').value)
+            }
           >
             Submit
           </button>
@@ -75,13 +79,19 @@ function YamlConfiguration(props) {
       </div>
 
       <h2>
-        {`${context[0].toUpperCase().concat(context.slice(1, context.length - 1))} name: ${name}`}
+        {`${context[0]
+          .toUpperCase()
+          .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
 
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
-          <textarea id="editYaml" defaultValue={editYaml} onClick={() => handleClick} />
+          <textarea
+            id="editYaml"
+            defaultValue={editYaml}
+            onClick={() => handleClick}
+          />
         </form>
         <div>
           <h2> Current Configuration: </h2>

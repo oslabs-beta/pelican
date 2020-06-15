@@ -12,11 +12,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddButton() {
+export default function AddButton({ onClick }) {
   const classes = useStyles();
 
   return (
-    <Button variant="text" color="primary">
+    <Button variant="text" color="primary" onClick={onClick}>
       <AddCircleOutlineRoundedIcon />
     </Button>
   );

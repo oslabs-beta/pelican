@@ -27,7 +27,11 @@ const mapStateToProps = ({ clusterData }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getDeployments: (deployments) => dispatch(actions.getDeployments(deployments)),
+  getDeployments: (deployments) =>
+    dispatch(actions.getDeployments(deployments)),
+  setDeployment: (deployment, index) => {
+    dispatch(actions.setDeployment(deployment, index));
+  },
 });
 
 class DeploymentTable extends Component {
@@ -48,7 +52,7 @@ class DeploymentTable extends Component {
   }
 
   render() {
-    const { deployments } = this.props;
+    const { deployments, setDeployment } = this.props;
     const headers = tableTemplate.deployments.headers.map((header, i) => {
       return (
         <TableCell align="left" key={`deploymentHeader${i}`}>
@@ -74,7 +78,12 @@ class DeploymentTable extends Component {
           </TableHead>
           <TableBody>
             {deployments.map((deployment, i) => (
-              <Row key={`deploymentRow${i}`} deployment={deployment} />
+              <Row
+                key={`deploymentRow${i}`}
+                deployment={deployment}
+                setDeployment={setDeployment}
+                index={i}
+              />
             ))}
           </TableBody>
         </Table>

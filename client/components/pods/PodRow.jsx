@@ -48,6 +48,7 @@ function Row(props) {
   const { pod } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
+  console.log(pod);
 
   const cells = tableTemplate.pods.columns.map((column, i) => {
     if (column === 'Cpu') {
@@ -81,7 +82,10 @@ function Row(props) {
     return pod.spec.containers
       .map((container) =>
         Number(
-          container.resources.requests.cpu.substring(0, container.resources.requests.cpu.length - 1)
+          container.resources.requests.cpu.substring(
+            0,
+            container.resources.requests.cpu.length - 1
+          )
         )
       )
       .reduce((curCpu, totalCpu) => {
@@ -108,7 +112,11 @@ function Row(props) {
     <>
       <StyledTableRow className={classes.table}>
         <StyledTableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
@@ -123,7 +131,10 @@ function Row(props) {
         </StyledTableCell>
       </StyledTableRow>
       <TableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="subtitle1" gutterBottom component="div">
@@ -144,7 +155,9 @@ function Row(props) {
                       <StyledTableCell component="th" scope="row">
                         {condition.type}
                       </StyledTableCell>
-                      <StyledTableCell>{condition.lastTransitionTime}</StyledTableCell>
+                      <StyledTableCell>
+                        {condition.lastTransitionTime}
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -177,9 +190,15 @@ function Row(props) {
                         {container.name}
                       </StyledTableCell>
                       <StyledTableCell>{container.image}</StyledTableCell>
-                      <StyledTableCell>{Object.keys(container.state)[0]}</StyledTableCell>
-                      <StyledTableCell>{container.ready.toString()}</StyledTableCell>
-                      <StyledTableCell>{container.restartCount}</StyledTableCell>
+                      <StyledTableCell>
+                        {Object.keys(container.state)[0]}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        {container.ready.toString()}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        {container.restartCount}
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
