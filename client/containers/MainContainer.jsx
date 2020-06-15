@@ -7,7 +7,7 @@ import PodTable from '../components/pods/PodTable.jsx';
 import NodeTable from '../components/nodes/NodeTable.jsx';
 import ServiceTable from '../components/services/ServiceTable.jsx';
 import DeploymentTable from '../components/deployments/DeploymentTable.jsx';
-import YamlConfiguration from '../components/YamlConfigurations.jsx';
+import YamlConfiguration from '../components/configurations/YamlConfigurations.jsx';
 // import RefreshRoute from '../RefreshRoute.jsx';
 // import LoginPage from '../LoginPage.jsx';
 
