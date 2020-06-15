@@ -3,15 +3,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-const mapStateToProps = ({ clusterData, awsAuth }) => ({
+const mapStateToProps = ({ clusterData }) => ({
   isDataAvailable: clusterData.isDataAvailable,
-  accessKeyId: awsAuth.accessKeyId,
 });
 
-const RefreshRoute = ({ component: Component, isDataAvailable, root, ...rest }) => (
+const RefreshRoute = ({
+  component: Component,
+  isDataAvailable,
+  root,
+  ...rest
+}) => (
   <Route
     {...rest}
-    render={(props) => (isDataAvailable ? <Component {...props} /> : <Redirect to={`/${root}`} />)}
+    render={(props) =>
+      isDataAvailable ? <Component {...props} /> : <Redirect to="/login" />
+    }
   />
 );
 

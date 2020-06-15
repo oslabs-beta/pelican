@@ -1,18 +1,40 @@
+/* eslint-disable import/extensions */
 import React from 'react';
 import { connect } from 'react-redux';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import SideBar, { TopBar } from '../components/Navbar.jsx';
+import PodTable from '../components/pods/PodTable.jsx';
+import NodeTable from '../components/nodes/NodeTable.jsx';
+import ServiceTable from '../components/services/ServiceTable.jsx';
+import DeploymentTable from '../components/deployments/DeploymentTable.jsx';
+import YamlConfiguration from '../components/YamlConfigurations.jsx';
+import RefreshRoute from '../RefreshRoute.jsx';
+import LoginPage from '../LoginPage.jsx';
 
-const mapStateToProps = (state) => ({
-  accessKeyId: state.awsAuth.accessKey,
-  secretAccessKey: state.awsAuth.secretAccessKey,
+const mapStateToProps = ({ awsAuth }) => ({
+  accessKeyId: awsAuth.accessKey,
 });
 
 function MainContainer() {
   return (
-    <div id="main">
+    <>
       <TopBar />
       <SideBar />
-      <CollapsibleTable />
-    </div>
+      <Switch>
+        <Route exact path="/pods" component={PodTable} />
+        <Route exact path="/nodes" component={NodeTable} />
+        <Route exact path="/deployments" component={DeploymentTable} />
+        <Route exact path="/services" component={ServiceTable} />
+        <Route exact path="/login" component={LoginPage} />
+        <RefreshRoute path="/pods/:name" component={YamlConfiguration} />
+        <RefreshRoute path="/nodes/:name" component={YamlConfiguration} />
+        <RefreshRoute path="/deployments/:name" component={YamlConfiguration} />
+        <RefreshRoute path="/services/:name" component={YamlConfiguration} />
+        <Route path="*">
+          <Redirect to="/pods" />
+        </Route>
+      </Switch>
+    </>
   );
 }
 
