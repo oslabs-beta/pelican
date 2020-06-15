@@ -73,7 +73,7 @@ const handleScale = (deployment, index, setDeployment, direction) => {
     .catch((err) => console.log(err));
 };
 
-function Row({ deployment, setDeployment, index }) {
+function DeploymentRow({ deployment, setDeployment, index }) {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -136,31 +136,56 @@ function Row({ deployment, setDeployment, index }) {
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                Logs:
+              <Typography variant="subtitle1" gutterBottom component="div">
+                Match Labels on Pods:
               </Typography>
-              <Table size="small" aria-label="purchases">
+              <Table size="small" aria-label="logs">
                 <TableHead>
                   <TableRow>
-                    <TableCell>logs1</TableCell>
-                    <TableCell>logs2</TableCell>
-                    <TableCell align="right">logs3</TableCell>
-                    <TableCell align="right">more logs</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Key</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }} align="left">
+                      Value
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {['stuff', 'otherstuff'].map((row, i) => (
-                    <StyledTableRow key={i}>
-                      <StyledTableCell component="th" scope="row">
-                        {row}
-                      </StyledTableCell>
-                      <StyledTableCell>{row}</StyledTableCell>
-                      <StyledTableCell align="right">{row}</StyledTableCell>
-                      <StyledTableCell align="right">
-                        {Math.round(1 * 5 * 100) / 100}
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
+                  {Object.keys(deployment.spec.selector.matchLabels).map(
+                    (key, i) => (
+                      <StyledTableRow key={`deploymentCondition${i}`}>
+                        <StyledTableCell component="th" scope="row">
+                          {key}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {deployment.spec.selector.matchLabels[key]}
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    )
+                  )}
+                </TableBody>
+              </Table>
+              <Typography variant="subtitle1" gutterBottom component="div">
+                Containers:
+              </Typography>
+              <Table size="small" aria-label="logs">
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: 'bold' }}>Name</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }} align="left">
+                      Image
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {deployment.spec.template.spec.containers.map(
+                    (container, i) => (
+                      <StyledTableRow key={`deploymentContainerStatus${i}`}>
+                        <StyledTableCell component="th" scope="row">
+                          {container.name}
+                        </StyledTableCell>
+                        <StyledTableCell>{container.image}</StyledTableCell>
+                      </StyledTableRow>
+                    )
+                  )}
                 </TableBody>
               </Table>
             </Box>
@@ -172,4 +197,4 @@ function Row({ deployment, setDeployment, index }) {
   );
 }
 
-export default Row;
+export default DeploymentRow;

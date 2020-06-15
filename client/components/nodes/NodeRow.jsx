@@ -44,8 +44,7 @@ const useStyles = makeStyles({
   },
 });
 
-function NodeRow(props) {
-  const { node } = props;
+function NodeRow({ node }) {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -66,7 +65,11 @@ function NodeRow(props) {
     <>
       <StyledTableRow className={classes.table}>
         <StyledTableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
@@ -81,32 +84,31 @@ function NodeRow(props) {
         </StyledTableCell>
       </StyledTableRow>
       <TableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
-                Logs:
+                Node Status:
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>logs1</TableCell>
-                    <TableCell>logs2</TableCell>
-                    <TableCell align="right">logs3</TableCell>
-                    <TableCell align="right">more logs</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Status</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>
+                      Condition
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {['stuff', 'otherstuff'].map((row, i) => (
-                    <StyledTableRow key={i}>
+                  {node.status.conditions.map((condition, i) => (
+                    <StyledTableRow key={`nodeCondition${i}`}>
                       <StyledTableCell component="th" scope="row">
-                        {row}
+                        {condition.type.split(/(?=[A-Z])/g).join(' ')}
                       </StyledTableCell>
-                      <StyledTableCell>{row}</StyledTableCell>
-                      <StyledTableCell align="right">{row}</StyledTableCell>
-                      <StyledTableCell align="right">
-                        {Math.round(1 * 5 * 100) / 100}
-                      </StyledTableCell>
+                      <StyledTableCell>{condition.message}</StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
