@@ -15,8 +15,8 @@ export default function EditButton() {
   const classes = useStyles();
 
   return (
-    <IconButton color='primary' size='small' aria-label='edit'>
-      <SettingsIcon fontSize='large' />
+    <IconButton color="primary" size="small" aria-label="edit">
+      <SettingsIcon fontSize="large" />
     </IconButton>
   );
 }

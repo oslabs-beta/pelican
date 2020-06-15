@@ -45,33 +45,35 @@ const useStyles = makeStyles({
   },
 });
 
-const handleAdd = (deployment) => {
-  const newReplicas = deployment.spec.replicas + 1;
-  fetch(`/api/deployments/patch?name=${deployment.metadata.name}`, {
-    method: 'PATCH',
-    body: { spec: { replicas: deployment.spec.replicas } },
-  })
-    .then(() => deployment.spec.replicas++)
-    .catch((err) => {
-      if (err.status === 400) {
-        console.log('name not supplied');
-      }
-    });
-};
-
-const handleSubtract = (deployment) => {
-  if (deployment.spec.replicas === 0) {
-    return;
+const handleScale = (deployment, index, setDeployment, direction) => {
+  let newNum = 0;
+  if (direction === 'up') {
+    newNum = deployment.spec.replicas + 1;
+  } else {
+    if (deployment.spec.replicas === 0) {
+      return;
+    }
+    newNum = deployment.spec.replicas - 1;
   }
-  deployment.spec.replicas = deployment.spec.replicas - 1;
-  fetch('/api/deployments/patch', {
-    method: 'PATCH',
-    body: { spec: deployment.spec.replicas },
-  });
+  fetch(`/api/deployments/?name=${deployment.metadata.name}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      spec: { replicas: newNum },
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((result) => {
+      return result.json();
+    })
+    .then((deployment) => {
+      setDeployment({ deployment, index });
+    })
+    .catch((err) => console.log(err));
 };
 
-function Row(props) {
-  const { deployment } = props;
+function Row({ deployment, setDeployment, index }) {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -84,15 +86,21 @@ function Row(props) {
     }
     if (column === 'spec.replicas') {
       return (
-        <StyledTableCell align='left' key={`deploymentColumn${i}`}>
-          <SubtractButton onClick={() => handleSubtract(deployment)} />
+        <StyledTableCell align="left" key={`deploymentColumn${i}`}>
+          <SubtractButton
+            onClick={() => {
+              handleScale(deployment, index, setDeployment, 'down');
+            }}
+          />
           {property}
-          <AddButton onClick={() => handleAdd(deployment)} />
+          <AddButton
+            onClick={() => handleScale(deployment, index, setDeployment, 'up')}
+          />
         </StyledTableCell>
       );
     } else {
       return (
-        <StyledTableCell align='left' key={`deploymentColumn${i}`}>
+        <StyledTableCell align="left" key={`deploymentColumn${i}`}>
           {property}
         </StyledTableCell>
       );
@@ -104,14 +112,14 @@ function Row(props) {
       <StyledTableRow className={classes.table}>
         <StyledTableCell>
           <IconButton
-            aria-label='expand row'
-            size='small'
+            aria-label="expand row"
+            size="small"
             onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
-        <StyledTableCell component='th' scope='row'>
+        <StyledTableCell component="th" scope="row">
           {deployment.metadata.name}
         </StyledTableCell>
         {cells}
@@ -126,29 +134,29 @@ function Row(props) {
           style={{ paddingBottom: 0, paddingTop: 0 }}
           colSpan={6}
         >
-          <Collapse in={open} timeout='auto' unmountOnExit>
+          <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant='h6' gutterBottom component='div'>
+              <Typography variant="h6" gutterBottom component="div">
                 Logs:
               </Typography>
-              <Table size='small' aria-label='purchases'>
+              <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
                     <TableCell>logs1</TableCell>
                     <TableCell>logs2</TableCell>
-                    <TableCell align='right'>logs3</TableCell>
-                    <TableCell align='right'>more logs</TableCell>
+                    <TableCell align="right">logs3</TableCell>
+                    <TableCell align="right">more logs</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {['stuff', 'otherstuff'].map((row, i) => (
                     <StyledTableRow key={i}>
-                      <StyledTableCell component='th' scope='row'>
+                      <StyledTableCell component="th" scope="row">
                         {row}
                       </StyledTableCell>
                       <StyledTableCell>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>{row}</StyledTableCell>
-                      <StyledTableCell align='right'>
+                      <StyledTableCell align="right">{row}</StyledTableCell>
+                      <StyledTableCell align="right">
                         {Math.round(1 * 5 * 100) / 100}
                       </StyledTableCell>
                     </StyledTableRow>

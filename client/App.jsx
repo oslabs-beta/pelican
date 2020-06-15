@@ -18,7 +18,6 @@ function App() {
         <TopBar />
         <SideBar />
         <Switch>
-          <Route exact path="/" component={PodTable} />
           <Route exact path="/pods" component={PodTable} />
           <Route exact path="/nodes" component={NodeTable} />
           <Route exact path="/deployments" component={DeploymentTable} />

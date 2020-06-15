@@ -16,8 +16,8 @@ export default function SubtractButton({ onClick }) {
 
   return (
     <Button
-      variant='text'
-      color='primary'
+      variant="text"
+      color="primary"
       style={{ marginLeft: '-20px' }}
       onClick={onClick}
     >

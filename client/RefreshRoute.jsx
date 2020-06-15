@@ -3,8 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-const mapStateToProps = ({ clusterData }) => ({
+const mapStateToProps = ({ clusterData, awsAuth }) => ({
   isDataAvailable: clusterData.isDataAvailable,
+  accessKeyId: awsAuth.accessKeyId,
 });
 
 const RefreshRoute = ({ component: Component, isDataAvailable, root, ...rest }) => (
