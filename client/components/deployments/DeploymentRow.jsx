@@ -45,8 +45,7 @@ const useStyles = makeStyles({
   },
 });
 
-const handleAdd = (deployment) => {
-  console.log('deployment: ', deployment);
+const handleAdd = (deployment, index, setDeployment) => {
   deployment.spec.replicas = deployment.spec.replicas + 1;
   fetch(`/api/deployments/?name=${deployment.metadata.name}`, {
     method: 'PUT',
@@ -56,11 +55,20 @@ const handleAdd = (deployment) => {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  })
+    .then((result) => {
+      return result.json();
+    })
+    .then((deployment) => {
+      setDeployment({
+        deployment: deployment,
+        index: index,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 const handleSubtract = (deployment) => {
-  console.log('deployment: ', deployment);
   if (deployment.spec.replicas === 0) {
     return;
   }
@@ -73,11 +81,10 @@ const handleSubtract = (deployment) => {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  }).then;
 };
 
-function Row(props) {
-  const { deployment } = props;
+function Row({ deployment, setDeployment, index }) {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -97,7 +104,9 @@ function Row(props) {
             }}
           />
           {property}
-          <AddButton onClick={() => handleAdd(deployment)} />
+          <AddButton
+            onClick={() => handleAdd(deployment, index, setDeployment)}
+          />
         </StyledTableCell>
       );
     } else {

@@ -33,3 +33,8 @@ export const getNamespaces = (response) => ({
 export const firstLoad = () => ({
   type: types.FIRST_LOAD,
 });
+
+export const setDeployment = (response) => ({
+  type: types.SET_DEPLOYMENT,
+  payload: response,
+});

@@ -14,7 +14,7 @@ deploymentRouter.put(
   '/',
   DeploymentController.scaleDeployment,
   (req, res, next) => {
-    return res.sendStatus(200);
+    return res.status(200).json(res.locals.deployment);
   }
 );
 

@@ -39,6 +39,14 @@ const clusterData = (state = initialState, action) => {
         context: 'services',
         isDataAvailable: true,
       };
+    case types.SET_DEPLOYMENT:
+      const newDeployments = [...state.deployments];
+      newDeployments[action.payload.index] = action.payload.deployment;
+      console.log(newDeployments);
+      return {
+        ...state,
+        deployments: newDeployments,
+      };
     default:
       return state;
   }
