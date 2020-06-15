@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,13 +11,19 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
+import awsRegions from './constants/awsRegions';
 
 function Copyright() {
   return (
-    <Typography variant='body2' color='textSecondary' align='center'>
+    <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color='inherit' href='https://github.com/oslabs-beta/pelican'>
+      <Link color="inherit" href="https://github.com/oslabs-beta/pelican">
         Pelican
       </Link>{' '}
       {new Date().getFullYear()}
@@ -34,9 +40,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'url(https://source.unsplash.com/random)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
-      theme.palette.type === 'light'
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
+      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
@@ -61,51 +65,79 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
   const classes = useStyles();
+  const [region, changeRegion] = useState({ region: '' });
+
+  const regionOptions = awsRegions.map((region) => (
+    <option value={region.code} key={region.code}>
+      {region.name} - {region.code}
+    </option>
+  ));
+
+  const handleRegionChange = (event) => {
+    changeRegion({
+      ...region,
+      region: event.target.value,
+    });
+  };
 
   return (
-    <Grid container component='main' className={classes.root}>
+    <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
+          {/* <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
-          </Avatar>
+          </Avatar> */}
           {/* <Typography component='h1' variant='h3'>
             Pelican
           </Typography> */}
-          <img src='./assets/pelicanLogo.png' />
+          <img
+            src="/client/assets/pelicanLogo.png"
+            alt="product's pelican logo"
+            width="400vw"
+            height="100vh"
+          />
           <form className={classes.form} noValidate>
             <TextField
-              variant='outlined'
-              margin='normal'
+              variant="outlined"
+              margin="normal"
               required
               fullWidth
-              id='access key'
-              label='Enter Access Key...'
-              name='access key'
+              id="access key"
+              label="Enter Access Key"
+              name="access key"
               autoFocus
             />
             <TextField
-              variant='outlined'
-              margin='normal'
+              variant="outlined"
+              margin="normal"
               required
               fullWidth
-              name='Enter secret access key'
-              label='Enter Secret Access Key...'
-              type='secret access'
-              id='secret access'
-              autoComplete='current-password'
+              name="Enter secret access key"
+              label="Enter Secret Access Key"
+              type="secret access"
+              id="secret access"
+              autoComplete="current-password"
             />
+
+            <FormControl variant="outlined" fullWidth required margin="normal" id="aws-region">
+              <InputLabel htmlFor="outlined-age-native-simple">AWS Region</InputLabel>
+              <Select native value={region.name} label="AWS Region" onChange={handleRegionChange}>
+                {regionOptions}
+              </Select>
+            </FormControl>
+
             {/* <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
               label='Remember me'
             /> */}
+
             <Button
-              type='submit'
+              type="submit"
               fullWidth
-              variant='contained'
-              color='primary'
+              variant="contained"
+              color="primary"
               className={classes.submit}
             >
               Sign In
@@ -113,8 +145,8 @@ export default function SignInSide() {
             <Grid container>
               <Grid item xs>
                 <Link
-                  href='https://cloud.google.com/kubernetes-engine'
-                  variant='body2'
+                  href="https://cloud.google.com/kubernetes-engine"
+                  variant="body2"
                   style={{ textDecoration: 'none' }}
                 >
                   Supports Google GKE
@@ -122,11 +154,11 @@ export default function SignInSide() {
               </Grid>
               <Grid item>
                 <Link
-                  href='https://aws.amazon.com/eks/'
-                  variant='body2'
+                  href="https://aws.amazon.com/eks/"
+                  variant="body2"
                   style={{ textDecoration: 'none' }}
                 >
-                  {'Supports Amazon EKS'}
+                  Supports Amazon EKS
                 </Link>
               </Grid>
             </Grid>
