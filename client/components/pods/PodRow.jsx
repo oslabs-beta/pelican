@@ -48,18 +48,19 @@ function Row(props) {
   const { pod } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
+  console.log(pod);
 
   const cells = tableTemplate.pods.columns.map((column, i) => {
     if (column === 'Cpu') {
       return (
-        <StyledTableCell align='left' key={`podColumn${i}`}>
+        <StyledTableCell align="left" key={`podColumn${i}`}>
           {getCpu(pod)}
         </StyledTableCell>
       );
     }
     if (column === 'Memory') {
       return (
-        <StyledTableCell align='left' key={`podColumn${i}`}>
+        <StyledTableCell align="left" key={`podColumn${i}`}>
           {getMemory(pod)}
         </StyledTableCell>
       );
@@ -71,7 +72,7 @@ function Row(props) {
       splitArray.shift();
     }
     return (
-      <StyledTableCell align='left' key={`podcolumn${i}`}>
+      <StyledTableCell align="left" key={`podcolumn${i}`}>
         {property}
       </StyledTableCell>
     );
@@ -112,14 +113,14 @@ function Row(props) {
       <StyledTableRow className={classes.table}>
         <StyledTableCell>
           <IconButton
-            aria-label='expand row'
-            size='small'
+            aria-label="expand row"
+            size="small"
             onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
-        <StyledTableCell component='th' scope='row'>
+        <StyledTableCell component="th" scope="row">
           {pod.metadata.name}
         </StyledTableCell>
         {cells}
@@ -134,16 +135,16 @@ function Row(props) {
           style={{ paddingBottom: 0, paddingTop: 0 }}
           colSpan={6}
         >
-          <Collapse in={open} timeout='auto' unmountOnExit>
+          <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant='subtitle1' gutterBottom component='div'>
+              <Typography variant="subtitle1" gutterBottom component="div">
                 Status History:
               </Typography>
-              <Table size='small' aria-label='logs'>
+              <Table size="small" aria-label="logs">
                 <TableHead>
                   <TableRow>
                     <TableCell style={{ fontWeight: 'bold' }}>Status</TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }} align='left'>
+                    <TableCell style={{ fontWeight: 'bold' }} align="left">
                       Transitioned At
                     </TableCell>
                   </TableRow>
@@ -151,7 +152,7 @@ function Row(props) {
                 <TableBody>
                   {pod.status.conditions.map((condition, i) => (
                     <StyledTableRow key={`podCondition${i}`}>
-                      <StyledTableCell component='th' scope='row'>
+                      <StyledTableCell component="th" scope="row">
                         {condition.type}
                       </StyledTableCell>
                       <StyledTableCell>
@@ -161,23 +162,23 @@ function Row(props) {
                   ))}
                 </TableBody>
               </Table>
-              <Typography variant='subtitle1' gutterBottom component='div'>
+              <Typography variant="subtitle1" gutterBottom component="div">
                 Container Statuses:
               </Typography>
-              <Table size='small' aria-label='logs'>
+              <Table size="small" aria-label="logs">
                 <TableHead>
                   <TableRow>
                     <TableCell style={{ fontWeight: 'bold' }}>Name</TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }} align='left'>
+                    <TableCell style={{ fontWeight: 'bold' }} align="left">
                       Image
                     </TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }} align='left'>
+                    <TableCell style={{ fontWeight: 'bold' }} align="left">
                       State
                     </TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }} align='left'>
+                    <TableCell style={{ fontWeight: 'bold' }} align="left">
                       Ready
                     </TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }} align='left'>
+                    <TableCell style={{ fontWeight: 'bold' }} align="left">
                       Restart Count
                     </TableCell>
                   </TableRow>
@@ -185,7 +186,7 @@ function Row(props) {
                 <TableBody>
                   {pod.status.containerStatuses.map((container, i) => (
                     <StyledTableRow key={`podContainerStatus${i}`}>
-                      <StyledTableCell component='th' scope='row'>
+                      <StyledTableCell component="th" scope="row">
                         {container.name}
                       </StyledTableCell>
                       <StyledTableCell>{container.image}</StyledTableCell>

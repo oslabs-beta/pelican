@@ -38,6 +38,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "sass": "^1.26.7",
+    "url-loader": "^4.1.0",
     "webpack": "^4.43.0"
   },
   "devDependencies": {
