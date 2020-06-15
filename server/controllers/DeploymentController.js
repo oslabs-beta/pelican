@@ -21,8 +21,9 @@ module.exports = {
       return res.sendStatus(400);
     }
     try {
-      if (req.body.spec.replicas < 0)
+      if (req.body.spec.replicas < 0) {
         throw new Error('Cannot set a negative replica');
+      }
       res.locals.deployment = (
         await res.locals.client.apis.apps.v1
           .namespaces('default')

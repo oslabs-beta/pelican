@@ -3,15 +3,17 @@ import * as types from '../constants/actionTypes';
 const initialState = {
   accessKeyId: '',
   secretAccessKey: '',
+  region: '',
 };
 
 const awsAuthReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.CREATE_CREDENTIALS:
+    case types.SET_CREDENTIALS:
       return {
         ...state,
         accessKeyId: action.payload.accessKeyId,
         secretAccessKey: action.payload.secretAccessKey,
+        region: action.payload.region,
       };
     default:
       return state;
