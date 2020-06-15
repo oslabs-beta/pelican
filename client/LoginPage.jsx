@@ -68,7 +68,7 @@ export default function SignInSide() {
   const [region, changeRegion] = useState({ region: '' });
 
   const regionOptions = awsRegions.map((region) => (
-    <option value={region.code}>
+    <option value={region.code} key={region.code}>
       {region.name} - {region.code}
     </option>
   ));
@@ -86,13 +86,18 @@ export default function SignInSide() {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
+          {/* <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
-          </Avatar>
+          </Avatar> */}
           {/* <Typography component='h1' variant='h3'>
             Pelican
           </Typography> */}
-          <img src="./assets/pelicanLogo.png" />
+          <img
+            src="./client/assets/pelicanLogo.png"
+            alt="product's pelican logo"
+            width="400vw"
+            height="100vh"
+          />
           <form className={classes.form} noValidate>
             <TextField
               variant="outlined"
@@ -153,7 +158,7 @@ export default function SignInSide() {
                   variant="body2"
                   style={{ textDecoration: 'none' }}
                 >
-                  {'Supports Amazon EKS'}
+                  Supports Amazon EKS
                 </Link>
               </Grid>
             </Grid>
