@@ -25,11 +25,11 @@ function MainContainer() {
         <Route exact path="/nodes" component={NodeTable} />
         <Route exact path="/deployments" component={DeploymentTable} />
         <Route exact path="/services" component={ServiceTable} />
-        <Route exact path="/login" component={LoginPage} />
-        <RefreshRoute path="/pods/:name" component={YamlConfiguration} />
-        <RefreshRoute path="/nodes/:name" component={YamlConfiguration} />
-        <RefreshRoute path="/deployments/:name" component={YamlConfiguration} />
-        <RefreshRoute path="/services/:name" component={YamlConfiguration} />
+        {/* <Route exact path="/login" component={LoginPage} /> */}
+        <Route path="/pods/:name" component={YamlConfiguration} />
+        <Route path="/nodes/:name" component={YamlConfiguration} />
+        <Route path="/deployments/:name" component={YamlConfiguration} />
+        <Route path="/services/:name" component={YamlConfiguration} />
         <Route path="*">
           <Redirect to="/pods" />
         </Route>
