@@ -25,7 +25,6 @@ function MainContainer() {
         <Route exact path="/nodes" component={NodeTable} />
         <Route exact path="/deployments" component={DeploymentTable} />
         <Route exact path="/services" component={ServiceTable} />
-        {/* <Route exact path="/login" component={LoginPage} /> */}
         <Route path="/pods/:name" component={YamlConfiguration} />
         <Route path="/nodes/:name" component={YamlConfiguration} />
         <Route path="/deployments/:name" component={YamlConfiguration} />

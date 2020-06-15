@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,6 +19,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import awsRegions from './constants/awsRegions';
+import * as actions from './actions/actions';
 
 function Copyright() {
   return (
@@ -40,7 +42,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'url(https://source.unsplash.com/random)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+      theme.palette.type === 'light'
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
@@ -63,7 +67,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+const mapDispatchToProps = (dispatch) => ({
+  setCredentials: (credentials) =>
+    dispatch(actions.setCredentials(credentials)),
+});
+
+function SignInSide() {
   const classes = useStyles();
   const [region, changeRegion] = useState({ region: '' });
 
@@ -121,9 +130,22 @@ export default function SignInSide() {
               autoComplete="current-password"
             />
 
-            <FormControl variant="outlined" fullWidth required margin="normal" id="aws-region">
-              <InputLabel htmlFor="outlined-age-native-simple">AWS Region</InputLabel>
-              <Select native value={region.name} label="AWS Region" onChange={handleRegionChange}>
+            <FormControl
+              variant="outlined"
+              fullWidth
+              required
+              margin="normal"
+              id="aws-region"
+            >
+              <InputLabel htmlFor="outlined-age-native-simple">
+                AWS Region
+              </InputLabel>
+              <Select
+                native
+                value={region.name}
+                label="AWS Region"
+                onChange={handleRegionChange}
+              >
                 {regionOptions}
               </Select>
             </FormControl>
@@ -171,3 +193,5 @@ export default function SignInSide() {
     </Grid>
   );
 }
+
+export default connect(null, mapDispatchToProps)(SignInSide);
