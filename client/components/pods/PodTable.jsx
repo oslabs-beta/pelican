@@ -49,8 +49,7 @@ class PodTable extends Component {
     }
   }
 
-  render() {
-    const { pods } = this.props;
+  render({ pods }) {
     const headers = tableTemplate.pods.headers.map((header, i) => {
       return (
         <TableCell align="left" key={`podHeader${i}`}>
