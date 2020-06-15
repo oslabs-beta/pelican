@@ -12,10 +12,9 @@ const mapStateToProps = ({ clusterData }) => ({
   context: clusterData.context,
 });
 
-function YamlConfiguration(props) {
+function YamlConfiguration({ clusterData, context, deployment }) {
   const { name } = useParams();
-  const { clusterData } = props;
-  const { context } = props;
+  const containerNames = deployment.spec.template.spec.containers;
 
   const objList = clusterData[context];
 
