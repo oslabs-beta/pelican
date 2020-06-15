@@ -45,12 +45,20 @@ const useStyles = makeStyles({
   },
 });
 
-const handleAdd = (deployment, index, setDeployment) => {
-  deployment.spec.replicas = deployment.spec.replicas + 1;
+const handleScale = (deployment, index, setDeployment, direction) => {
+  let newNum = 0;
+  if (direction === 'up') {
+    newNum = deployment.spec.replicas + 1;
+  } else {
+    if (deployment.spec.replicas === 0) {
+      return;
+    }
+    newNum = deployment.spec.replicas - 1;
+  }
   fetch(`/api/deployments/?name=${deployment.metadata.name}`, {
     method: 'PUT',
     body: JSON.stringify({
-      spec: { replicas: deployment.spec.replicas },
+      spec: { replicas: newNum },
     }),
     headers: {
       'Content-Type': 'application/json',
@@ -60,28 +68,9 @@ const handleAdd = (deployment, index, setDeployment) => {
       return result.json();
     })
     .then((deployment) => {
-      setDeployment({
-        deployment: deployment,
-        index: index,
-      });
+      setDeployment({ deployment, index });
     })
     .catch((err) => console.log(err));
-};
-
-const handleSubtract = (deployment) => {
-  if (deployment.spec.replicas === 0) {
-    return;
-  }
-  deployment.spec.replicas = deployment.spec.replicas - 1;
-  fetch(`/api/deployments/?name=${deployment.metadata.name}`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      spec: { replicas: deployment.spec.replicas },
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then;
 };
 
 function Row({ deployment, setDeployment, index }) {
@@ -100,12 +89,12 @@ function Row({ deployment, setDeployment, index }) {
         <StyledTableCell align="left" key={`deploymentColumn${i}`}>
           <SubtractButton
             onClick={() => {
-              handleSubtract(deployment);
+              handleScale(deployment, index, setDeployment, 'down');
             }}
           />
           {property}
           <AddButton
-            onClick={() => handleAdd(deployment, index, setDeployment)}
+            onClick={() => handleScale(deployment, index, setDeployment, 'up')}
           />
         </StyledTableCell>
       );

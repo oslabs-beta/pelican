@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
   getDeployments: (deployments) =>
     dispatch(actions.getDeployments(deployments)),
   setDeployment: (deployment, index) => {
-    dispatch(actions.setDeployment({ deployment: deployment, index: index }));
+    dispatch(actions.setDeployment(deployment, index));
   },
 });
 
