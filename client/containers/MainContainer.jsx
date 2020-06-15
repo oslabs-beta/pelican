@@ -16,5 +16,4 @@ function MainContainer() {
   );
 }
 
-export default MainContainer;
 export default connect(mapStateToProps)(MainContainer);

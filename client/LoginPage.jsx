@@ -93,7 +93,7 @@ export default function SignInSide() {
             Pelican
           </Typography> */}
           <img
-            src="./client/assets/pelicanLogo.png"
+            src="/client/assets/pelicanLogo.png"
             alt="product's pelican logo"
             width="400vw"
             height="100vh"
