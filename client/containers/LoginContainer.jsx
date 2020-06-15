@@ -1,12 +1,18 @@
 import React from 'react';
-import Login from '../components/Login';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import LoginPage from '../LoginPage.jsx';
 import '../stylesheets/styles.scss';
 
 function LoginContainer() {
   return (
-    <div id="login-container">
-      <Login />
-    </div>
+    <>
+      <Switch>
+        <Route exact path="/login" component={LoginPage} />
+        <Route path="*">
+          <Redirect to="/login" />
+        </Route>
+      </Switch>
+    </>
   );
 }
 

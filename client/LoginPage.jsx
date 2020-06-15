@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,6 +19,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import awsRegions from './constants/awsRegions';
+import * as actions from './actions/actions';
 
 function Copyright() {
   return (
@@ -65,7 +67,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+const mapDispatchToProps = (dispatch) => ({
+  setCredentials: (credentials) =>
+    dispatch(actions.setCredentials(credentials)),
+});
+
+function SignInSide() {
   const classes = useStyles();
   const [region, changeRegion] = useState({ region: '' });
 
@@ -186,3 +193,5 @@ export default function SignInSide() {
     </Grid>
   );
 }
+
+export default connect(null, mapDispatchToProps)(SignInSide);
