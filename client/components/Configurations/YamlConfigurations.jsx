@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import syntaxHighlight from '../../utils/yamlSyntaxHighlight';
 import DeploymentButton from '../Buttons/DeploymentModal.jsx';
@@ -12,12 +12,11 @@ const mapStateToProps = ({ clusterData }) => ({
   context: clusterData.context,
 });
 
-function YamlConfiguration({ clusterData, context, deployment }) {
+function YamlConfiguration({ clusterData, context }) {
+  const [redirect, setRedirect] = useState(false);
   const { name } = useParams();
   const containerNames = deployment.spec.template.spec.containers;
-
   const objList = clusterData[context];
-
   const obj = objList.filter((obj) => obj.metadata.name === name)[0];
   const currentYaml = JSON.stringify(obj, null, 4);
   const editObj = { ...obj };
@@ -25,13 +24,23 @@ function YamlConfiguration({ clusterData, context, deployment }) {
   const editYaml = JSON.stringify(editObj, null, 4);
 
   const handleSubmit = async (modifiedYaml) => {
-    const result = await fetch('/api/deployments/rollingUpdate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(JSON.parse(modifiedYaml)),
-    });
+    console.log('hiii');
+    const config = JSON.parse(modifiedYaml);
+    try {
+      const result = await fetch(
+        `/api/deployments?name=${config.metadata.name}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(config),
+        }
+      );
+      setRedirect(true);
+    } catch (err) {
+      console.log("Couldn't update the deployment");
+    }
   };
 
   const handleClick = (e) => {
@@ -45,9 +54,11 @@ function YamlConfiguration({ clusterData, context, deployment }) {
     document.querySelector('#currentYaml').innerHTML = syntaxHighlight(
       currentYaml
     );
-  });
+  }, []);
 
-  return (
+  return redirect ? (
+    <Redirect to="/deployments" />
+  ) : (
     <div
       style={{
         width: `calc(100% - 200px)`,

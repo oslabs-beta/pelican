@@ -11,10 +11,18 @@ deploymentRouter.get(
 );
 
 deploymentRouter.put(
-  '/',
+  '/scale',
   DeploymentController.scaleDeployment,
   (req, res, next) => {
     return res.status(200).json(res.locals.deployment);
+  }
+);
+
+deploymentRouter.put(
+  '/',
+  DeploymentController.updateDeployment,
+  (req, res, next) => {
+    return res.sendStatus(200);
   }
 );
 

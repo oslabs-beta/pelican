@@ -55,7 +55,7 @@ const handleScale = (deployment, index, setDeployment, direction) => {
     }
     newNum = deployment.spec.replicas - 1;
   }
-  fetch(`/api/deployments/?name=${deployment.metadata.name}`, {
+  fetch(`/api/deployments/scale?name=${deployment.metadata.name}`, {
     method: 'PUT',
     body: JSON.stringify({
       spec: { replicas: newNum },
