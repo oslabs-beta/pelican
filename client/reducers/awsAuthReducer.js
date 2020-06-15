@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes';
 
 const initialState = {
-  accessKeyId: '',
+  accessKeyId: 'temp',
   secretAccessKey: '',
   region: '',
 };
