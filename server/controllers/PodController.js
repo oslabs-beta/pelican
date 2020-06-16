@@ -12,9 +12,10 @@ module.exports = {
     }
   },
   updatePod: async (req, res, next) => {
+    const namespace = req.body.namespace || 'default';
     try {
       await res.locals.client.api.v1
-        .namespaces('default')
+        .namespaces(namespace)
         .pods(req.query.name)
         .put({ body: req.body });
       next();
