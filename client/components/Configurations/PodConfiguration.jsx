@@ -57,15 +57,6 @@ function PodConfiguration({ clusterData, context }) {
             .concat(context.slice(1, context.length - 1))} Configuration Yaml`}
         </h1>
         <div id="configBtns">
-          <button
-            type="submit"
-            id="submitBtn"
-            onClick={() =>
-              handleSubmit(document.querySelector('#editYaml').value)
-            }
-          >
-            Submit
-          </button>
           <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
             <button type="button" id="backBtn">
               Go Back

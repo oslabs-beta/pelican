@@ -33,7 +33,13 @@ const handleSubmit = async (modifiedYaml) => {
 export default function SubmitButton({ type, onClick }) {
   const classes = useStyles();
   return (
-    <Button variant="contained" color="primary" onClick={onClick}>
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={() =>
+        handleSubmit(type, document.querySelector('#editYaml').value)
+      }
+    >
       Submit Changes
     </Button>
   );
