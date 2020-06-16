@@ -1,9 +1,7 @@
 module.exports = {
   getPods: async (req, res, next) => {
     try {
-      res.locals.pods = (
-        await res.locals.client.api.v1.namespaces('default').pods.get()
-      ).body.items;
+      res.locals.pods = (await res.locals.client.api.v1.pods.get()).body.items;
       next();
     } catch (err) {
       next({
