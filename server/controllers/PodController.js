@@ -15,15 +15,16 @@ module.exports = {
   },
   updatePod: async (req, res, next) => {
     try {
-      res.locals.client.api.v1
-        .namespaces(namespace || 'default')
+      await res.locals.client.api.v1
+        .namespaces('default')
         .pods(req.query.name)
         .put({ body: req.body });
+      next();
     } catch (err) {
       next({
-        log: `Encountered an error in PodController.update: ${err}`,
-        status: 400,
-        message: 'An error occured updating pods',
+        log: `Encountered an error in podController.update: ${err}`,
+        status: 500,
+        message: 'An error occured updating the pod',
       });
     }
   },
