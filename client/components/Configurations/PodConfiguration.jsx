@@ -46,6 +46,7 @@ function PodConfiguration({ clusterData, context }) {
   };
 
   const handleClick = (e) => {
+    console.log('clicked');
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
     // In case you have a limitation

@@ -48,7 +48,6 @@ function Row(props) {
   const { pod } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
-  console.log(pod);
 
   const cells = tableTemplate.pods.columns.map((column, i) => {
     if (column === 'Cpu') {
