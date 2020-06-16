@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import syntaxHighlight from '../../utils/yamlSyntaxHighlight';
-import DeploymentButton from '../Buttons/DeploymentModal.jsx';
+import DeploymentModal from '../Buttons/DeploymentModal.jsx';
 import SubmitButton from '../Buttons/SubmitButton.jsx';
 import FormFields from './ImagesForm.jsx';
 
@@ -24,7 +24,9 @@ function DeploymentConfiguration({ clusterData, context }) {
   delete editObj.status;
   const editYaml = JSON.stringify(editObj, null, 4);
 
-  const containers = obj.spec.template.spec.containers;
+  const [containers, setContainers] = useState(
+    obj.spec.template.spec.containers
+  );
 
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
@@ -77,7 +79,7 @@ function DeploymentConfiguration({ clusterData, context }) {
           index={i}
         />
       ))}
-      <DeploymentButton />
+      <DeploymentModal />
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
@@ -85,6 +87,7 @@ function DeploymentConfiguration({ clusterData, context }) {
             id="editYaml"
             defaultValue={editYaml}
             onClick={() => handleClick}
+            onChange={() => setContainers([])}
           />
           <SubmitButton type="deployments" />
         </form>
