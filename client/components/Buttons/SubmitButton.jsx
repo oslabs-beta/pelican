@@ -13,12 +13,13 @@ const useStyles = makeStyles((theme) => ({
 
 const handleSubmit = async (type, modifiedYaml, setValidJSON) => {
   try {
-    const config = JSON.parse(modifiedYaml);
+    JSON.parse(modifiedYaml);
   } catch (err) {
     setValidJSON(false);
     console.log(err);
   }
   try {
+    const config = JSON.parse(modifiedYaml);
     const result = await fetch(`/api/${type}?name=${config.metadata.name}`, {
       method: 'PUT',
       headers: {
@@ -26,13 +27,12 @@ const handleSubmit = async (type, modifiedYaml, setValidJSON) => {
       },
       body: JSON.stringify(config),
     });
-    setRedirect(true);
   } catch (err) {
-    console.log(`Couldn't update the ${type.slice(0, -1)}`);
+    console.log(`Couldn't update the ${type.slice(0, -1)}, ${err}`);
   }
 };
 
-export default function SubmitButton({ type, onClick }) {
+export default function SubmitButton({ type }) {
   const classes = useStyles();
   const [validJSON, setValidJSON] = useState(true);
   return validJSON ? (
