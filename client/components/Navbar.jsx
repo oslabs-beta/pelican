@@ -7,12 +7,10 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -23,6 +21,7 @@ import BlurCircularSharpIcon from '@material-ui/icons/BlurCircularSharp';
 import PieChartRoundedIcon from '@material-ui/icons/PieChartRounded';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 import * as actions from '../actions/actions';
+import NamespaceDropdown from './NamespaceDropdown.jsx';
 
 const drawerWidth = 200;
 
@@ -82,7 +81,7 @@ function SideBar(props) {
       <List>
         {['Pods', 'Nodes', 'Deployments', 'Services'].map((text, index) => (
           <Link
-            style={{ textDecoration: 'none' }}
+            style={{ textDecoration: 'none', color: '#00a0a0' }}
             to={`/${text.toLowerCase()}`}
             key={text}
           >
@@ -94,6 +93,7 @@ function SideBar(props) {
         ))}
       </List>
       <Divider />
+      <NamespaceDropdown />
     </div>
   );
 

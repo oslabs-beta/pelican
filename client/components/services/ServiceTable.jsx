@@ -28,17 +28,19 @@ const mapStateToProps = ({ clusterData }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getServices: (services) => dispatch(actions.getServices(services)),
+  firstLoad: () => dispatch(actions.firstLoad()),
 });
 
 class ServiceTable extends Component {
   async componentDidMount() {
-    const { getServices } = this.props;
+    const { getServices, firstLoad } = this.props;
     try {
       await trackPromise(
         fetch('/api/services')
           .then((results) => results.json())
           .then((services) => getServices(services))
       );
+      firstLoad();
     } catch (err) {
       console.log('An error occured: ', err);
     }
