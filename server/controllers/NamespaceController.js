@@ -1,9 +1,9 @@
 module.exports = {
   getNamespaces: async (req, res, next) => {
     try {
-      res.locals.namespaces = (await res.locals.client.api.v1.namespaces.get()).body.items.map(
-        (namespace) => namespace.metadata.name
-      );
+      res.locals.namespaces = (
+        await res.locals.client.api.v1.namespaces.get()
+      ).body.items.map((namespace) => namespace.metadata.name);
       next();
     } catch (err) {
       next({

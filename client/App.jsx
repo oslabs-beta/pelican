@@ -16,7 +16,8 @@ function App(props) {
   return (
     <Router>
       <div id="main">
-        {accessKeyId ? <MainContainer /> : <LoginContainer />}
+        <MainContainer />
+        {/* {accessKeyId ? <MainContainer /> : <LoginContainer />} */}
       </div>
     </Router>
   );
