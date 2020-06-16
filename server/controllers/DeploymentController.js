@@ -1,8 +1,9 @@
+import client from '../kubernetes-config';
 module.exports = {
   getDeployments: async (req, res, next) => {
     try {
       res.locals.deployments = (
-        await res.locals.client.apis.apps.v1.deployments().get()
+        await client.apis.apps.v1.deployments().get()
       ).body.items;
       next();
     } catch (err) {
@@ -22,7 +23,7 @@ module.exports = {
         throw new Error('Cannot set a negative replica');
       }
       res.locals.deployment = (
-        await res.locals.client.apis.apps.v1
+        await client.apis.apps.v1
           .namespaces(namespace)
           .deployments(name)
           .patch({ body })
@@ -39,7 +40,7 @@ module.exports = {
   updateDeployment: async (req, res, next) => {
     const namespace = req.body.namespace || 'default';
     try {
-      await res.locals.client.apis.apps.v1
+      await client.apis.apps.v1
         .namespaces(namespace)
         .deployments(req.query.name)
         .put({ body: req.body });
