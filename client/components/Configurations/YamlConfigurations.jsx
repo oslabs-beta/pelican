@@ -1,10 +1,11 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import syntaxHighlight from '../../utils/yamlSyntaxHighlight';
 import DeploymentButton from '../Buttons/DeploymentModal.jsx';
+import SubmitButton from '../Buttons/SubmitButton.jsx';
 import FormFields from './ImagesForm.jsx';
 
 const mapStateToProps = ({ clusterData }) => ({
@@ -12,27 +13,36 @@ const mapStateToProps = ({ clusterData }) => ({
   context: clusterData.context,
 });
 
-function YamlConfiguration(props) {
+function YamlConfiguration({ clusterData, context }) {
+  const [redirect, setRedirect] = useState(false);
   const { name } = useParams();
-  const { clusterData } = props;
-  const { context } = props;
 
   const objList = clusterData[context];
-
-  const obj = objList.filter((obj) => obj.metadata.name === name)[0];
+  const obj = objList.filter((objects) => objects.metadata.name === name)[0];
   const currentYaml = JSON.stringify(obj, null, 4);
   const editObj = { ...obj };
   delete editObj.status;
   const editYaml = JSON.stringify(editObj, null, 4);
 
+  const containers = obj.spec.template.spec.containers;
+
   const handleSubmit = async (modifiedYaml) => {
-    const result = await fetch('/api/deployments/rollingUpdate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(JSON.parse(modifiedYaml)),
-    });
+    const config = JSON.parse(modifiedYaml);
+    try {
+      const result = await fetch(
+        `/api/deployments?name=${config.metadata.name}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(config),
+        }
+      );
+      setRedirect(true);
+    } catch (err) {
+      console.log("Couldn't update the deployment");
+    }
   };
 
   const handleClick = (e) => {
@@ -46,9 +56,11 @@ function YamlConfiguration(props) {
     document.querySelector('#currentYaml').innerHTML = syntaxHighlight(
       currentYaml
     );
-  });
+  }, []);
 
-  return (
+  return redirect ? (
+    <Redirect to="/deployments" />
+  ) : (
     <div
       style={{
         width: `calc(100% - 200px)`,
@@ -79,14 +91,20 @@ function YamlConfiguration(props) {
           </Link>
         </div>
       </div>
-
       <h2>
         {`${context[0]
           .toUpperCase()
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
-      <h3>Images:</h3>
-      <FormFields />
+      <h2>Images:</h2>{' '}
+      {containers.map((container, i) => (
+        <FormFields
+          key={`containerImage${i}`}
+          value={container.image}
+          imgName={container.name}
+          index={i}
+        />
+      ))}
       <DeploymentButton />
       <div id="yamlContainer">
         <form>
@@ -96,6 +114,7 @@ function YamlConfiguration(props) {
             defaultValue={editYaml}
             onClick={() => handleClick}
           />
+          <SubmitButton onClick={handleSubmit} />
         </form>
         <div>
           <h2> Current Configuration: </h2>
