@@ -5,6 +5,7 @@ import { useParams, Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import syntaxHighlight from '../../utils/yamlSyntaxHighlight';
 import DeploymentButton from '../Buttons/DeploymentModal.jsx';
+import SubmitButton from '../Buttons/SubmitButton.jsx';
 import FormFields from './ImagesForm.jsx';
 
 const mapStateToProps = ({ clusterData }) => ({
@@ -15,15 +16,17 @@ const mapStateToProps = ({ clusterData }) => ({
 function YamlConfiguration({ clusterData, context }) {
   const [redirect, setRedirect] = useState(false);
   const { name } = useParams();
+
   const objList = clusterData[context];
-  const obj = objList.filter((obj) => obj.metadata.name === name)[0];
+  const obj = objList.filter((objects) => objects.metadata.name === name)[0];
   const currentYaml = JSON.stringify(obj, null, 4);
   const editObj = { ...obj };
   delete editObj.status;
   const editYaml = JSON.stringify(editObj, null, 4);
 
+  const containers = obj.spec.template.spec.containers;
+
   const handleSubmit = async (modifiedYaml) => {
-    console.log('hiii');
     const config = JSON.parse(modifiedYaml);
     try {
       const result = await fetch(
@@ -88,14 +91,20 @@ function YamlConfiguration({ clusterData, context }) {
           </Link>
         </div>
       </div>
-
       <h2>
         {`${context[0]
           .toUpperCase()
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
-      <h3>Images:</h3>
-      <FormFields />
+      <h2>Images:</h2>{' '}
+      {containers.map((container, i) => (
+        <FormFields
+          key={`containerImage${i}`}
+          value={container.image}
+          imgName={container.name}
+          index={i}
+        />
+      ))}
       <DeploymentButton />
       <div id="yamlContainer">
         <form>
@@ -105,6 +114,7 @@ function YamlConfiguration({ clusterData, context }) {
             defaultValue={editYaml}
             onClick={() => handleClick}
           />
+          <SubmitButton onClick={handleSubmit} />
         </form>
         <div>
           <h2> Current Configuration: </h2>
