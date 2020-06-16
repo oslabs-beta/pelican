@@ -24,6 +24,7 @@ import { trackPromise } from 'react-promise-tracker';
 
 const mapStateToProps = ({ clusterData }) => ({
   services: clusterData.services,
+  targetNamespace: clusterData.targetNamespace,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -47,7 +48,7 @@ class ServiceTable extends Component {
   }
 
   render() {
-    const { services } = this.props;
+    const { services, targetNamespace } = this.props;
     const headers = tableTemplate.services.headers.map((header, i) => {
       return (
         <TableCell align="left" key={`serviceHeader${i}`}>
@@ -73,9 +74,15 @@ class ServiceTable extends Component {
           </TableHead>
 
           <TableBody>
-            {services.map((service, i) => (
-              <Row key={`serviceRow${i}`} service={service} />
-            ))}
+            {services
+              .filter((service) =>
+                targetNamespace
+                  ? service.metadata.namespace === targetNamespace
+                  : service
+              )
+              .map((service, i) => (
+                <Row key={`serviceRow${i}`} service={service} />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
