@@ -3,7 +3,7 @@ module.exports = {
     try {
       res.locals.services = (
         await res.locals.client.api.v1
-          .namespaces('default')
+          .namespaces(namespace || 'default')
           .services() //maybe no need
           .get()
       ).body.items;
@@ -13,6 +13,21 @@ module.exports = {
         log: `Encountered an error in ServiceController.get: ${err}`,
         status: 400,
         message: 'An error occured fetching services',
+      });
+    }
+  },
+  updateService: async (req, res, next) => {
+    try {
+      await res.locals.client.api.v1
+        .namespaces(namespace || 'default')
+        .services(req.query.name)
+        .put({ body: req.body });
+      next();
+    } catch (err) {
+      next({
+        log: `Encountered an error in ServiceController.update: ${err}`,
+        status: 400,
+        message: 'An error occured updating service',
       });
     }
   },

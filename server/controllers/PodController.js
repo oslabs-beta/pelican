@@ -13,4 +13,18 @@ module.exports = {
       });
     }
   },
+  updatePod: async (req, res, next) => {
+    try {
+      res.locals.client.api.v1
+        .namespaces(namespace || 'default')
+        .pods(req.query.name)
+        .put({ body: req.body });
+    } catch (err) {
+      next({
+        log: `Encountered an error in PodController.update: ${err}`,
+        status: 400,
+        message: 'An error occured updating pods',
+      });
+    }
+  },
 };
