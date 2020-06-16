@@ -11,8 +11,7 @@ import DeploymentConfiguration from '../components/Configurations/DeploymentConf
 import ServicesConfiguration from '../components/Configurations/ServicesCongifuration.jsx';
 import NodeConfiguration from '../components/Configurations/NodeConfiguration.jsx';
 import PodConfiguration from '../components/Configurations/PodConfiguration.jsx';
-
-// import RefreshRoute from '../RefreshRoute.jsx';
+import RefreshRoute from '../RefreshRoute.jsx';
 // import LoginPage from '../LoginPage.jsx';
 
 const mapStateToProps = ({ awsAuth }) => ({
@@ -29,10 +28,26 @@ function MainContainer() {
         <Route exact path="/nodes" component={NodeTable} />
         <Route exact path="/deployments" component={DeploymentTable} />
         <Route exact path="/services" component={ServiceTable} />
-        <Route path="/pods/:name" component={PodConfiguration} />
-        <Route path="/nodes/:name" component={NodeConfiguration} />
-        <Route path="/deployments/:name" component={DeploymentConfiguration} />
-        <Route path="/services/:name" component={ServicesConfiguration} />
+        <RefreshRoute
+          path="/pods/:name"
+          component={PodConfiguration}
+          root="pods"
+        />
+        <RefreshRoute
+          path="/nodes/:name"
+          component={NodeConfiguration}
+          root="node"
+        />
+        <RefreshRoute
+          path="/deployments/:name"
+          component={DeploymentConfiguration}
+          root="deployments"
+        />
+        <RefreshRoute
+          path="/services/:name"
+          component={ServicesConfiguration}
+          root="services"
+        />
         <Route path="*">
           <Redirect to="/pods" />
         </Route>
