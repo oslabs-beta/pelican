@@ -23,7 +23,7 @@ export default function DeploymentModal() {
   const handleClose = () => {
     setOpen(false);
   };
-  const [value, setValue] = React.useState('female');
+  const [value, setValue] = React.useState('standard');
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -32,8 +32,8 @@ export default function DeploymentModal() {
   return (
     <div>
       <Button
-        variant='contained'
-        color='primary'
+        variant="contained"
+        color="primary"
         style={{ fontWeight: 'bold' }}
         onClick={handleClickOpen}
       >
@@ -42,46 +42,46 @@ export default function DeploymentModal() {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id='alert-dialog-title'>
+        <DialogTitle id="alert-dialog-title">
           {'Choose Deployment Method:'}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
+          <DialogContentText id="alert-dialog-description">
             Please select a deployment method for this rollout:
           </DialogContentText>
-          <FormControl component='fieldset'>
+          <FormControl component="fieldset">
             <RadioGroup
-              aria-label='deployment'
-              name='Rollout'
+              aria-label="deployment"
+              name="Rollout"
               value={value}
               onChange={handleChange}
             >
               <FormControlLabel
-                value='standard'
+                value="standard"
                 control={<Radio />}
-                label='Standard'
+                label="Standard"
               />
               <FormControlLabel
-                value='blueGreen'
+                value="blueGreen"
                 control={<Radio />}
-                label='Blue-Green'
+                label="Blue-Green"
               />
               <FormControlLabel
-                value='canary'
+                value="canary"
                 control={<Radio />}
-                label='Canary'
+                label="Canary"
               />
             </RadioGroup>
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color='primary'>
+          <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color='primary' autoFocus>
+          <Button onClick={handleClose} color="primary" autoFocus>
             Deploy
           </Button>
         </DialogActions>
