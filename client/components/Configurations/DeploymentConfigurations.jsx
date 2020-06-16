@@ -13,7 +13,7 @@ const mapStateToProps = ({ clusterData }) => ({
   context: clusterData.context,
 });
 
-function YamlConfiguration({ clusterData, context }) {
+function DeploymentConfiguration({ clusterData, context }) {
   const [redirect, setRedirect] = useState(false);
   const { name } = useParams();
 
@@ -125,4 +125,4 @@ function YamlConfiguration({ clusterData, context }) {
   );
 }
 
-export default connect(mapStateToProps)(YamlConfiguration);
+export default connect(mapStateToProps)(DeploymentConfiguration);
