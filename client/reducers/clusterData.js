@@ -5,8 +5,10 @@ const initialState = {
   nodes: [],
   deployments: [],
   services: [],
+  namespaces: [],
   context: 'pods',
   isDataAvailable: false,
+  targetNamespace: '',
 };
 
 const clusterData = (state = initialState, action) => {
@@ -52,6 +54,16 @@ const clusterData = (state = initialState, action) => {
       return {
         ...state,
         deployments: newDeployments,
+      };
+    case types.GET_NAMESPACES:
+      return {
+        ...state,
+        namespaces: action.payload,
+      };
+    case types.SET_TARGET_NAMESPACE:
+      return {
+        ...state,
+        targetNamespace: action.payload,
       };
     default:
       return state;

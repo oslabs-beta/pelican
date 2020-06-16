@@ -14,7 +14,7 @@ const LoadingIndicator = (props) => {
     (props.firstLoad ? (
       <Loader
         type="BallTriangle"
-        color="#00BFFF"
+        color="#00a0a0"
         height={'700'}
         width={'700'}
         style={{ marginLeft: '200px' }}
@@ -24,7 +24,7 @@ const LoadingIndicator = (props) => {
         {' '}
         <Loader
           type="Bars"
-          color="#00BFFF"
+          color="#00a0a0"
           height={'100'}
           width={'100'}
           style={{ marginLeft: '200px' }}
