@@ -26,25 +26,6 @@ function PodConfiguration({ clusterData, context }) {
 
   const containers = obj.spec.containers;
 
-  const handleSubmit = async (modifiedYaml) => {
-    const config = JSON.parse(modifiedYaml);
-    try {
-      const result = await fetch(
-        `/api/deployments?name=${config.metadata.name}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(config),
-        }
-      );
-      setRedirect(true);
-    } catch (err) {
-      console.log("Couldn't update the deployment");
-    }
-  };
-
   const handleClick = (e) => {
     console.log('clicked');
     e.target.style.height = 'inherit';
@@ -115,7 +96,7 @@ function PodConfiguration({ clusterData, context }) {
             defaultValue={editYaml}
             onClick={() => handleClick}
           />
-          <SubmitButton onClick={handleSubmit} />
+          <SubmitButton onClick={handleSubmit} type="pods" />
         </form>
         <div>
           <h2> Current Configuration: </h2>

@@ -11,11 +11,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SubmitButton(props) {
-  const classes = useStyles();
+const handleSubmit = async (modifiedYaml) => {
+  const config = JSON.parse(modifiedYaml);
+  try {
+    const result = await fetch(
+      `/api/deployments?name=${config.metadata.name}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(config),
+      }
+    );
+    setRedirect(true);
+  } catch (err) {
+    console.log("Couldn't update the deployment");
+  }
+};
 
+export default function SubmitButton({ type, onClick }) {
+  const classes = useStyles();
   return (
-    <Button variant="contained" color="primary" onClick={props.onClick}>
+    <Button variant="contained" color="primary" onClick={onClick}>
       Submit Changes
     </Button>
   );
