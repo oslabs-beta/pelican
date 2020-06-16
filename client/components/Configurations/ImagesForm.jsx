@@ -11,12 +11,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormFields() {
+export default function FormFields(props) {
   const classes = useStyles();
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+      <span style={{ fontSize: '1.5em' }}>{props.imgName}:</span>
+      <TextField id="outlined-basic" label={props.value} variant="outlined" />
     </form>
   );
 }
