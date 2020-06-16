@@ -28,7 +28,7 @@ pre {
 //   color: magenta;
 // }
 .key {
-  color: #5566c3;
+  color: #00a0a0;
 }
 
 #configHeader {
@@ -50,7 +50,7 @@ pre {
   font-weight: 600;
   border-radius: 5px;
   border: 1px solid white;
-  background-color: #3f51b5;
+  background-color: #00a0a0;
   outline: none;
 }
 
@@ -66,6 +66,7 @@ pre {
 
 #currentYaml {
   white-space: pre-wrap;
+  color: whitesmoke;
 }
 
 #editYaml {
@@ -79,9 +80,12 @@ pre {
   width: 90%;
   height: 85%;
   border-radius: 5px;
-  border: 3px solid #3f51b5;
+  border: 3px solid #00a0a0;
   outline: none;
   margin-right: 40px;
+  color: whitesmoke;
+  background-color: rgb(45, 45, 45);
+  box-shadow: 5px 5px 5px rgb(25, 25, 25);
 }
 
 //------------------------------------------------------------------------------- //

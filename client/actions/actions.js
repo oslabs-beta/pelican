@@ -38,3 +38,8 @@ export const setDeployment = (response) => ({
   type: types.SET_DEPLOYMENT,
   payload: response,
 });
+
+export const setTargetNamespace = (response) => ({
+  type: types.SET_TARGET_NAMESPACE,
+  payload: response,
+});
