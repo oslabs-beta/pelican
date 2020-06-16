@@ -41,16 +41,16 @@ module.exports = {
   },
   updateDeployment: async (req, res, next) => {
     try {
-      await res.locals.client.apis.apps.v1
-        .namespaces('default')
+      await res.locals.client.api.v1
+        .namespaces(namespace || 'default')
         .deployments(req.query.name)
         .put({ body: req.body });
       next();
     } catch (err) {
       next({
-        log: `Encountered an error in DeploymentController.update: ${err}`,
+        log: `Encountered an error in PodController.update: ${err}`,
         status: 500,
-        message: 'An error occured updating the deployment',
+        message: 'An error occured updating the pod',
       });
     }
   },
