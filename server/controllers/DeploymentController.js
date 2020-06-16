@@ -1,4 +1,5 @@
 import client from '../kubernetes-config';
+
 module.exports = {
   getDeployments: async (req, res, next) => {
     try {
