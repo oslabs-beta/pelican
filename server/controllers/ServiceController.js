@@ -1,9 +1,9 @@
+import client from '../kubernetes-config';
+
 module.exports = {
   getServices: async (req, res, next) => {
     try {
-      res.locals.services = (
-        await res.locals.client.api.v1.services().get()
-      ).body.items;
+      res.locals.services = (await client.api.v1.services().get()).body.items;
       next();
     } catch (err) {
       next({
@@ -16,7 +16,7 @@ module.exports = {
   updateService: async (req, res, next) => {
     const namespace = req.body.namespace || 'default';
     try {
-      await res.locals.client.api.v1
+      await client.api.v1
         .namespaces(namespace)
         .services(req.query.name)
         .put({ body: req.body });
