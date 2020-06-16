@@ -28,4 +28,14 @@ module.exports = {
       });
     }
   },
+  checkGreenPods: async (req, res, next) => {
+    try {
+    } catch (err) {
+      next({
+        log: `Encountered an error in podController.checkGreenPods: ${err}`,
+        status: 500,
+        message: 'An error occured checking the status of the green pods',
+      });
+    }
+  },
 };

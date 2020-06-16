@@ -54,4 +54,27 @@ module.exports = {
       });
     }
   },
+  createGreenDeployment: async (req, res, next) => {
+    const { blueDeploymentConfig, image } = req.body;
+    try {
+      const greenDeployment = JSON.parse(JSON.stringify(deploymentConfig));
+      greenDeployment.metadata.name =
+        greenDeployment.metadata.name + '-green' + Date.now().toString(); // can i fix this with a regular expression?
+      greenDeployment.spec.selector.matchlabels.greenVersion = Date.now();
+      greenDeployment.spec.containers[0].image = image;
+      const newGreenDeployment = await res.locals.client.apis.apps.v1
+        .namespace('default')
+        .deployments({ body: { greenDeployment } });
+      res.locals.greenDeploymentName = greenDeployment.name;
+      res.locals.podSelector =
+        greenDeployment.spec.selector.matchlabels.greenVersion;
+      next();
+    } catch (err) {
+      next({
+        log: `Encountered an error in DeploymentController.createGreenDeployment: ${err}`,
+        status: 500,
+        message: 'An error occured creating the green deployment',
+      });
+    }
+  },
 };
