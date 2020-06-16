@@ -7,7 +7,11 @@ import PodTable from '../components/pods/PodTable.jsx';
 import NodeTable from '../components/nodes/NodeTable.jsx';
 import ServiceTable from '../components/services/ServiceTable.jsx';
 import DeploymentTable from '../components/deployments/DeploymentTable.jsx';
-import YamlConfiguration from '../components/configurations/YamlConfigurations.jsx';
+import DeploymentConfiguration from '../components/Configurations/DeploymentConfigurations.jsx';
+import ServicesConfiguration from '../components/Configurations/ServicesCongifuration.jsx';
+import NodeConfiguration from '../components/Configurations/NodeConfiguration.jsx';
+import PodConfiguration from '../components/Configurations/PodConfiguration.jsx';
+
 // import RefreshRoute from '../RefreshRoute.jsx';
 // import LoginPage from '../LoginPage.jsx';
 
@@ -25,10 +29,10 @@ function MainContainer() {
         <Route exact path="/nodes" component={NodeTable} />
         <Route exact path="/deployments" component={DeploymentTable} />
         <Route exact path="/services" component={ServiceTable} />
-        <Route path="/pods/:name" component={YamlConfiguration} />
-        <Route path="/nodes/:name" component={YamlConfiguration} />
-        <Route path="/deployments/:name" component={YamlConfiguration} />
-        <Route path="/services/:name" component={YamlConfiguration} />
+        <Route path="/pods/:name" component={PodConfiguration} />
+        <Route path="/nodes/:name" component={NodeConfiguration} />
+        <Route path="/deployments/:name" component={DeploymentConfiguration} />
+        <Route path="/services/:name" component={ServicesConfiguration} />
         <Route path="*">
           <Redirect to="/pods" />
         </Route>
