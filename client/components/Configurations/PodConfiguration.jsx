@@ -96,7 +96,7 @@ function PodConfiguration({ clusterData, context }) {
             defaultValue={editYaml}
             onClick={() => handleClick}
           />
-          <SubmitButton onClick={handleSubmit} type="pods" />
+          <SubmitButton type="pods" />
         </form>
         <div>
           <h2> Current Configuration: </h2>
