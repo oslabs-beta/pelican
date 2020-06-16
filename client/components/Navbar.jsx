@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: '100%',
 
-      position: 'relative',
+      position: 'fixed',
       zIndex: theme.zIndex.drawer + 1,
     },
   },
@@ -81,7 +81,11 @@ function SideBar(props) {
       <Divider />
       <List>
         {['Pods', 'Nodes', 'Deployments', 'Services'].map((text, index) => (
-          <Link style={{ textDecoration: 'none' }} to={`/${text.toLowerCase()}`} key={text}>
+          <Link
+            style={{ textDecoration: 'none' }}
+            to={`/${text.toLowerCase()}`}
+            key={text}
+          >
             <ListItem>
               <ListItemIcon>{icons(index)}</ListItemIcon>
               <ListItemText primary={text} />
@@ -93,7 +97,8 @@ function SideBar(props) {
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <nav className={classes.drawer} aria-label="selectable tables">
@@ -157,6 +162,7 @@ export function TopBar() {
           </Typography>
         </Toolbar>
       </AppBar>
+      <Toolbar />
     </div>
   );
 }
