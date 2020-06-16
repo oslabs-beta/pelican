@@ -30,25 +30,6 @@ function ServicesConfiguration({ clusterData, context }) {
   const selectObj = specObj.spec.selector;
   //map keys and values onto the form
 
-  const handleSubmit = async (modifiedYaml) => {
-    const config = JSON.parse(modifiedYaml);
-    try {
-      const result = await fetch(
-        `/api/deployments?name=${config.metadata.name}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(config),
-        }
-      );
-      setRedirect(true);
-    } catch (err) {
-      console.log("Couldn't update the deployment");
-    }
-  };
-
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -79,15 +60,6 @@ function ServicesConfiguration({ clusterData, context }) {
             .concat(context.slice(1, context.length - 1))} Configuration Yaml`}
         </h1>
         <div id="configBtns">
-          <button
-            type="submit"
-            id="submitBtn"
-            onClick={() =>
-              handleSubmit(document.querySelector('#editYaml').value)
-            }
-          >
-            Submit
-          </button>
           <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
             <button type="button" id="backBtn">
               Go Back
@@ -120,7 +92,7 @@ function ServicesConfiguration({ clusterData, context }) {
             defaultValue={editYaml}
             onClick={() => handleClick}
           />
-          <SubmitButton onClick={handleSubmit} />
+          <SubmitButton type="services" />
         </form>
         <div>
           <h2> Current Configuration: </h2>
