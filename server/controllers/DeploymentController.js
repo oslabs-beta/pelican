@@ -48,9 +48,9 @@ module.exports = {
       next();
     } catch (err) {
       next({
-        log: `Encountered an error in PodController.update: ${err}`,
+        log: `Encountered an error in DeploymentController.update: ${err}`,
         status: 500,
-        message: 'An error occured updating the pod',
+        message: 'An error occured updating the deployment',
       });
     }
   },

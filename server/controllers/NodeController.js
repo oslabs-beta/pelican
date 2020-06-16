@@ -15,7 +15,7 @@ module.exports = {
   },
   updateNode: async (req, res, next) => {
     try {
-      await res.locals.client.apis.v1
+      await res.locals.client.api.v1
         .nodes(req.query.name)
         .put({ body: req.body });
       next();
