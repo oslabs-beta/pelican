@@ -1,4 +1,4 @@
-import client from '../kubernetes-config';
+const client = require('../kubernetes-config');
 
 module.exports = {
   getNamespaces: async (req, res, next) => {

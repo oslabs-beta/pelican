@@ -1,9 +1,9 @@
-import client from '../kubernetes-config';
+const client = require('../kubernetes-config');
 
 module.exports = {
   getServices: async (req, res, next) => {
     try {
-      res.locals.services = (await client.api.v1.services().get()).body.items;
+      res.locals.services = (await client.api.v1.services.get()).body.items;
       next();
     } catch (err) {
       next({
