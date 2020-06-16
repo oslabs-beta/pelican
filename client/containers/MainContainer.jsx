@@ -36,7 +36,7 @@ function MainContainer() {
         <RefreshRoute
           path="/nodes/:name"
           component={NodeConfiguration}
-          root="node"
+          root="nodes"
         />
         <RefreshRoute
           path="/deployments/:name"
