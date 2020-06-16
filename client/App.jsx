@@ -35,7 +35,7 @@ function App(props) {
     <Router>
       <div id="main">
         <ThemeProvider theme={darkTheme}>
-          {accessKeyId ? <MainContainer /> : <LoginContainer />}
+          <MainContainer />
         </ThemeProvider>
       </div>
     </Router>

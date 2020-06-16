@@ -32,11 +32,12 @@ const mapDispatchToProps = (dispatch) => ({
   setDeployment: (deployment, index) => {
     dispatch(actions.setDeployment(deployment, index));
   },
+  firstLoad: () => dispatch(actions.firstLoad()),
 });
 
 class DeploymentTable extends Component {
   async componentDidMount() {
-    const { getDeployments } = this.props;
+    const { getDeployments, firstLoad } = this.props;
     try {
       // const response = await fetch('/api/deployments');
       // const deployments = await response.json();
@@ -46,6 +47,7 @@ class DeploymentTable extends Component {
           .then((results) => results.json())
           .then((deployments) => getDeployments(deployments))
       );
+      firstLoad();
     } catch (err) {
       console.log('An error occured: ', err);
     }
