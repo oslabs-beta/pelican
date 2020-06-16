@@ -37,9 +37,10 @@ module.exports = {
     }
   },
   updateDeployment: async (req, res, next) => {
+    const namespace = req.body.namespace || 'default';
     try {
       await res.locals.client.apis.apps.v1
-        .namespaces('default')
+        .namespaces(namespace)
         .deployments(req.query.name)
         .put({ body: req.body });
       next();
