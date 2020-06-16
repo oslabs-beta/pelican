@@ -11,7 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.resolve(__dirname, '../client/assets')));
 
-app.get('/', (req, res) => res.status(200).sendFile(path.resolve(__dirname, '../index.html')));
+app.get('/', (req, res) =>
+  res.status(200).sendFile(path.resolve(__dirname, '../index.html'))
+);
 
 app.use(
   '/api',
@@ -26,7 +28,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use('/build', express.static(path.resolve(__dirname, '../build')));
 }
 
-app.get('*', (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
+app.get('*', (req, res) =>
+  res.status(200).sendFile(path.join(__dirname, '../index.html'))
+);
 
 app.use((err, req, res, next) => {
   const defaultErr = {
