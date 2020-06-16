@@ -3,7 +3,7 @@ module.exports = {
     try {
       res.locals.services = (
         await res.locals.client.api.v1
-          .namespaces(namespace || 'default')
+          .namespaces('default')
           .services() //maybe no need
           .get()
       ).body.items;
