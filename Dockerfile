@@ -7,9 +7,9 @@ RUN curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/
   && export PATH=$PATH:./bin && echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
 WORKDIR usr/src/app
 COPY . .
-# ENV NODE_ENV production
+ENV NODE_ENV production
 RUN npm install
 RUN npm run build
 EXPOSE 3000
-ENTRYPOINT ["node", "./server/server.js"]
+CMD ["npm", "start"]
 
