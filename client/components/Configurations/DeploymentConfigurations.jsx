@@ -11,6 +11,7 @@ import FormFields from './ImagesForm.jsx';
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
   context: clusterData.context,
+  targetNamespace: clusterData.targetNamespace,
 });
 
 function DeploymentConfiguration({ clusterData, context }) {

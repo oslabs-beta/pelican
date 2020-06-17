@@ -11,6 +11,7 @@ import FormFields from './SelectorsForm.jsx';
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
   context: clusterData.context,
+  targetNamespace: clusterData.targetNamespace,
 });
 
 function ServicesConfiguration({ clusterData, context }) {
