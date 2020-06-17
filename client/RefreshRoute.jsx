@@ -16,7 +16,7 @@ const RefreshRoute = ({
   <Route
     {...rest}
     render={(props) =>
-      isDataAvailable ? <Component {...props} /> : <Redirect to="/login" />
+      isDataAvailable ? <Component {...props} /> : <Redirect to={`/${root}`} />
     }
   />
 );

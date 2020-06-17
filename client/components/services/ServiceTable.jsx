@@ -24,28 +24,31 @@ import { trackPromise } from 'react-promise-tracker';
 
 const mapStateToProps = ({ clusterData }) => ({
   services: clusterData.services,
+  targetNamespace: clusterData.targetNamespace,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getServices: (services) => dispatch(actions.getServices(services)),
+  firstLoad: () => dispatch(actions.firstLoad()),
 });
 
 class ServiceTable extends Component {
   async componentDidMount() {
-    const { getServices } = this.props;
+    const { getServices, firstLoad } = this.props;
     try {
       await trackPromise(
         fetch('/api/services')
           .then((results) => results.json())
           .then((services) => getServices(services))
       );
+      firstLoad();
     } catch (err) {
       console.log('An error occured: ', err);
     }
   }
 
   render() {
-    const { services } = this.props;
+    const { services, targetNamespace } = this.props;
     const headers = tableTemplate.services.headers.map((header, i) => {
       return (
         <TableCell align="left" key={`serviceHeader${i}`}>
@@ -71,9 +74,16 @@ class ServiceTable extends Component {
           </TableHead>
 
           <TableBody>
-            {services.map((service, i) => (
-              <Row key={`serviceRow${i}`} service={service} />
-            ))}
+            {services
+              .filter((service) =>
+                targetNamespace
+                  ? service.metadata.namespace === targetNamespace ||
+                    targetNamespace === 'All'
+                  : service
+              )
+              .map((service, i) => (
+                <Row key={`serviceRow${i}`} service={service} />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

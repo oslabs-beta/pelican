@@ -1,11 +1,10 @@
+const client = require('../kubernetes-config');
+
 module.exports = {
   getDeployments: async (req, res, next) => {
     try {
       res.locals.deployments = (
-        await res.locals.client.apis.apps.v1
-          .namespaces('default')
-          .deployments()
-          .get()
+        await client.apis.apps.v1.deployments.get()
       ).body.items;
       next();
     } catch (err) {
@@ -17,19 +16,20 @@ module.exports = {
     }
   },
   scaleDeployment: async (req, res, next) => {
-    if (!req.query.name) {
-      return res.sendStatus(400);
-    }
     try {
-      if (req.body.spec.replicas < 0) {
+      const { name } = req.query;
+      const { spec } = req.body;
+      const namespace = req.body.namespace || 'default';
+      if (spec.replicas < 0) {
         throw new Error('Cannot set a negative replica');
       }
       res.locals.deployment = (
-        await res.locals.client.apis.apps.v1
-          .namespaces('default')
-          .deployments(req.query.name)
-          .patch({ body: req.body })
+        await client.apis.apps.v1
+          .namespaces(namespace)
+          .deployments(name)
+          .patch({ body: { spec } })
       ).body;
+      // console.log(res.locals.deployment);
       next();
     } catch (err) {
       next({
@@ -40,11 +40,12 @@ module.exports = {
     }
   },
   updateDeployment: async (req, res, next) => {
+    const namespace = req.body.namespace || 'default';
     try {
-      await res.locals.client.apis.apps.v1
-        .namespaces('default')
+      await client.apis.apps.v1
+        .namespaces(namespace)
         .deployments(req.query.name)
-        .put({ body: req.body });
+        .put({ body: req.body.config });
       next();
     } catch (err) {
       next({

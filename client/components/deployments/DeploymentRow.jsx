@@ -58,6 +58,7 @@ const handleScale = (deployment, index, setDeployment, direction) => {
   fetch(`/api/deployments/scale?name=${deployment.metadata.name}`, {
     method: 'PUT',
     body: JSON.stringify({
+      namespace: deployment.metadata.namespace,
       spec: { replicas: newNum },
     }),
     headers: {

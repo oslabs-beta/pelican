@@ -28,17 +28,19 @@ const mapStateToProps = ({ clusterData }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getNodes: (nodes) => dispatch(actions.getNodes(nodes)),
+  firstLoad: () => dispatch(actions.firstLoad()),
 });
 
 class NodeTable extends Component {
   async componentDidMount() {
-    const { getNodes } = this.props;
+    const { getNodes, firstLoad } = this.props;
     try {
       await trackPromise(
         fetch('/api/nodes')
           .then((results) => results.json())
           .then((nodes) => getNodes(nodes))
       );
+      firstLoad();
       // const response = await fetch('/api/nodes');
       // const nodes = await response.json();
       // getNodes(nodes);

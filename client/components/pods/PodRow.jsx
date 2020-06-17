@@ -48,7 +48,6 @@ function Row(props) {
   const { pod } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
-  console.log(pod);
 
   const cells = tableTemplate.pods.columns.map((column, i) => {
     if (column === 'Cpu') {
@@ -81,12 +80,14 @@ function Row(props) {
   function getCpu(pod) {
     return pod.spec.containers
       .map((container) =>
-        Number(
-          container.resources.requests.cpu.substring(
-            0,
-            container.resources.requests.cpu.length - 1
-          )
-        )
+        container.resources.requests
+          ? Number(
+              container.resources.requests.cpu.substring(
+                0,
+                container.resources.requests.cpu.length - 1
+              )
+            )
+          : null
       )
       .reduce((curCpu, totalCpu) => {
         return (totalCpu += curCpu);
@@ -96,12 +97,14 @@ function Row(props) {
   function getMemory(pod) {
     return pod.spec.containers
       .map((container) =>
-        Number(
-          container.resources.requests.memory.substring(
-            0,
-            container.resources.requests.memory.length - 2
-          )
-        )
+        container.resources.memory
+          ? Number(
+              container.resources.requests.memory.substring(
+                0,
+                container.resources.requests.memory.length - 2
+              )
+            )
+          : null
       )
       .reduce((curMem, totalMem) => {
         return (totalMem += curMem);

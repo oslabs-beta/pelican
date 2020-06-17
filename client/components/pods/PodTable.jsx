@@ -25,6 +25,7 @@ import { trackPromise } from 'react-promise-tracker';
 const mapStateToProps = ({ clusterData, appState }) => ({
   pods: clusterData.pods,
   firstLoad: appState.firstLoad,
+  targetNamespace: clusterData.targetNamespace,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -50,7 +51,7 @@ class PodTable extends Component {
   }
 
   render() {
-    const { pods } = this.props;
+    const { pods, targetNamespace } = this.props;
     const headers = tableTemplate.pods.headers.map((header, i) => {
       return (
         <TableCell align="left" key={`podHeader${i}`}>
@@ -76,9 +77,16 @@ class PodTable extends Component {
           </TableHead>
 
           <TableBody>
-            {pods.map((pod, i) => (
-              <Row key={`podRow${i}`} pod={pod} />
-            ))}
+            {pods
+              .filter((pod) =>
+                targetNamespace
+                  ? pod.metadata.namespace === targetNamespace ||
+                    targetNamespace === 'All'
+                  : pod
+              )
+              .map((pod, i) => (
+                <Row key={`podRow${i}`} pod={pod} />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

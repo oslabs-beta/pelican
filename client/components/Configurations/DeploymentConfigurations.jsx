@@ -4,16 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import syntaxHighlight from '../../utils/yamlSyntaxHighlight';
-import DeploymentButton from '../Buttons/DeploymentModal.jsx';
+import DeploymentModal from '../Buttons/DeploymentModal.jsx';
 import SubmitButton from '../Buttons/SubmitButton.jsx';
 import FormFields from './ImagesForm.jsx';
 
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
   context: clusterData.context,
+  targetNamespace: clusterData.targetNamespace,
 });
 
-function DeploymentConfiguration({ clusterData, context }) {
+function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
   const [redirect, setRedirect] = useState(false);
   const { name } = useParams();
 
@@ -24,26 +25,9 @@ function DeploymentConfiguration({ clusterData, context }) {
   delete editObj.status;
   const editYaml = JSON.stringify(editObj, null, 4);
 
-  const containers = obj.spec.template.spec.containers;
-
-  const handleSubmit = async (modifiedYaml) => {
-    const config = JSON.parse(modifiedYaml);
-    try {
-      const result = await fetch(
-        `/api/deployments?name=${config.metadata.name}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(config),
-        }
-      );
-      setRedirect(true);
-    } catch (err) {
-      console.log("Couldn't update the deployment");
-    }
-  };
+  const [containers, setContainers] = useState(
+    obj.spec.template.spec.containers
+  );
 
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
@@ -75,15 +59,6 @@ function DeploymentConfiguration({ clusterData, context }) {
             .concat(context.slice(1, context.length - 1))} Configuration Yaml`}
         </h1>
         <div id="configBtns">
-          <button
-            type="submit"
-            id="submitBtn"
-            onClick={() =>
-              handleSubmit(document.querySelector('#editYaml').value)
-            }
-          >
-            Submit
-          </button>
           <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
             <button type="button" id="backBtn">
               Go Back
@@ -105,7 +80,7 @@ function DeploymentConfiguration({ clusterData, context }) {
           index={i}
         />
       ))}
-      <DeploymentButton />
+      <DeploymentModal />
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
@@ -113,8 +88,9 @@ function DeploymentConfiguration({ clusterData, context }) {
             id="editYaml"
             defaultValue={editYaml}
             onClick={() => handleClick}
+            onChange={() => setContainers([])}
           />
-          <SubmitButton onClick={handleSubmit} />
+          <SubmitButton type="deployments" namespace={targetNamespace} />
         </form>
         <div>
           <h2> Current Configuration: </h2>

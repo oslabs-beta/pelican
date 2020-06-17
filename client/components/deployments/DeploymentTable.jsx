@@ -24,6 +24,7 @@ import { trackPromise } from 'react-promise-tracker';
 
 const mapStateToProps = ({ clusterData }) => ({
   deployments: clusterData.deployments,
+  targetNamespace: clusterData.targetNamespace,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -32,11 +33,12 @@ const mapDispatchToProps = (dispatch) => ({
   setDeployment: (deployment, index) => {
     dispatch(actions.setDeployment(deployment, index));
   },
+  firstLoad: () => dispatch(actions.firstLoad()),
 });
 
 class DeploymentTable extends Component {
   async componentDidMount() {
-    const { getDeployments } = this.props;
+    const { getDeployments, firstLoad } = this.props;
     try {
       // const response = await fetch('/api/deployments');
       // const deployments = await response.json();
@@ -46,13 +48,14 @@ class DeploymentTable extends Component {
           .then((results) => results.json())
           .then((deployments) => getDeployments(deployments))
       );
+      firstLoad();
     } catch (err) {
       console.log('An error occured: ', err);
     }
   }
 
   render() {
-    const { deployments, setDeployment } = this.props;
+    const { deployments, setDeployment, targetNamespace } = this.props;
     const headers = tableTemplate.deployments.headers.map((header, i) => {
       return (
         <TableCell align="left" key={`deploymentHeader${i}`}>
@@ -77,14 +80,21 @@ class DeploymentTable extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {deployments.map((deployment, i) => (
-              <Row
-                key={`deploymentRow${i}`}
-                deployment={deployment}
-                setDeployment={setDeployment}
-                index={i}
-              />
-            ))}
+            {deployments
+              .filter((deployment) =>
+                targetNamespace
+                  ? deployment.metadata.namespace === targetNamespace ||
+                    targetNamespace === 'All'
+                  : deployment
+              )
+              .map((deployment, i) => (
+                <Row
+                  key={`deploymentRow${i}`}
+                  deployment={deployment}
+                  setDeployment={setDeployment}
+                  index={i}
+                />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

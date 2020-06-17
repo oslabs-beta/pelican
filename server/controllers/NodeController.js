@@ -1,9 +1,9 @@
+const client = require('../kubernetes-config');
+
 module.exports = {
   getNodes: async (req, res, next) => {
     try {
-      res.locals.nodes = (
-        await res.locals.client.api.v1.nodes.get()
-      ).body.items;
+      res.locals.nodes = (await client.api.v1.nodes.get()).body.items;
       next();
     } catch (err) {
       next({
@@ -15,9 +15,7 @@ module.exports = {
   },
   updateNode: async (req, res, next) => {
     try {
-      await res.locals.client.api.v1
-        .nodes(req.query.name)
-        .put({ body: req.body });
+      await client.api.v1.nodes(req.query.name).put({ body: req.body });
       next();
     } catch (err) {
       next({

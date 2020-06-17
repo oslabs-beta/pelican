@@ -1,9 +1,9 @@
+const client = require('../kubernetes-config');
+
 module.exports = {
   getPods: async (req, res, next) => {
     try {
-      res.locals.pods = (
-        await res.locals.client.api.v1.namespaces('default').pods.get()
-      ).body.items;
+      res.locals.pods = (await client.api.v1.pods.get()).body.items;
       next();
     } catch (err) {
       next({
@@ -14,9 +14,10 @@ module.exports = {
     }
   },
   updatePod: async (req, res, next) => {
+    const namespace = req.body.namespace || 'default';
     try {
-      await res.locals.client.api.v1
-        .namespaces('default')
+      await client.api.v1
+        .namespaces(namespace)
         .pods(req.query.name)
         .put({ body: req.body });
       next();
