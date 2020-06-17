@@ -16,19 +16,20 @@ module.exports = {
     }
   },
   scaleDeployment: async (req, res, next) => {
-    const { name } = req.query;
-    const { body } = req.body;
-    const namespace = req.body.namespace || 'default';
     try {
-      if (req.body.spec.replicas < 0) {
+      const { name } = req.query;
+      const { spec } = req.body;
+      const namespace = req.body.namespace || 'default';
+      if (spec.replicas < 0) {
         throw new Error('Cannot set a negative replica');
       }
       res.locals.deployment = (
         await client.apis.apps.v1
           .namespaces(namespace)
           .deployments(name)
-          .patch({ body })
+          .patch({ body: { spec } })
       ).body;
+      // console.log(res.locals.deployment);
       next();
     } catch (err) {
       next({
