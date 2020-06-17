@@ -16,6 +16,7 @@ const mapStateToProps = ({ clusterData }) => ({
 
 function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
   const [redirect, setRedirect] = useState(false);
+  const [newImage, setNewImage] = useState('');
   const { name } = useParams();
 
   const objList = clusterData[context];
@@ -76,11 +77,12 @@ function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
         <FormFields
           key={`containerImage${i}`}
           value={container.image}
+          setNewImage={setNewImage}
           imgName={container.name}
           index={i}
         />
       ))}
-      <DeploymentModal />
+      <DeploymentModal newImage={newImage} />
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
