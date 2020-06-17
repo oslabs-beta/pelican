@@ -1,8 +1,10 @@
-const client = require('../kubernetes-config');
+// const client = require('../kubernetes-config');
+const client = require('../kubernetes-config-aws');
 
 module.exports = {
   getNamespaces: async (req, res, next) => {
     try {
+      console.log('hi');
       res.locals.namespaces = (
         await client.api.v1.namespaces.get()
       ).body.items.map((namespace) => namespace.metadata.name);
