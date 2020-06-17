@@ -78,7 +78,6 @@ function Row(props) {
   });
 
   function getCpu(pod) {
-    console.log('cpu: ', pod);
     return pod.spec.containers
       .map((container) =>
         container.resources.requests
@@ -96,7 +95,6 @@ function Row(props) {
   }
 
   function getMemory(pod) {
-    console.log('memory: ', pod);
     return pod.spec.containers
       .map((container) =>
         container.resources.memory
