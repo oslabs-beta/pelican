@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -11,7 +12,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const handleSubmit = async (type, modifiedYaml, setValidJSON, namespace) => {
+const handleSubmit = async (
+  type,
+  modifiedYaml,
+  setValidJSON,
+  namespace,
+  setRedirect
+) => {
   try {
     JSON.parse(modifiedYaml);
   } catch (err) {
@@ -27,6 +34,9 @@ const handleSubmit = async (type, modifiedYaml, setValidJSON, namespace) => {
       },
       body: JSON.stringify({ config, namespace }),
     });
+    if (result.status === 200) {
+      setRedirect(true);
+    }
   } catch (err) {
     console.log(`Couldn't update the ${type.slice(0, -1)}, ${err}`);
   }
@@ -35,21 +45,27 @@ const handleSubmit = async (type, modifiedYaml, setValidJSON, namespace) => {
 export default function SubmitButton({ type, namespace }) {
   const classes = useStyles();
   const [validJSON, setValidJSON] = useState(true);
+  const [redirect, setRedirect] = useState(false);
   return validJSON ? (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={() =>
-        handleSubmit(
-          type,
-          document.querySelector('#editYaml').value,
-          setValidJSON,
-          namespace
-        )
-      }
-    >
-      Submit Changes
-    </Button>
+    redirect ? (
+      <Redirect to={`/${type}`} />
+    ) : (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() =>
+          handleSubmit(
+            type,
+            document.querySelector('#editYaml').value,
+            setValidJSON,
+            namespace,
+            setRedirect
+          )
+        }
+      >
+        Submit Changes
+      </Button>
+    )
   ) : (
     <p>That wasn't valid JSON!</p>
   );
