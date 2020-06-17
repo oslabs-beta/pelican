@@ -72,7 +72,7 @@ function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
           .toUpperCase()
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
-      <h2>Images:{newImage}</h2>{' '}
+      <h2>Images:</h2>{' '}
       {containers.map((container, i) => (
         <FormFields
           key={`containerImage${i}`}
@@ -82,7 +82,7 @@ function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
           index={i}
         />
       ))}
-      <DeploymentModal />
+      <DeploymentModal newImage={newImage} />
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
