@@ -5,6 +5,7 @@ import { useParams, Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import syntaxHighlight from '../../utils/yamlSyntaxHighlight';
 import SubmitButton from '../Buttons/SubmitButton.jsx';
+import Button from '@material-ui/core/Button';
 
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
@@ -40,8 +41,8 @@ function NodeConfiguration({ clusterData, context }) {
   ) : (
     <div
       style={{
-        width: `calc(100% - 200px)`,
-        marginLeft: '200px',
+        width: `calc(100% - 210px)`,
+        marginLeft: '210px',
         marginTop: '0',
       }}
     >
@@ -53,9 +54,13 @@ function NodeConfiguration({ clusterData, context }) {
         </h1>
         <div id="configBtns">
           <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
-            <button type="button" id="backBtn">
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: '10px' }}
+            >
               Go Back
-            </button>
+            </Button>
           </Link>
         </div>
       </div>
@@ -68,6 +73,7 @@ function NodeConfiguration({ clusterData, context }) {
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
           <textarea
+            style={{ height: '10%' }}
             id="editYaml"
             defaultValue={editYaml}
             onClick={() => handleClick}
