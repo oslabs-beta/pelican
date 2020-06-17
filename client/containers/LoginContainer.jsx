@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import LoginPage from '../LoginPage.jsx';
-import '../stylesheets/styles.scss';
+import '../stylesheets/styles.css';
 
 function LoginContainer() {
   return (
