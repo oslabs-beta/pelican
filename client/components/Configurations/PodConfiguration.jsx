@@ -14,7 +14,7 @@ const mapStateToProps = ({ clusterData }) => ({
   targetNamespace: clusterData.targetNamespace,
 });
 
-function PodConfiguration({ clusterData, context }) {
+function PodConfiguration({ clusterData, context, targetNamespace }) {
   const [redirect, setRedirect] = useState(false);
   const { name } = useParams();
 
@@ -88,7 +88,7 @@ function PodConfiguration({ clusterData, context }) {
             defaultValue={editYaml}
             onClick={() => handleClick}
           />
-          <SubmitButton type="pods" />
+          <SubmitButton type="pods" namespace={targetNamespace} />
         </form>
         <div>
           <h2> Current Configuration: </h2>
