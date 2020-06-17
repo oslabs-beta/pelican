@@ -45,7 +45,7 @@ module.exports = {
       await client.apis.apps.v1
         .namespaces(namespace)
         .deployments(req.query.name)
-        .put({ body: req.body });
+        .put({ body: req.body.config });
       next();
     } catch (err) {
       next({

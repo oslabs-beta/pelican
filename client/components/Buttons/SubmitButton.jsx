@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const handleSubmit = async (type, modifiedYaml, setValidJSON) => {
+const handleSubmit = async (type, modifiedYaml, setValidJSON, namespace) => {
   try {
     JSON.parse(modifiedYaml);
   } catch (err) {
@@ -25,14 +25,14 @@ const handleSubmit = async (type, modifiedYaml, setValidJSON) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(config),
+      body: JSON.stringify({ config, namespace }),
     });
   } catch (err) {
     console.log(`Couldn't update the ${type.slice(0, -1)}, ${err}`);
   }
 };
 
-export default function SubmitButton({ type }) {
+export default function SubmitButton({ type, namespace }) {
   const classes = useStyles();
   const [validJSON, setValidJSON] = useState(true);
   return validJSON ? (
@@ -43,7 +43,8 @@ export default function SubmitButton({ type }) {
         handleSubmit(
           type,
           document.querySelector('#editYaml').value,
-          setValidJSON
+          setValidJSON,
+          namespace
         )
       }
     >
