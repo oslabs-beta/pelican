@@ -83,7 +83,8 @@ class DeploymentTable extends Component {
             {deployments
               .filter((deployment) =>
                 targetNamespace
-                  ? deployment.metadata.namespace === targetNamespace
+                  ? deployment.metadata.namespace === targetNamespace ||
+                    targetNamespace === 'All'
                   : deployment
               )
               .map((deployment, i) => (
