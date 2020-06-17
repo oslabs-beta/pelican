@@ -80,7 +80,8 @@ class PodTable extends Component {
             {pods
               .filter((pod) =>
                 targetNamespace
-                  ? pod.metadata.namespace === targetNamespace
+                  ? pod.metadata.namespace === targetNamespace ||
+                    targetNamespace === 'All'
                   : pod
               )
               .map((pod, i) => (
