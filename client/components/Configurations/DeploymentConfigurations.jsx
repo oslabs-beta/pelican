@@ -16,6 +16,7 @@ const mapStateToProps = ({ clusterData }) => ({
 
 function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
   const [redirect, setRedirect] = useState(false);
+  const [newImage, setNewImage] = useState('');
   const { name } = useParams();
 
   const objList = clusterData[context];
@@ -71,11 +72,12 @@ function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
           .toUpperCase()
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
-      <h2>Images:</h2>{' '}
+      <h2>Images:{newImage}</h2>{' '}
       {containers.map((container, i) => (
         <FormFields
           key={`containerImage${i}`}
           value={container.image}
+          setNewImage={setNewImage}
           imgName={container.name}
           index={i}
         />
