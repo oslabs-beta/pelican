@@ -24,6 +24,7 @@ import { trackPromise } from 'react-promise-tracker';
 
 const mapStateToProps = ({ clusterData }) => ({
   deployments: clusterData.deployments,
+  targetNamespace: clusterData.targetNamespace,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -54,7 +55,7 @@ class DeploymentTable extends Component {
   }
 
   render() {
-    const { deployments, setDeployment } = this.props;
+    const { deployments, setDeployment, targetNamespace } = this.props;
     const headers = tableTemplate.deployments.headers.map((header, i) => {
       return (
         <TableCell align="left" key={`deploymentHeader${i}`}>
@@ -79,14 +80,20 @@ class DeploymentTable extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {deployments.map((deployment, i) => (
-              <Row
-                key={`deploymentRow${i}`}
-                deployment={deployment}
-                setDeployment={setDeployment}
-                index={i}
-              />
-            ))}
+            {deployments
+              .filter((deployment) =>
+                targetNamespace
+                  ? deployment.metadata.namespace === targetNamespace
+                  : deployment
+              )
+              .map((deployment, i) => (
+                <Row
+                  key={`deploymentRow${i}`}
+                  deployment={deployment}
+                  setDeployment={setDeployment}
+                  index={i}
+                />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
