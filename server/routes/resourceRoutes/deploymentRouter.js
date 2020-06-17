@@ -30,9 +30,12 @@ deploymentRouter.put(
 deploymentRouter.post(
   '/bluegreen',
   DeploymentController.createGreenDeployment,
-  PodController.checkGreenPods,
+  // PodController.checkGreenPods,
   (req, res, next) => {
-    res.sendStatus(200);
+    res.status(200).json({
+      greenDeploymentName: res.locals.greenDeploymentName,
+      podSelectors: res.locals.podSelector,
+    });
   }
 );
 module.exports = deploymentRouter;
