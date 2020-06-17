@@ -56,7 +56,6 @@ function NamespaceDropdown({ getNamespaces, namespaces, setTargetNamespace }) {
       try {
         const response = await fetch('/api/namespaces');
         const namespacesRes = await response.json();
-        console.log(namespacesRes);
         getNamespaces(namespacesRes);
       } catch (err) {
         console.log('An error occured: ', err);

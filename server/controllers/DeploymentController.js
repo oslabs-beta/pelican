@@ -56,19 +56,32 @@ module.exports = {
     }
   },
   createGreenDeployment: async (req, res, next) => {
-    const { blueDeploymentConfig, image } = req.body;
+    const { blueDeploymentConfig, image, namespace } = req.body;
     try {
+      // make deep copy of old deployment
       const greenDeployment = JSON.parse(JSON.stringify(deploymentConfig));
+
+      // change name of green deployment
       greenDeployment.metadata.name =
         greenDeployment.metadata.name + '-green' + Date.now().toString(); // can i fix this with a regular expression?
+
+      // add new spec selector matchlabel to green deployment
       greenDeployment.spec.selector.matchlabels.greenVersion = Date.now();
-      greenDeployment.spec.containers[0].image = image;
-      const newGreenDeployment = await res.locals.client.apis.apps.v1
-        .namespace('default')
-        .deployments({ body: { greenDeployment } });
-      res.locals.greenDeploymentName = greenDeployment.name;
-      res.locals.podSelector =
+
+      //add that label to the pods themselves
+      greenDeployment.spec.template.metadata.labels.greenVersion =
         greenDeployment.spec.selector.matchlabels.greenVersion;
+
+      //change the image of the 0th container
+      greenDeployment.spec.containers[0].image = image;
+
+      const newGreenDeployment = await client.apis.apps.v1
+        .namespace('default')
+        .deployments.post({ body: { greenDeployment } });
+
+      res.locals.greenDeploymentName = newGreenDeployment.name;
+      res.locals.podSelector =
+        newGreenDeployment.spec.selector.matchlabels.greenVersion;
       next();
     } catch (err) {
       next({
