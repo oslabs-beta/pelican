@@ -25,7 +25,6 @@
     "express": "^4.17.1",
     "json-stream": "^1.0.0",
     "kubernetes-client": "^9.0.0",
-    "node-sass": "^4.14.1",
     "nodemon": "^2.0.4",
     "path": "^0.12.7",
     "react": "^16.13.1",
@@ -37,7 +36,6 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "sass": "^1.26.7",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0"
   },
@@ -63,7 +61,6 @@
     "file-loader": "^6.0.0",
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
-    "sass-loader": "^8.0.2",
     "source-map-loader": "^1.0.0",
     "style-loader": "^1.2.1",
     "webpack-cli": "^3.3.11",
