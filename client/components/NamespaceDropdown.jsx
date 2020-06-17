@@ -94,11 +94,12 @@ function NamespaceDropdown({ getNamespaces, namespaces, setTargetNamespace }) {
         onClose={handleClose}
       >
         {namespaces
-          ? namespaces.map((namespace, i) => (
+          ? namespaces.concat(['All']).map((namespace, i) => (
               <StyledMenuItem
                 key={`${namespace}${i}`}
                 onClick={() => {
                   setTargetNamespace(namespace);
+                  handleClose();
                 }}
               >
                 <ListItemText primary={namespace} />

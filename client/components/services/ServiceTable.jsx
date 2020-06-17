@@ -77,7 +77,8 @@ class ServiceTable extends Component {
             {services
               .filter((service) =>
                 targetNamespace
-                  ? service.metadata.namespace === targetNamespace
+                  ? service.metadata.namespace === targetNamespace ||
+                    targetNamespace === 'All'
                   : service
               )
               .map((service, i) => (
