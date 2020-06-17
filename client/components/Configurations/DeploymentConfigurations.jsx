@@ -11,9 +11,10 @@ import FormFields from './ImagesForm.jsx';
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
   context: clusterData.context,
+  targetNamespace: clusterData.targetNamespace,
 });
 
-function DeploymentConfiguration({ clusterData, context }) {
+function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
   const [redirect, setRedirect] = useState(false);
   const { name } = useParams();
 
@@ -89,7 +90,7 @@ function DeploymentConfiguration({ clusterData, context }) {
             onClick={() => handleClick}
             onChange={() => setContainers([])}
           />
-          <SubmitButton type="deployments" />
+          <SubmitButton type="deployments" namespace={targetNamespace} />
         </form>
         <div>
           <h2> Current Configuration: </h2>
