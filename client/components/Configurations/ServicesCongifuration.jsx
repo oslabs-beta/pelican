@@ -7,6 +7,7 @@ import syntaxHighlight from '../../utils/yamlSyntaxHighlight';
 import DeploymentButton from '../Buttons/DeploymentModal.jsx';
 import SubmitButton from '../Buttons/SubmitButton.jsx';
 import FormFields from './SelectorsForm.jsx';
+import Button from '@material-ui/core/Button';
 
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
@@ -49,8 +50,8 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
   ) : (
     <div
       style={{
-        width: `calc(100% - 200px)`,
-        marginLeft: '200px',
+        width: `calc(100% - 210px)`,
+        marginLeft: '210px',
         marginTop: '0',
       }}
     >
@@ -62,9 +63,13 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
         </h1>
         <div id="configBtns">
           <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
-            <button type="button" id="backBtn">
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: '10px' }}
+            >
               Go Back
-            </button>
+            </Button>
           </Link>
         </div>
       </div>
