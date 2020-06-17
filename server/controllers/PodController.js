@@ -1,8 +1,10 @@
+import client from '../../k8s-client/config';
+
 module.exports = {
   getPods: async (req, res, next) => {
     try {
       res.locals.pods = (
-        await res.locals.client.api.v1.namespaces('default').pods.get()
+        await client.api.v1.namespaces('default').pods.get()
       ).body.items;
       next();
     } catch (err) {
@@ -15,7 +17,7 @@ module.exports = {
   },
   updatePod: async (req, res, next) => {
     try {
-      await res.locals.client.api.v1
+      await client.api.v1
         .namespaces('default')
         .pods(req.query.name)
         .put({ body: req.body });
