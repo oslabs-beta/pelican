@@ -17,10 +17,10 @@ app.get('/', (req, res) =>
 
 app.use(
   '/api',
-  // (req, res, next) => {
-  //   res.locals.client = new Client({ version: '1.13' });
-  //   next();
-  // },
+  (req, res, next) => {
+    res.locals.client = new Client({ version: '1.13' });
+    next();
+  },
   apiRouter
 );
 

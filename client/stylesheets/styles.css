@@ -8,25 +8,25 @@ body {
 #main {
   display: grid;
 }
-//----------------------- STYLES RELATED TO CONFIG FILES------------------------------ //
+/*----------------------- STYLES RELATED TO CONFIG FILES------------------------------ */
 
 pre {
   outline: 1px solid #ccc;
   padding: 5px;
   margin: 5px;
 }
-// .string {
-//   color: green;
-// }
-// .number {
-//   color: darkorange;
-// }
-// .boolean {
-//   color: blue;
-// }
-// .null {
-//   color: magenta;
-// }
+/* .string {
+  color: green;
+}
+.number {
+  color: darkorange;
+}
+.boolean {
+  color: blue;
+}
+.null {
+  color: magenta; 
+} */
 .key {
   color: #5566c3;
 }
@@ -84,7 +84,7 @@ pre {
   margin-right: 40px;
 }
 
-//------------------------------------------------------------------------------- //
+/*------------------------------------------------------------------------------- */
 
 #login-container {
   display: grid;
@@ -126,9 +126,9 @@ form div {
   padding: 5px 5px 5px 5px;
 }
 
-// .tableHolder {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-top: 5px;
-// }
+/* .tableHolder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+} */

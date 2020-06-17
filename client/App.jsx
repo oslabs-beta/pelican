@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import MainContainer from './containers/MainContainer.jsx';
 import LoginContainer from './containers/LoginContainer.jsx';
-import './stylesheets/styles.scss';
+import './stylesheets/styles.css';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const mapStateToProps = ({ awsAuth }) => ({
