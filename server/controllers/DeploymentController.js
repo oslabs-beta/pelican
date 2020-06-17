@@ -1,4 +1,5 @@
-const client = require('../kubernetes-config');
+// const client = require('../kubernetes-config');
+const client = require('../kubernetes-config-aws');
 
 module.exports = {
   getDeployments: async (req, res, next) => {
@@ -29,7 +30,6 @@ module.exports = {
           .deployments(name)
           .patch({ body: { spec } })
       ).body;
-      // console.log(res.locals.deployment);
       next();
     } catch (err) {
       next({
