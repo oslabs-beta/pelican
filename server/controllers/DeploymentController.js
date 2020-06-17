@@ -1,4 +1,5 @@
-const client = require('../kubernetes-config');
+// const client = require('../kubernetes-config');
+const client = require('../kubernetes-config-aws');
 
 module.exports = {
   getDeployments: async (req, res, next) => {
@@ -16,20 +17,18 @@ module.exports = {
     }
   },
   scaleDeployment: async (req, res, next) => {
-    try {
-      const { name } = req.query;
-      const { spec } = req.body;
-      const namespace = req.body.namespace || 'default';
-      if (spec.replicas < 0) {
-        throw new Error('Cannot set a negative replica');
-      }
-      res.locals.deployment = (
-        await client.apis.apps.v1
-          .namespaces(namespace)
-          .deployments(name)
-          .patch({ body: { spec } })
-      ).body;
-      // console.log(res.locals.deployment);
+    const { name } = req.query;
+    const { spec } = req.body;
+    const namespace = req.body.namespace || 'default';
+    if (spec.replicas < 0) {
+      throw new Error('Cannot set a negative replica');
+    }
+    res.locals.deployment = (
+      await client.apis.apps.v1
+        .namespaces(namespace)
+        .deployments(name)
+        .patch({ body: { spec } })
+    ).body;
       next();
     } catch (err) {
       next({
@@ -38,7 +37,7 @@ module.exports = {
         message: 'An error occured scaling the deploymnet',
       });
     }
-  },
+  ,
   updateDeployment: async (req, res, next) => {
     const namespace = req.body.namespace || 'default';
     try {
