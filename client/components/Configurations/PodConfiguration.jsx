@@ -7,13 +7,15 @@ import syntaxHighlight from '../../utils/yamlSyntaxHighlight';
 import DeploymentButton from '../Buttons/DeploymentModal.jsx';
 import SubmitButton from '../Buttons/SubmitButton.jsx';
 import FormFields from './ImagesForm.jsx';
+import Button from '@material-ui/core/Button';
 
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
   context: clusterData.context,
+  targetNamespace: clusterData.targetNamespace,
 });
 
-function PodConfiguration({ clusterData, context }) {
+function PodConfiguration({ clusterData, context, targetNamespace }) {
   const [redirect, setRedirect] = useState(false);
   const { name } = useParams();
 
@@ -45,8 +47,8 @@ function PodConfiguration({ clusterData, context }) {
   ) : (
     <div
       style={{
-        width: `calc(100% - 200px)`,
-        marginLeft: '200px',
+        width: `calc(100% - 210px)`,
+        marginLeft: '210px',
         marginTop: '0',
       }}
     >
@@ -58,9 +60,13 @@ function PodConfiguration({ clusterData, context }) {
         </h1>
         <div id="configBtns">
           <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
-            <button type="button" id="backBtn">
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: '10px' }}
+            >
               Go Back
-            </button>
+            </Button>
           </Link>
         </div>
       </div>
@@ -87,7 +93,7 @@ function PodConfiguration({ clusterData, context }) {
             defaultValue={editYaml}
             onClick={() => handleClick}
           />
-          <SubmitButton type="pods" />
+          <SubmitButton type="pods" namespace={targetNamespace} />
         </form>
         <div>
           <h2> Current Configuration: </h2>

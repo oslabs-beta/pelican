@@ -7,14 +7,17 @@ import syntaxHighlight from '../../utils/yamlSyntaxHighlight';
 import DeploymentModal from '../Buttons/DeploymentModal.jsx';
 import SubmitButton from '../Buttons/SubmitButton.jsx';
 import FormFields from './ImagesForm.jsx';
+import Button from '@material-ui/core/Button';
 
 const mapStateToProps = ({ clusterData }) => ({
   clusterData,
   context: clusterData.context,
+  targetNamespace: clusterData.targetNamespace,
 });
 
-function DeploymentConfiguration({ clusterData, context }) {
+function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
   const [redirect, setRedirect] = useState(false);
+  const [newImage, setNewImage] = useState('');
   const { name } = useParams();
 
   const objList = clusterData[context];
@@ -46,8 +49,8 @@ function DeploymentConfiguration({ clusterData, context }) {
   ) : (
     <div
       style={{
-        width: `calc(100% - 200px)`,
-        marginLeft: '200px',
+        width: `calc(100% - 210px)`,
+        marginLeft: '210px',
         marginTop: '0',
       }}
     >
@@ -59,9 +62,13 @@ function DeploymentConfiguration({ clusterData, context }) {
         </h1>
         <div id="configBtns">
           <Link to={`/${context}`} style={{ textDecoration: 'none' }}>
-            <button type="button" id="backBtn">
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: '10px' }}
+            >
               Go Back
-            </button>
+            </Button>
           </Link>
         </div>
       </div>
@@ -75,11 +82,12 @@ function DeploymentConfiguration({ clusterData, context }) {
         <FormFields
           key={`containerImage${i}`}
           value={container.image}
+          setNewImage={setNewImage}
           imgName={container.name}
           index={i}
         />
       ))}
-      <DeploymentModal />
+      <DeploymentModal newImage={newImage} />
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
@@ -89,7 +97,7 @@ function DeploymentConfiguration({ clusterData, context }) {
             onClick={() => handleClick}
             onChange={() => setContainers([])}
           />
-          <SubmitButton type="deployments" />
+          <SubmitButton type="deployments" namespace={targetNamespace} />
         </form>
         <div>
           <h2> Current Configuration: </h2>

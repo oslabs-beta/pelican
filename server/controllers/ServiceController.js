@@ -15,11 +15,14 @@ module.exports = {
   },
   updateService: async (req, res, next) => {
     const namespace = req.body.namespace || 'default';
+    console.log('namespace: ', namespace.toString());
+    console.log('name: ', req.query.name);
+    console.log('body: ', req.body.config);
     try {
       await client.api.v1
         .namespaces(namespace)
         .services(req.query.name)
-        .put({ body: req.body });
+        .put({ body: req.body.config });
       next();
     } catch (err) {
       next({
