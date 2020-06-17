@@ -99,6 +99,7 @@ function NamespaceDropdown({ getNamespaces, namespaces, setTargetNamespace }) {
                 key={`${namespace}${i}`}
                 onClick={() => {
                   setTargetNamespace(namespace);
+                  handleClose();
                 }}
               >
                 <ListItemText primary={namespace} />
