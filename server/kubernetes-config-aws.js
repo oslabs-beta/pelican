@@ -1,4 +1,5 @@
 const { Client } = require('kubernetes-client');
+process.env.AWS_PROFILE = 'default';
 
 let client;
 async function main() {
