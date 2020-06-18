@@ -36,6 +36,7 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
     value,
     targetNamespace
   ) => {
+    console.log(value);
     if (!targetNamespace || targetNamespace === 'All') {
       targetNamespace = JSON.parse(oldYaml).metadata.namespace;
     }
@@ -179,7 +180,19 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
       }
     }
     if (value === 'standard') {
-      // execute standard rollout
+      console.log('hi');
+      const newConfig = JSON.parse(oldYaml);
+      newConfig.spec.template.spec.containers[0].image = newImage;
+      const updateResult = await fetch(
+        `/api/deployments/?name=${newConfig.metadata.name}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ config: newConfig }),
+        }
+      );
     }
   };
 
