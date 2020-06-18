@@ -84,7 +84,9 @@ function PodConfiguration({ clusterData, context, targetNamespace }) {
           index={i}
         />
       ))}
-      <DeploymentButton />
+      <Button variant="contained" color="primary">
+        Update Pod
+      </Button>
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>

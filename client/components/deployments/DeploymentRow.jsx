@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import EditButton from '../Buttons/CoolButton.jsx';
 import AddButton from '../Buttons/AddButton.jsx';
 import SubtractButton from '../Buttons/SubtractButton.jsx';
+import DeleteButton from '../Buttons/TrashButton.jsx';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -87,7 +88,11 @@ function DeploymentRow({ deployment, setDeployment, index }) {
     }
     if (column === 'spec.replicas') {
       return (
-        <StyledTableCell align="left" key={`deploymentColumn${i}`}>
+        <StyledTableCell
+          align="left"
+          key={`deploymentColumn${i}`}
+          style={{ minWidth: '180px' }}
+        >
           <SubtractButton
             onClick={() => {
               handleScale(deployment, index, setDeployment, 'down');
@@ -128,6 +133,12 @@ function DeploymentRow({ deployment, setDeployment, index }) {
           <Link to={`/deployments/${deployment.metadata.name}`}>
             <EditButton />
           </Link>
+        </StyledTableCell>
+        <StyledTableCell>
+          <DeleteButton
+            name={deployment.metadata.name}
+            namespace={deployment.metadata.namespace}
+          />
         </StyledTableCell>
       </StyledTableRow>
       <TableRow>
