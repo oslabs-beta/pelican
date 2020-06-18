@@ -23,8 +23,8 @@ export default function SelectorsForm({
     const obj = {};
     obj[value1] = event.target.value;
     newKey[index] = obj;
-    console.log('after edit: ', copy);
-    setNewKey(copy);
+    console.log('after edit: ', newKey);
+    setNewKey(newKey);
   };
   const handleChangeKey = (event) => {
     const obj = {};
