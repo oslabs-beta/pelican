@@ -44,7 +44,7 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
     // In case you have a limitation
     // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
   };
-  const handleSelectorChange = () => {
+  const handleSelectorChange = async () => {
     const newSelectors = {};
     for (let selector of newKey) {
       newSelectors[Object.keys(selector)[0]] =
