@@ -9,8 +9,7 @@ import {
 } from '@material-ui/core/styles';
 import MainContainer from './containers/MainContainer.jsx';
 import LoginContainer from './containers/LoginContainer.jsx';
-import './stylesheets/styles.css';
-// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import './stylesheets/styles.scss';
 
 const mapStateToProps = ({ awsAuth }) => ({
   accessKeyId: awsAuth.accessKeyId,
@@ -19,11 +18,9 @@ const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
-      // Purple and green play nicely together.
       main: '#00a0a0',
     },
     secondary: {
-      // This is green.A700 as hex.
       main: '#11cb5f',
     },
   },

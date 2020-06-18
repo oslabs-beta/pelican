@@ -31,4 +31,19 @@ module.exports = {
       });
     }
   },
+
+  deletePod: async (req, res, next) => {
+    try {
+      const { name } = req.query;
+      const namespace = req.query.namespace || 'default';
+      await client.api.v1.namespaces(namespace).pods(name).delete();
+      next();
+    } catch (err) {
+      next({
+        log: `Encountered an error in podController.delete: ${err}`,
+        status: 500,
+        message: 'An error occured deleting the pod',
+      });
+    }
+  },
 };

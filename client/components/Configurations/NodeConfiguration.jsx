@@ -26,8 +26,6 @@ function NodeConfiguration({ clusterData, context }) {
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
-    // In case you have a limitation
-    // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
   };
 
   useEffect(() => {

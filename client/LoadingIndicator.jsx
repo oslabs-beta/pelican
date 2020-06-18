@@ -27,7 +27,7 @@ const LoadingIndicator = (props) => {
           color="#00a0a0"
           height={'100'}
           width={'100'}
-          style={{ marginLeft: '200px' }}
+          //style={{ marginLeft: '400px' }}
         />
         <h1 style={{ color: '#00a0a0', marginLeft: '100px' }}>
           Checking for updates

@@ -31,12 +31,44 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
   )[0];
   const selectObj = specObj.spec.selector;
   //map keys and values onto the form
+  const keyArray = Object.keys(selectObj).map((key) => {
+    const obj = {};
+    obj[key] = selectObj[key];
+    return obj;
+  });
+  const [newKey, setNewKey] = useState(keyArray);
 
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
-    // In case you have a limitation
-    // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
+  };
+  const handleSelectorChange = async () => {
+    const newSelectors = {};
+    for (let selector of newKey) {
+      newSelectors[Object.keys(selector)[0]] =
+        selector[Object.keys(selector)[0]];
+    }
+    try {
+      const result = await fetch(`/api/services/?name=${name}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          config: { spec: { selector: newSelectors } },
+          patch: true,
+          namespace: targetNamespace,
+        }),
+      });
+      if (result.status === 200) {
+        setRedirect(true);
+      }
+    } catch (err) {
+      console.log(
+        `An error occured in trying to update the service ${name}: `,
+        err
+      );
+    }
   };
 
   useEffect(() => {
@@ -78,21 +110,9 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
           .toUpperCase()
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
-      <h2>Selectors:</h2> {console.log(selectObj)}
-      {selectObj
-        ? Object.keys(selectObj).map((label, i) => (
-            <FormFields
-              key={`selector${i}`}
-              value1={label}
-              value2={selectObj[label]}
-              index={i}
-            />
-          ))
-        : null}
-      <DeploymentButton />
       <div id="yamlContainer">
         <form>
-          <h2> Modify Yaml Configuration Here: </h2>
+          <h2> Modify Yaml Configuration Here: {JSON.stringify(newKey)} </h2>
           <textarea
             id="editYaml"
             defaultValue={editYaml}
