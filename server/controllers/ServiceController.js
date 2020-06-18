@@ -30,7 +30,6 @@ module.exports = {
       }
   },
   updateService: async (req, res, next) => {
-    console.log('req body: ', req.body);
     const namespace = req.body.namespace || 'default';
     const { name } = req.query;
     const { config, deployment } = req.body;
