@@ -61,11 +61,13 @@ module.exports = {
   },
   updateDeployment: async (req, res, next) => {
     const namespace = req.body.namespace || 'default';
+    const { config } = req.body;
+    console.log(config);
     try {
       await client.apis.apps.v1
         .namespaces(namespace)
         .deployments(req.query.name)
-        .put({ body: req.body.config });
+        .put({ body: config });
       next();
     } catch (err) {
       next({
@@ -76,9 +78,7 @@ module.exports = {
     }
   },
   createGreenDeployment: async (req, res, next) => {
-    const { newImage, oldImage, oldYaml, targetNamespace } = req.body;
-    console.log(targetNamespace);
-    // console.log(newImage, oldImage, oldYaml);
+    const { newImage, oldYaml, targetNamespace } = req.body;
     try {
       // make deep copy of old deployment without metadata
       const greenDeployment = JSON.parse(
@@ -127,6 +127,70 @@ module.exports = {
         log: `Encountered an error in DeploymentController.createGreenDeployment: ${err}`,
         status: 500,
         message: 'An error occured creating the green deployment',
+      });
+    }
+  },
+  createCanaryDeployment: async (req, res, next) => {
+    const { newImage, oldYaml, targetNamespace } = req.body;
+    try {
+      // make a new deployment yaml changing replicas to one and adding the labels and selectors
+      const canaryDeployment = JSON.parse(
+        JSON.stringify({
+          spec: { ...oldYaml.spec, replicas: 1 },
+          metadata: {
+            name: oldYaml.metadata.name,
+            labels: {
+              ...oldYaml.metadata.labels,
+              env: 'canary',
+            },
+          },
+        })
+      );
+      //change label
+      canaryDeployment.spec.template.metadata.labels.env = 'canary';
+
+      //edit the name if it has already been canary released
+      const sliceIndex =
+        canaryDeployment.metadata.name.indexOf('-canary') === -1
+          ? canaryDeployment.metadata.name.length
+          : canaryDeployment.metadata.name.indexOf('-canary');
+
+      canaryDeployment.metadata.name =
+        canaryDeployment.metadata.name.slice(0, sliceIndex) +
+        '-canary' +
+        Date.now().toString();
+
+      canaryDeployment.spec.template.spec.containers[0].image = newImage;
+      const newCanaryDeployment = (
+        await client.apis.apps.v1
+          .namespaces(targetNamespace)
+          .deployments.post({ body: canaryDeployment })
+      ).body;
+
+      res.locals.canaryDeploymentName = newCanaryDeployment.metadata.name;
+      next();
+    } catch (err) {
+      next({
+        log: `Encountered an error in DeploymentController.createCanaryDeployment: ${err}`,
+        status: 500,
+        message: 'An error occured creating the canary deployment',
+      });
+    }
+    next();
+  },
+  deleteDeployment: async (req, res, next) => {
+    try {
+      const { name, namespace } = req.query;
+      await client.apis.apps.v1
+        .namespaces(namespace)
+        .deployments(name)
+        .delete();
+      next();
+    } catch (err) {
+      next({
+        log: `Encountered an error in DeploymentController.deleteDeployment: ${err}`,
+        status: 500,
+        message: 'An error occured deleting the deployment',
       });
     }
   },

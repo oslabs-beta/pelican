@@ -38,4 +38,20 @@ deploymentRouter.post(
     });
   }
 );
+
+deploymentRouter.post(
+  '/canary',
+  DeploymentController.createCanaryDeployment,
+  (req, res, next) => {
+    res.status(200).json(res.locals.canaryDeploymentName);
+  }
+);
+
+deploymentRouter.delete(
+  '/',
+  DeploymentController.deleteDeployment,
+  (req, res, next) => {
+    res.status(200);
+  }
+);
 module.exports = deploymentRouter;
