@@ -41,9 +41,6 @@ class NodeTable extends Component {
           .then((nodes) => getNodes(nodes))
       );
       firstLoad();
-      // const response = await fetch('/api/nodes');
-      // const nodes = await response.json();
-      // getNodes(nodes);
     } catch (err) {
       console.log('An error occured: ', err);
     }

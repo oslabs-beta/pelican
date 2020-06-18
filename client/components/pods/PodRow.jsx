@@ -48,7 +48,6 @@ const useStyles = makeStyles({
 
 const deletePod = async (name, nameSpace, getPods) => {
   try {
-    console.log('called');
     await fetch(`/api/pods?name=${name}&namespace=${nameSpace}`, {
       method: 'DELETE',
     });

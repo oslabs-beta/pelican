@@ -34,7 +34,6 @@ module.exports = {
     try {
       const { name } = req.query;
       const namespace = req.query.namespace || 'default';
-      console.log(namespace);
       await client.api.v1.namespaces(namespace).pods(name).delete();
       next();
     } catch (err) {

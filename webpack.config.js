@@ -15,13 +15,9 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
     publicPath: '/',
-    // publicPath: 'http://localhost:8080/build/',
   },
   mode: process.env.NODE_ENV,
-  plugins: [
-    // new MiniCssExtractPlugin(),
-    // new webpack.HotModuleReplacementPlugin(),
-  ],
+  plugins: [],
   module: {
     rules: [
       {

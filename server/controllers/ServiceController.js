@@ -8,7 +8,6 @@ module.exports = {
         res.locals.services = (
           await client.api.v1.namespaces('default').services.get()
         ).body.items;
-        console.log(res.locals.services);
         return next();
       } catch (err) {
         next({
@@ -36,7 +35,6 @@ module.exports = {
     const namespace = req.body.namespace || 'default';
     const { name } = req.query;
     const { config, patch } = req.body;
-    console.log('config: ', config);
     if (patch) {
       try {
         await client.api.v1

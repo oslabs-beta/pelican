@@ -58,7 +58,7 @@ const deleteDeployment = async (name, nameSpace, getDeployments) => {
           .then((results) => results.json())
           .then((deployments) => getDeployments(deployments))
       );
-    }, 2000);
+    }, 1000);
   } catch (err) {
     console.log(err);
   }

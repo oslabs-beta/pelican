@@ -43,8 +43,6 @@ class PodTable extends Component {
           .then((pods) => getPods(pods))
       );
       firstLoad();
-      // const pods = await response.json()).then(
-      // getPods(pods));
     } catch (err) {
       console.log('An error occured: ', err);
     }

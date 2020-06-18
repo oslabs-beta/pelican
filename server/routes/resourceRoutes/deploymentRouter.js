@@ -30,7 +30,6 @@ deploymentRouter.put(
 deploymentRouter.post(
   '/bluegreen',
   DeploymentController.createGreenDeployment,
-  // PodController.checkGreenPods,
   (req, res, next) => {
     res.status(200).json({
       greenDeploymentName: res.locals.greenDeploymentName,

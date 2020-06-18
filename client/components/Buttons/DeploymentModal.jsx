@@ -132,7 +132,6 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
           }),
         });
         const canaryDeploymentName = await result.json();
-        console.log('canary name: ', canaryDeploymentName);
         // wait a certain amount of time and see if the deployment has one available pod
         setStatus('Giving the canary deployment 10 seconds of uptime');
         setTimeout(async () => {
