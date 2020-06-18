@@ -46,6 +46,17 @@ const useStyles = makeStyles({
   },
 });
 
+const deleteDeployment = async (name, nameSpace) => {
+  try {
+    console.log('called');
+    await fetch(`/api/deployments?name=${name}&namespace=${nameSpace}`, {
+      method: 'DELETE',
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const handleScale = (deployment, index, setDeployment, direction) => {
   let newNum = 0;
   if (direction === 'up') {
@@ -136,8 +147,12 @@ function DeploymentRow({ deployment, setDeployment, index }) {
         </StyledTableCell>
         <StyledTableCell>
           <DeleteButton
-            name={deployment.metadata.name}
-            namespace={deployment.metadata.namespace}
+            onClick={() =>
+              deleteDeployment(
+                deployment.metadata.name,
+                deployment.metadata.namespace
+              )
+            }
           />
         </StyledTableCell>
       </StyledTableRow>
