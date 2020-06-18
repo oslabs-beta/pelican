@@ -22,15 +22,18 @@ export default function SelectorsForm({
   const handleChangeValue = (event) => {
     const obj = {};
     obj[value1] = event.target.value;
-    newKey[index] = obj;
-    console.log('after edit: ', newKey);
-    setNewKey(newKey);
+    const newObj = JSON.parse(JSON.stringify(newKey));
+    newObj[index] = obj;
+    setNewKey(newObj);
+    console.log('after change value: ', newKey);
   };
   const handleChangeKey = (event) => {
     const obj = {};
     obj[event.target.value] = value2;
-    newKey[index] = obj;
-    setNewKey(newKey);
+    const newObj = JSON.parse(JSON.stringify(newKey));
+    newObj[index] = obj;
+    setNewKey(newObj);
+    console.log('after change key: ', newKey);
   };
 
   return (
@@ -39,7 +42,7 @@ export default function SelectorsForm({
         id="outlined-basic"
         label={value1}
         variant="outlined"
-        onBlur={(event) => handleChangeKey(event)}
+        onChange={(event) => handleChangeKey(event)}
       />
       :
       <TextField

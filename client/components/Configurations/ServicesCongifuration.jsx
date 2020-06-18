@@ -36,7 +36,6 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
     obj[key] = selectObj[key];
     return obj;
   });
-  console.log('keyArray: ', keyArray);
   const [newKey, setNewKey] = useState(keyArray);
 
   const handleClick = (e) => {
@@ -44,6 +43,14 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
     e.target.style.height = `${e.target.scrollHeight}px`;
     // In case you have a limitation
     // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
+  };
+  const handleSelectorChange = () => {
+    const newSelectors = {};
+    for (let selector of newKey) {
+      newSelectors[Object.keys(selector)[0]] =
+        selector[Object.keys(selector)[0]];
+    }
+    console.log(newSelectors);
   };
 
   useEffect(() => {
@@ -93,15 +100,21 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
               value1={Object.keys(obj)[0]}
               value2={obj[Object.keys(obj)[0]]}
               index={i}
-              setNewKey={(newKeyArray) => setNewKey(newKeyArray)}
+              setNewKey={setNewKey}
               newKey={newKey}
             />
           ))
         : null}
-      <DeploymentButton />
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => handleSelectorChange()}
+      >
+        Update Selectors
+      </Button>
       <div id="yamlContainer">
         <form>
-          <h2> Modify Yaml Configuration Here: {JSON.stringify(newKey)}</h2>
+          <h2> Modify Yaml Configuration Here: {JSON.stringify(newKey)} </h2>
           <textarea
             id="editYaml"
             defaultValue={editYaml}

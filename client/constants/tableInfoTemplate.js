@@ -10,6 +10,7 @@ export default {
       'Requested Memory (Mi)',
       'Namespace',
       '       Edit',
+      'Delete',
     ],
     columns: [
       'status.phase',

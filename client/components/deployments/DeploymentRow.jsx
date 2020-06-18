@@ -135,7 +135,10 @@ function DeploymentRow({ deployment, setDeployment, index }) {
           </Link>
         </StyledTableCell>
         <StyledTableCell>
-          <DeleteButton />
+          <DeleteButton
+            name={deployment.metadata.name}
+            namespace={deployment.metadata.namespace}
+          />
         </StyledTableCell>
       </StyledTableRow>
       <TableRow>
