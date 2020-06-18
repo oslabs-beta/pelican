@@ -10,6 +10,7 @@ export default {
       'Requested Memory (Mi)',
       'Namespace',
       '       Edit',
+      'Delete',
     ],
     columns: [
       'status.phase',
@@ -50,6 +51,7 @@ export default {
       'Updated Replicas',
       'Strategy Type',
       '  Edit',
+      'Delete',
     ],
     columns: [
       'metadata.namespace',

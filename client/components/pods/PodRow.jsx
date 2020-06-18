@@ -18,6 +18,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import tableTemplate from '../../constants/tableInfoTemplate';
 import { Link } from 'react-router-dom';
 import EditButton from '../Buttons/CoolButton.jsx';
+import DeletePod from '../Buttons/DeletePod.jsx';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -123,7 +124,11 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
-        <StyledTableCell component="th" scope="row">
+        <StyledTableCell
+          component="th"
+          scope="row"
+          style={{ maxWidth: '200px' }}
+        >
           {pod.metadata.name}
         </StyledTableCell>
         {cells}
@@ -131,6 +136,12 @@ function Row(props) {
           <Link to={`/pods/${pod.metadata.name}`}>
             <EditButton />
           </Link>
+        </StyledTableCell>
+        <StyledTableCell>
+          <DeletePod
+            name={pod.metadata.name}
+            namespace={pod.metadata.namespace}
+          />
         </StyledTableCell>
       </StyledTableRow>
       <TableRow>

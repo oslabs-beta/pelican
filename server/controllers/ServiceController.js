@@ -14,15 +14,14 @@ module.exports = {
         next({
           log: `Encountered an error in ServiceController.get: ${err}`,
           status: 400,
-          message: 'An error occured fetching services',
-        });
-      }
-    } else
+          message: 'An error occured fetching services
+    const {config, patch } = req.body;
+    const {name} = req.query;
       try {
         res.locals.services = (await client.api.v1.services.get()).body.items;
         next();
-      } catch (err) {
-        next({
+      } catch (errname
+        next({\
           log: `Encountered an error in ServiceController.get: ${err}`,
           status: 400,
           message: 'An error occured fetching services',
