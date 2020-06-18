@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core/styles';
 import MainContainer from './containers/MainContainer.jsx';
 import LoginContainer from './containers/LoginContainer.jsx';
-import './stylesheets/styles.scss';
+import './stylesheets/styles.css';
 
 const mapStateToProps = ({ awsAuth }) => ({
   accessKeyId: awsAuth.accessKeyId,
