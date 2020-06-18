@@ -14,26 +14,30 @@ module.exports = {
         next({
           log: `Encountered an error in ServiceController.get: ${err}`,
           status: 400,
-          message: 'An error occured fetching services
-    const {config, patch } = req.body;
-    const {name} = req.query;
+          message: 'An error occured fetching services',
+        });
+      }
+    } else {
+      const { config, patch } = req.body;
+      const { name } = req.query;
       try {
         res.locals.services = (await client.api.v1.services.get()).body.items;
         next();
-      } catch (errname
-        next({\
+      } catch (err) {
+        next({
           log: `Encountered an error in ServiceController.get: ${err}`,
           status: 400,
           message: 'An error occured fetching services',
         });
       }
+    }
   },
   updateService: async (req, res, next) => {
     const namespace = req.body.namespace || 'default';
     const { name } = req.query;
-    const { config, deployment } = req.body;
+    const { config, patch } = req.body;
     console.log('config: ', config);
-    if (deployment) {
+    if (patch) {
       try {
         await client.api.v1
           .namespaces(namespace)
