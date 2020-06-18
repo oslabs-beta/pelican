@@ -122,6 +122,20 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
             targetNamespace,
           }),
         });
+        const canaryDeploymentName = result.json();
+        // wait a certain amount of time and see if the deployment has one available pod
+        setTimeout(async () => {
+          const canaryDeploymentOk = await (
+            await fetch(
+              `/api/deployments/?name=${canaryDeploymentName}&namespace=${targetNamespace}`
+            )
+          ).json();
+          // if we have an available replica, rollout the new image to the old deployment and delete the canary deployment
+          if (canaryDeploymentOk.status.availableReplicas === 1) {
+          } else {
+            console.log('it broke yo');
+          }
+        }, 10000);
       } catch (err) {
         console.log(err);
       }

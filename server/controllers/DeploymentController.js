@@ -139,13 +139,13 @@ module.exports = {
             name: oldYaml.metadata.name,
             labels: {
               ...oldYaml.metadata.labels,
-              canary: Date.now().toString(),
+              env: 'canary',
             },
           },
         })
       );
       //change label
-      canaryDeployment.spec.template.metadata.labels.canary = Date.now().toString();
+      canaryDeployment.spec.template.metadata.labels.env = 'canary';
 
       //edit the name if it has already been canary released
       const sliceIndex =
@@ -159,8 +159,14 @@ module.exports = {
         Date.now().toString();
 
       canaryDeployment.spec.template.spec.containers[0].image = newImage;
+      const newCanaryDeployment = (
+        await client.apis.apps.v1
+          .namespaces(targetNamespace)
+          .deployments.post({ body: canaryDeployment })
+      ).body;
 
-      console.log(canaryDeployment);
+      res.locals.canaryDeploymentName = newCanaryDeployment.metadata.name;
+      next();
     } catch (err) {
       next({
         log: `Encountered an error in DeploymentController.createCanaryDeployment: ${err}`,

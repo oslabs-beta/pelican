@@ -43,7 +43,7 @@ deploymentRouter.post(
   '/canary',
   DeploymentController.createCanaryDeployment,
   (req, res, next) => {
-    res.sendStatus(200);
+    res.status(200).json(res.locals.canaryDeploymentName);
   }
 );
 module.exports = deploymentRouter;
