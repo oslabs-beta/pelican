@@ -40,9 +40,6 @@ class DeploymentTable extends Component {
   async componentDidMount() {
     const { getDeployments, firstLoad } = this.props;
     try {
-      // const response = await fetch('/api/deployments');
-      // const deployments = await response.json();
-      // getDeployments(deployments);
       await trackPromise(
         fetch('/api/deployments')
           .then((results) => results.json())
@@ -55,7 +52,12 @@ class DeploymentTable extends Component {
   }
 
   render() {
-    const { deployments, setDeployment, targetNamespace } = this.props;
+    const {
+      deployments,
+      setDeployment,
+      targetNamespace,
+      getDeployments,
+    } = this.props;
     const headers = tableTemplate.deployments.headers.map((header, i) => {
       return (
         <TableCell align="left" key={`deploymentHeader${i}`}>
@@ -93,6 +95,7 @@ class DeploymentTable extends Component {
                   deployment={deployment}
                   setDeployment={setDeployment}
                   index={i}
+                  getDeployments={getDeployments}
                 />
               ))}
           </TableBody>

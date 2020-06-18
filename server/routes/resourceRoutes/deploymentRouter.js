@@ -51,7 +51,7 @@ deploymentRouter.delete(
   '/',
   DeploymentController.deleteDeployment,
   (req, res, next) => {
-    res.status(200);
+    return res.sendStatus(200);
   }
 );
 module.exports = deploymentRouter;

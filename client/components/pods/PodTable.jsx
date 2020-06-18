@@ -49,9 +49,8 @@ class PodTable extends Component {
       console.log('An error occured: ', err);
     }
   }
-
   render() {
-    const { pods, targetNamespace } = this.props;
+    const { pods, targetNamespace, getPods } = this.props;
     const headers = tableTemplate.pods.headers.map((header, i) => {
       return (
         <TableCell align="left" key={`podHeader${i}`}>
@@ -85,7 +84,7 @@ class PodTable extends Component {
                   : pod
               )
               .map((pod, i) => (
-                <Row key={`podRow${i}`} pod={pod} />
+                <Row key={`podRow${i}`} pod={pod} getPods={getPods} />
               ))}
           </TableBody>
         </Table>

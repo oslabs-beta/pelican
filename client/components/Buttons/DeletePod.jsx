@@ -9,7 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function DeploymentModal() {
+export default function DeploymentModal({ onClick }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -41,7 +41,14 @@ export default function DeploymentModal() {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button
+            onClick={() => {
+              onClick();
+              handleClose();
+            }}
+            color="primary"
+            autoFocus
+          >
             Delete
           </Button>
         </DialogActions>

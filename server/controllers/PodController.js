@@ -30,19 +30,18 @@ module.exports = {
     }
   },
 
-  checkGreenPods: async (req, res, next) => {
+  deletePod: async (req, res, next) => {
     try {
-      setTimeout(async () => {
-        const pods = await client.api.v1.namespaces('default').pods.get({
-          qs: { labelSelector: `version=${res.locals.podSelector}` },
-        });
-        
-      }, 10000);
+      const { name } = req.query;
+      const namespace = req.query.namespace || 'default';
+      console.log(namespace);
+      await client.api.v1.namespaces(namespace).pods(name).delete();
+      next();
     } catch (err) {
       next({
-        log: `Encountered an error in podController.checkGreenPods: ${err}`,
+        log: `Encountered an error in podController.delete: ${err}`,
         status: 500,
-        message: 'An error occured checking the status of the green pods',
+        message: 'An error occured deleting the pod',
       });
     }
   },
