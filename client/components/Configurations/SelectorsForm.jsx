@@ -25,7 +25,7 @@ export default function SelectorsForm({
     const newObj = JSON.parse(JSON.stringify(newKey));
     newObj[index] = obj;
     setNewKey(newObj);
-    console.log('after change value: ', newKey);
+    // console.log('after change value: ', newKey);
   };
   const handleChangeKey = (event) => {
     const obj = {};
@@ -33,7 +33,7 @@ export default function SelectorsForm({
     const newObj = JSON.parse(JSON.stringify(newKey));
     newObj[index] = obj;
     setNewKey(newObj);
-    console.log('after change key: ', newKey);
+    // console.log('after change key: ', newKey);
   };
 
   return (

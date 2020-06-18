@@ -50,7 +50,27 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
       newSelectors[Object.keys(selector)[0]] =
         selector[Object.keys(selector)[0]];
     }
-    console.log(newSelectors);
+    try {
+      const result = await fetch(`/api/services/?name=${name}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          config: { spec: { selector: newSelectors } },
+          patch: true,
+          namespace: targetNamespace,
+        }),
+      });
+      if (result.status === 200) {
+        setRedirect(true);
+      }
+    } catch (err) {
+      console.log(
+        `An error occured in trying to update the service ${name}: `,
+        err
+      );
+    }
   };
 
   useEffect(() => {
