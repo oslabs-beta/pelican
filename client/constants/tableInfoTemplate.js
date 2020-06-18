@@ -50,6 +50,7 @@ export default {
       'Updated Replicas',
       'Strategy Type',
       '  Edit',
+      'Delete',
     ],
     columns: [
       'metadata.namespace',

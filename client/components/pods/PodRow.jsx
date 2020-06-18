@@ -123,7 +123,11 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
-        <StyledTableCell component="th" scope="row">
+        <StyledTableCell
+          component="th"
+          scope="row"
+          style={{ maxWidth: '200px' }}
+        >
           {pod.metadata.name}
         </StyledTableCell>
         {cells}

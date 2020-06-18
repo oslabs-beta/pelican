@@ -31,6 +31,13 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
   )[0];
   const selectObj = specObj.spec.selector;
   //map keys and values onto the form
+  const keyArray = Object.keys(selectObj).map((key) => {
+    const obj = {};
+    obj[key] = selectObj[key];
+    return obj;
+  });
+  console.log('keyArray: ', keyArray);
+  const [newKey, setNewKey] = useState(keyArray);
 
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
@@ -79,20 +86,22 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
       <h2>Selectors:</h2> {console.log(selectObj)}
-      {selectObj
-        ? Object.keys(selectObj).map((label, i) => (
+      {keyArray.length
+        ? keyArray.map((obj, i) => (
             <FormFields
               key={`selector${i}`}
-              value1={label}
-              value2={selectObj[label]}
+              value1={Object.keys(obj)[0]}
+              value2={obj[Object.keys(obj)[0]]}
               index={i}
+              setNewKey={(newKeyArray) => setNewKey(newKeyArray)}
+              newKey={newKey}
             />
           ))
         : null}
       <DeploymentButton />
       <div id="yamlContainer">
         <form>
-          <h2> Modify Yaml Configuration Here: </h2>
+          <h2> Modify Yaml Configuration Here: {JSON.stringify(newKey)}</h2>
           <textarea
             id="editYaml"
             defaultValue={editYaml}
