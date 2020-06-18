@@ -20,6 +20,7 @@ import EditButton from '../Buttons/CoolButton.jsx';
 import AddButton from '../Buttons/AddButton.jsx';
 import SubtractButton from '../Buttons/SubtractButton.jsx';
 import DeleteButton from '../Buttons/TrashButton.jsx';
+import { trackPromise } from 'react-promise-tracker';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -46,12 +47,18 @@ const useStyles = makeStyles({
   },
 });
 
-const deleteDeployment = async (name, nameSpace) => {
+const deleteDeployment = async (name, nameSpace, getDeployments) => {
   try {
-    console.log('called');
     await fetch(`/api/deployments?name=${name}&namespace=${nameSpace}`, {
       method: 'DELETE',
     });
+    setTimeout(async () => {
+      await trackPromise(
+        fetch('/api/deployments')
+          .then((results) => results.json())
+          .then((deployments) => getDeployments(deployments))
+      );
+    }, 1000);
   } catch (err) {
     console.log(err);
   }
@@ -86,7 +93,7 @@ const handleScale = (deployment, index, setDeployment, direction) => {
     .catch((err) => console.log(err));
 };
 
-function DeploymentRow({ deployment, setDeployment, index }) {
+function DeploymentRow({ deployment, setDeployment, index, getDeployments }) {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -150,7 +157,8 @@ function DeploymentRow({ deployment, setDeployment, index }) {
             onClick={() =>
               deleteDeployment(
                 deployment.metadata.name,
-                deployment.metadata.namespace
+                deployment.metadata.namespace,
+                getDeployments
               )
             }
           />

@@ -49,7 +49,6 @@ module.exports = {
           .deployments(name)
           .patch({ body: { spec } })
       ).body;
-      // console.log(res.locals.deployment);
       next();
     } catch (err) {
       next({
@@ -62,7 +61,6 @@ module.exports = {
   updateDeployment: async (req, res, next) => {
     const namespace = req.body.namespace || 'default';
     const { config } = req.body;
-    console.log(config);
     try {
       await client.apis.apps.v1
         .namespaces(namespace)

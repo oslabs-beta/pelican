@@ -41,8 +41,6 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
-    // In case you have a limitation
-    // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
   };
   const handleSelectorChange = async () => {
     const newSelectors = {};
@@ -112,26 +110,6 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
           .toUpperCase()
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
-      <h2>Selectors:</h2> {console.log(selectObj)}
-      {keyArray.length
-        ? keyArray.map((obj, i) => (
-            <FormFields
-              key={`selector${i}`}
-              value1={Object.keys(obj)[0]}
-              value2={obj[Object.keys(obj)[0]]}
-              index={i}
-              setNewKey={setNewKey}
-              newKey={newKey}
-            />
-          ))
-        : null}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => handleSelectorChange()}
-      >
-        Update Selectors
-      </Button>
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: {JSON.stringify(newKey)} </h2>
