@@ -18,6 +18,7 @@ const mapStateToProps = ({ clusterData }) => ({
 function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
   const [redirect, setRedirect] = useState(false);
   const [newImage, setNewImage] = useState('');
+  const [yaml, setYaml] = useState('');
   const { name } = useParams();
 
   const objList = clusterData[context];
@@ -34,13 +35,13 @@ function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
   const handleClick = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
-    // In case you have a limitation
-    // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
   };
 
   useEffect(() => {
-    document.querySelector('#currentYaml').innerHTML = syntaxHighlight(
-      currentYaml
+    setYaml(
+      (document.querySelector('#currentYaml').innerHTML = syntaxHighlight(
+        currentYaml
+      ))
     );
   }, []);
 
@@ -87,7 +88,12 @@ function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
           index={i}
         />
       ))}
-      <DeploymentModal newImage={newImage} />
+      <DeploymentModal
+        newImage={newImage}
+        oldImage={containers[0].image}
+        oldYaml={editYaml}
+        targetNamespace={targetNamespace}
+      />
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>
@@ -95,7 +101,9 @@ function DeploymentConfiguration({ clusterData, context, targetNamespace }) {
             id="editYaml"
             defaultValue={editYaml}
             onClick={() => handleClick}
-            onChange={() => setContainers([])}
+            onChange={() =>
+              setYaml(document.querySelector('#currentYaml').innerHTML)
+            }
           />
           <SubmitButton type="deployments" namespace={targetNamespace} />
         </form>
