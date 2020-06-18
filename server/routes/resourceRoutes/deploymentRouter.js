@@ -38,4 +38,12 @@ deploymentRouter.post(
     });
   }
 );
+
+deploymentRouter.post(
+  '/canary',
+  DeploymentController.createCanaryDeployment,
+  (req, res, next) => {
+    res.sendStatus(200);
+  }
+);
 module.exports = deploymentRouter;

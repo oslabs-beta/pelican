@@ -36,10 +36,10 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
     value,
     targetNamespace
   ) => {
+    if (!targetNamespace || targetNamespace === 'All') {
+      targetNamespace = JSON.parse(oldYaml).metadata.namespace;
+    }
     if (value === 'blueGreen') {
-      if (!targetNamespace || targetNamespace === 'All') {
-        targetNamespace = JSON.parse(oldYaml).metadata.namespace;
-      }
       try {
         // create the new deployment with the new images
         const result = await fetch('/api/deployments/bluegreen', {
@@ -50,7 +50,6 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
           body: JSON.stringify({
             oldYaml: JSON.parse(oldYaml),
             newImage,
-            oldImage,
             targetNamespace,
           }),
         });
@@ -110,7 +109,22 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
       }
     }
     if (value === 'canary') {
-      // execute canary deployment
+      try {
+        // create the new deployment with the new images
+        const result = await fetch('/api/deployments/canary', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            oldYaml: JSON.parse(oldYaml),
+            newImage,
+            targetNamespace,
+          }),
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
     if (value === 'standard') {
       // execute standard rollout

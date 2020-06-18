@@ -76,9 +76,7 @@ module.exports = {
     }
   },
   createGreenDeployment: async (req, res, next) => {
-    const { newImage, oldImage, oldYaml, targetNamespace } = req.body;
-    console.log(targetNamespace);
-    // console.log(newImage, oldImage, oldYaml);
+    const { newImage, oldYaml, targetNamespace } = req.body;
     try {
       // make deep copy of old deployment without metadata
       const greenDeployment = JSON.parse(
@@ -129,5 +127,47 @@ module.exports = {
         message: 'An error occured creating the green deployment',
       });
     }
+  },
+  createCanaryDeployment: async (req, res, next) => {
+    const { newImage, oldYaml, targetNamespace } = req.body;
+    try {
+      // make a new deployment yaml changing replicas to one and adding the labels and selectors
+      const canaryDeployment = JSON.parse(
+        JSON.stringify({
+          spec: { ...oldYaml.spec, replicas: 1 },
+          metadata: {
+            name: oldYaml.metadata.name,
+            labels: {
+              ...oldYaml.metadata.labels,
+              canary: Date.now().toString(),
+            },
+          },
+        })
+      );
+      //change label
+      canaryDeployment.spec.template.metadata.labels.canary = Date.now().toString();
+
+      //edit the name if it has already been canary released
+      const sliceIndex =
+        canaryDeployment.metadata.name.indexOf('-canary') === -1
+          ? canaryDeployment.metadata.name.length
+          : canaryDeployment.metadata.name.indexOf('-canary');
+
+      canaryDeployment.metadata.name =
+        canaryDeployment.metadata.name.slice(0, sliceIndex) +
+        '-canary' +
+        Date.now().toString();
+
+      canaryDeployment.spec.template.spec.containers[0].image = newImage;
+
+      console.log(canaryDeployment);
+    } catch (err) {
+      next({
+        log: `Encountered an error in DeploymentController.createCanaryDeployment: ${err}`,
+        status: 500,
+        message: 'An error occured creating the canary deployment',
+      });
+    }
+    next();
   },
 };
