@@ -1,4 +1,3 @@
-// const client = require('../kubernetes-config');
 const client = require('../kubernetes-config-aws');
 
 module.exports = {
