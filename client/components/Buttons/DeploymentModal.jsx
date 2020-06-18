@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -14,7 +14,9 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
 export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('standard');
+  const [status, setStatus] = useState('Please select a deployment method');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -23,7 +25,6 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
   const handleClose = () => {
     setOpen(false);
   };
-  const [value, setValue] = React.useState('standard');
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -36,13 +37,13 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
     value,
     targetNamespace
   ) => {
-    console.log(value);
     if (!targetNamespace || targetNamespace === 'All') {
       targetNamespace = JSON.parse(oldYaml).metadata.namespace;
     }
     if (value === 'blueGreen') {
       try {
         // create the new deployment with the new images
+        setStatus('Creating the green deployment...');
         const result = await fetch('/api/deployments/bluegreen', {
           method: 'POST',
           headers: {
@@ -56,8 +57,10 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
         });
 
         if (result.status === 200) {
+          setStatus('Successfully created the green deployment');
           const body = await result.json();
           const { greenDeploymentName, podSelectors } = body;
+          setStatus('Giving green deployment 10 seconds to deploy...');
           setTimeout(async () => {
             // after 10 seconds, check to see if the there are as many pods as there should be
             const deploymentOk = await (
@@ -70,12 +73,11 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
               deploymentOk.status.availableReplicas ===
               deploymentOk.spec.replicas
             ) {
+              setStatus('Green deployment has desired replicasets!');
               const serviceResult = await fetch(
                 `/api/services/?namespace=${targetNamespace}`
               );
               const services = await serviceResult.json();
-              console.log(services);
-              console.log(JSON.parse(oldYaml));
               const service = services.filter(
                 (service) =>
                   JSON.stringify(service.spec.selector) ==
@@ -83,6 +85,7 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
                     JSON.parse(oldYaml).spec.template.metadata.labels
                   )
               )[0];
+              setStatus('Switching over the load balancer...');
               const editServiceResult = await fetch(
                 `/api/services/?name=${service.metadata.name}`,
                 {
@@ -97,9 +100,9 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
                   }),
                 }
               );
-              console.log(editServiceResult.status);
+              setStatus('Loadbalancer switched. Application Deployed!');
             } else {
-              console.log('something went wrong with deployment');
+              setStatus('Deployment failed.  Deleting green deployment');
               await fetch(
                 `/api/deployments?name=${greenDeploymentName}&namespace=${targetNamespace}`,
                 {
@@ -116,6 +119,7 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
     if (value === 'canary') {
       try {
         // create the new deployment with the new images
+        setStatus('Creating the canary deployment');
         const result = await fetch('/api/deployments/canary', {
           method: 'POST',
           headers: {
@@ -130,19 +134,18 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
         const canaryDeploymentName = await result.json();
         console.log('canary name: ', canaryDeploymentName);
         // wait a certain amount of time and see if the deployment has one available pod
+        setStatus('Giving the canary deployment 10 seconds of uptime');
         setTimeout(async () => {
           const canaryDeploymentOk = await (
             await fetch(
               `/api/deployments/?name=${canaryDeploymentName}&namespace=${targetNamespace}`
             )
           ).json();
-          console.log('is ok canary: ', canaryDeploymentOk);
           // if we have an available replica, rollout the new image to the old deployment and delete the canary deployment
           if (canaryDeploymentOk.status.availableReplicas === 1) {
+            setStatus('Canary successful! Rolling out deployment...');
             const newConfig = JSON.parse(oldYaml);
             newConfig.spec.template.spec.containers[0].image = newImage;
-
-            console.log('newConfig: ', newConfig);
 
             // begin rollout of new image
             const updateResult = await fetch(
@@ -155,7 +158,7 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
                 body: JSON.stringify({ config: newConfig }),
               }
             );
-            console.log('updated the old deployment: ', updateResult);
+            setStatus('The deployment has been updated!');
             try {
               await fetch(
                 `/api/deployments?name=${canaryDeploymentName}&namespace=${targetNamespace}`,
@@ -167,6 +170,7 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
               console.log(`err deleting: ${err}`);
             }
           } else {
+            setStatus('Canary failed...');
             await fetch(
               `/api/deployments?name=${canaryDeploymentName}&namespace=${targetNamespace}`,
               {
@@ -180,7 +184,7 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
       }
     }
     if (value === 'standard') {
-      console.log('hi');
+      setStatus('Rolling out the new deployment...');
       const newConfig = JSON.parse(oldYaml);
       newConfig.spec.template.spec.containers[0].image = newImage;
       const updateResult = await fetch(
@@ -193,6 +197,7 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
           body: JSON.stringify({ config: newConfig }),
         }
       );
+      setStatus('Deployment successfully deployed!');
     }
   };
 
@@ -217,7 +222,7 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please select a deployment method for this rollout:
+            {status}
           </DialogContentText>
           <FormControl component="fieldset">
             <RadioGroup

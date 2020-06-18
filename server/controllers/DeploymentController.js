@@ -60,7 +60,6 @@ module.exports = {
     }
   },
   updateDeployment: async (req, res, next) => {
-    console.log('hi');
     const namespace = req.body.namespace || 'default';
     const { config } = req.body;
     console.log(config);
