@@ -60,12 +60,15 @@ module.exports = {
     }
   },
   updateDeployment: async (req, res, next) => {
+    console.log('hi');
     const namespace = req.body.namespace || 'default';
+    const { config } = req.body;
+    console.log(config);
     try {
       await client.apis.apps.v1
         .namespaces(namespace)
         .deployments(req.query.name)
-        .put({ body: req.body.config });
+        .put({ body: config });
       next();
     } catch (err) {
       next({
@@ -175,5 +178,21 @@ module.exports = {
       });
     }
     next();
+  },
+  deleteDeployment: async (req, res, next) => {
+    try {
+      const { name, namespace } = req.query;
+      await client.apis.apps.v1
+        .namespaces(namespace)
+        .deployments(name)
+        .delete();
+      next();
+    } catch (err) {
+      next({
+        log: `Encountered an error in DeploymentController.deleteDeployment: ${err}`,
+        status: 500,
+        message: 'An error occured deleting the deployment',
+      });
+    }
   },
 };

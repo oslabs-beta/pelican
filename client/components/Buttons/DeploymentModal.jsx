@@ -98,8 +98,12 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
               );
               console.log(editServiceResult.status);
             } else {
-              console.log(
-                'Something went wrong with fetching the new deployment'
+              console.log('something went wrong with deployment');
+              await fetch(
+                `/api/deployments?name=${greenDeploymentName}&namespace=${targetNamespace}`,
+                {
+                  method: 'DELETE',
+                }
               );
             }
           }, 10000);
@@ -122,7 +126,8 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
             targetNamespace,
           }),
         });
-        const canaryDeploymentName = result.json();
+        const canaryDeploymentName = await result.json();
+        console.log('canary name: ', canaryDeploymentName);
         // wait a certain amount of time and see if the deployment has one available pod
         setTimeout(async () => {
           const canaryDeploymentOk = await (
@@ -130,10 +135,43 @@ export default function DeploymentModal({ newImage, oldImage, oldYaml }) {
               `/api/deployments/?name=${canaryDeploymentName}&namespace=${targetNamespace}`
             )
           ).json();
+          console.log('is ok canary: ', canaryDeploymentOk);
           // if we have an available replica, rollout the new image to the old deployment and delete the canary deployment
           if (canaryDeploymentOk.status.availableReplicas === 1) {
+            const newConfig = JSON.parse(oldYaml);
+            newConfig.spec.template.spec.containers[0].image = newImage;
+
+            console.log('newConfig: ', newConfig);
+
+            // begin rollout of new image
+            const updateResult = await fetch(
+              `/api/deployments/?name=${newConfig.metadata.name}`,
+              {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ config: newConfig }),
+              }
+            );
+            console.log('updated the old deployment: ', updateResult);
+            try {
+              await fetch(
+                `/api/deployments?name=${canaryDeploymentName}&namespace=${targetNamespace}`,
+                {
+                  method: 'DELETE',
+                }
+              );
+            } catch (err) {
+              console.log(`err deleting: ${err}`);
+            }
           } else {
-            console.log('it broke yo');
+            await fetch(
+              `/api/deployments?name=${canaryDeploymentName}&namespace=${targetNamespace}`,
+              {
+                method: 'DELETE',
+              }
+            );
           }
         }, 10000);
       } catch (err) {
