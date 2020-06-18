@@ -1,5 +1,6 @@
 const express = require('express');
 const DeploymentController = require('../../controllers/DeploymentController');
+const PodController = require('../../controllers/PodController');
 const deploymentRouter = express.Router();
 
 deploymentRouter.get(
@@ -26,4 +27,15 @@ deploymentRouter.put(
   }
 );
 
+deploymentRouter.post(
+  '/bluegreen',
+  DeploymentController.createGreenDeployment,
+  // PodController.checkGreenPods,
+  (req, res, next) => {
+    res.status(200).json({
+      greenDeploymentName: res.locals.greenDeploymentName,
+      podSelectors: res.locals.podSelector,
+    });
+  }
+);
 module.exports = deploymentRouter;

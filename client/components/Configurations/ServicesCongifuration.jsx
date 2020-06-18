@@ -78,7 +78,7 @@ function ServicesConfiguration({ clusterData, context, targetNamespace }) {
           .toUpperCase()
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
-      <h2>Selectors:</h2> {console.log(selectObj)}
+      <h2>Selectors:</h2>
       {selectObj
         ? Object.keys(selectObj).map((label, i) => (
             <FormFields
