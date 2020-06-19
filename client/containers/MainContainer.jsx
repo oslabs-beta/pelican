@@ -12,7 +12,6 @@ import ServicesConfiguration from '../components/Configurations/ServicesCongifur
 import NodeConfiguration from '../components/Configurations/NodeConfiguration.jsx';
 import PodConfiguration from '../components/Configurations/PodConfiguration.jsx';
 import RefreshRoute from '../RefreshRoute.jsx';
-// import LoginPage from '../LoginPage.jsx';
 
 const mapStateToProps = ({ awsAuth }) => ({
   accessKeyId: awsAuth.accessKey,

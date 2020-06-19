@@ -10,4 +10,8 @@ podRouter.put('/', PodController.updatePod, (req, res, next) => {
   return res.sendStatus(200);
 });
 
+podRouter.delete('/', PodController.deletePod, (req, res, next) => {
+  return res.sendStatus(200);
+});
+
 module.exports = podRouter;

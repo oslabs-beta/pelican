@@ -29,11 +29,8 @@ function PodConfiguration({ clusterData, context, targetNamespace }) {
   const containers = obj.spec.containers;
 
   const handleClick = (e) => {
-    console.log('clicked');
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
-    // In case you have a limitation
-    // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
   };
 
   useEffect(() => {
@@ -75,16 +72,6 @@ function PodConfiguration({ clusterData, context, targetNamespace }) {
           .toUpperCase()
           .concat(context.slice(1, context.length - 1))} name: ${name}`}
       </h2>
-      <h2>Images:</h2>
-      {containers.map((container, i) => (
-        <FormFields
-          key={`podImage${i}`}
-          value={container.image}
-          imgName={container.name}
-          index={i}
-        />
-      ))}
-      <DeploymentButton />
       <div id="yamlContainer">
         <form>
           <h2> Modify Yaml Configuration Here: </h2>

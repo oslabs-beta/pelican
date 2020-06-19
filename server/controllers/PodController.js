@@ -1,4 +1,3 @@
-// const client = require('../kubernetes-config');
 const client = require('../kubernetes-config-aws');
 
 module.exports = {
@@ -28,6 +27,21 @@ module.exports = {
         log: `Encountered an error in podController.update: ${err}`,
         status: 500,
         message: 'An error occured updating the pod',
+      });
+    }
+  },
+
+  deletePod: async (req, res, next) => {
+    try {
+      const { name } = req.query;
+      const namespace = req.query.namespace || 'default';
+      await client.api.v1.namespaces(namespace).pods(name).delete();
+      next();
+    } catch (err) {
+      next({
+        log: `Encountered an error in podController.delete: ${err}`,
+        status: 500,
+        message: 'An error occured deleting the pod',
       });
     }
   },

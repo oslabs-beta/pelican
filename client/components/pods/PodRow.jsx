@@ -18,6 +18,8 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import tableTemplate from '../../constants/tableInfoTemplate';
 import { Link } from 'react-router-dom';
 import EditButton from '../Buttons/CoolButton.jsx';
+import DeleteButton from '../Buttons/DeletePod.jsx';
+import { trackPromise } from 'react-promise-tracker';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -44,8 +46,24 @@ const useStyles = makeStyles({
   },
 });
 
-function Row(props) {
-  const { pod } = props;
+const deletePod = async (name, nameSpace, getPods) => {
+  try {
+    await fetch(`/api/pods?name=${name}&namespace=${nameSpace}`, {
+      method: 'DELETE',
+    });
+    setTimeout(async () => {
+      await trackPromise(
+        fetch('/api/pods')
+          .then((results) => results.json())
+          .then((pods) => getPods(pods))
+      );
+    }, 2000);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+function Row({ pod, getPods }) {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -123,7 +141,11 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
-        <StyledTableCell component="th" scope="row">
+        <StyledTableCell
+          component="th"
+          scope="row"
+          style={{ maxWidth: '200px' }}
+        >
           {pod.metadata.name}
         </StyledTableCell>
         {cells}
@@ -131,6 +153,13 @@ function Row(props) {
           <Link to={`/pods/${pod.metadata.name}`}>
             <EditButton />
           </Link>
+        </StyledTableCell>
+        <StyledTableCell>
+          <DeleteButton
+            onClick={() => {
+              deletePod(pod.metadata.name, pod.metadata.namespace, getPods);
+            }}
+          />
         </StyledTableCell>
       </StyledTableRow>
       <TableRow>

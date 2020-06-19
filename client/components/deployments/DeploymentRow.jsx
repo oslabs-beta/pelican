@@ -19,6 +19,8 @@ import { Link } from 'react-router-dom';
 import EditButton from '../Buttons/CoolButton.jsx';
 import AddButton from '../Buttons/AddButton.jsx';
 import SubtractButton from '../Buttons/SubtractButton.jsx';
+import DeleteButton from '../Buttons/TrashButton.jsx';
+import { trackPromise } from 'react-promise-tracker';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -44,6 +46,23 @@ const useStyles = makeStyles({
     },
   },
 });
+
+const deleteDeployment = async (name, nameSpace, getDeployments) => {
+  try {
+    await fetch(`/api/deployments?name=${name}&namespace=${nameSpace}`, {
+      method: 'DELETE',
+    });
+    setTimeout(async () => {
+      await trackPromise(
+        fetch('/api/deployments')
+          .then((results) => results.json())
+          .then((deployments) => getDeployments(deployments))
+      );
+    }, 1000);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const handleScale = (deployment, index, setDeployment, direction) => {
   let newNum = 0;
@@ -74,7 +93,7 @@ const handleScale = (deployment, index, setDeployment, direction) => {
     .catch((err) => console.log(err));
 };
 
-function DeploymentRow({ deployment, setDeployment, index }) {
+function DeploymentRow({ deployment, setDeployment, index, getDeployments }) {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -87,7 +106,11 @@ function DeploymentRow({ deployment, setDeployment, index }) {
     }
     if (column === 'spec.replicas') {
       return (
-        <StyledTableCell align="left" key={`deploymentColumn${i}`}>
+        <StyledTableCell
+          align="left"
+          key={`deploymentColumn${i}`}
+          style={{ minWidth: '180px' }}
+        >
           <SubtractButton
             onClick={() => {
               handleScale(deployment, index, setDeployment, 'down');
@@ -128,6 +151,17 @@ function DeploymentRow({ deployment, setDeployment, index }) {
           <Link to={`/deployments/${deployment.metadata.name}`}>
             <EditButton />
           </Link>
+        </StyledTableCell>
+        <StyledTableCell>
+          <DeleteButton
+            onClick={() =>
+              deleteDeployment(
+                deployment.metadata.name,
+                deployment.metadata.namespace,
+                getDeployments
+              )
+            }
+          />
         </StyledTableCell>
       </StyledTableRow>
       <TableRow>
