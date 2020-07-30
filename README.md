@@ -1,8 +1,9 @@
-# Pelican, the kubernetes deployment dashboard
-Pelican is a kubernetes rollout dashboard that you can run locally connecting to any cluster or as a docker image connecting to an existing EKS cluster.  Pelican allows you to check the status of your deployment, edit configurations, scale deployments, and rollout new images to your deployments using different deployment strategies.  
+# Pelican, the Kubernetes Deployment Dashboard
+
+Pelican is a Kubernetes rollout dashboard that you can run locally connecting to any cluster or as a docker image connecting to an existing EKS cluster.  Pelican allows you to check the status of your deployment, edit configurations, scale deployments, and rollout new images to your deployments using different deployment strategies.  
 ![homepage](https://i.imgur.com/9gYeh4T.png)
 ## Getting started
-Pelican can either be run locally or within your kubernetes cluster using our supplied docker image
+Pelican can either be run locally or within your Kubernetes cluster using our supplied docker image
 ### Running locally
 First, ensure that your kubectl tool is configured to point to your desired cluster with `kubectl config current-context`.  Your desired cloud provider will have detailed instructions on how to configure your kubectl interface.  Once you have confirmed that kubectl is configured, simply fork and clone this repo.  cd into the Pelican directory and sequentially run the following commands:
 ```
