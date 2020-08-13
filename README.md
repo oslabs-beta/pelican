@@ -12,7 +12,7 @@ npm start
 ```
 Pelican will serve on localhost:8080
 ### Running as a docker image
-Download our docker image from ![Docker Hub](https://hub.docker.com/repository/docker/pelicank8s/pelicanfork8s).  When you run the image, provide the following environment variables:
+Download our docker image from [Docker Hub](https://hub.docker.com/repository/docker/pelicank8s/pelicanfork8s).  When you run the image, provide the following environment variables:
 ```
 K8S_CLUSTER_HOST=*your cluster endpoint*
 K8S_AUTH_TOKEN=*your cluster name*
