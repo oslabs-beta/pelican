@@ -22,7 +22,7 @@
   "dependencies": {
     "@material-ui/core": "^4.10.1",
     "@material-ui/icons": "^4.9.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "json-stream": "^1.0.0",
     "kubernetes-client": "^9.0.0",
     "node-sass": "^4.14.1",
