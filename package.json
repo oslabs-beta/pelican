@@ -39,7 +39,7 @@
     "redux-devtools-extension": "^2.13.8",
     "sass": "^1.26.7",
     "url-loader": "^4.1.0",
-    "webpack": "^4.43.0"
+    "webpack": "^5.75.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
@@ -47,9 +47,9 @@
     "@babel/preset-react": "^7.10.1",
     "@kubernetes/client-node": "^0.12.0",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.3.0",
     "babel-polyfill": "^6.26.0",
-    "css-loader": "^3.5.3",
+    "css-loader": "^6.7.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.5.0",
@@ -63,10 +63,10 @@
     "file-loader": "^6.0.0",
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^13.2.0",
     "source-map-loader": "^1.0.0",
     "style-loader": "^1.2.1",
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^3.11.0"
   }
 }
